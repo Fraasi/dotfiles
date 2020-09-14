@@ -1,0 +1,29 @@
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[user]
+	name = Fraasi
+[credential]
+	helper = wincred
+[alias]
+	s = status -sb
+	b = branch
+	co = checkout
+	aa = add --all
+	c = commit
+	cm = commit -m
+	acm = "!git add -A && git commit -m"
+	wc = whatchanged
+	ca = commit --amend
+	po = push origin
+	ls = log --stat --pretty=short --graph
+	opengh = "!sh start $(git config remote.origin.url | cut -f1-2 -d.)"
+	ignored = status --ignored -s
+[grep]
+	lineNumber = true
+[color]
+	ui = auto
+[core]
+	autocrlf = false

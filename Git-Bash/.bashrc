@@ -2,7 +2,7 @@
 
 export BASH_JUMP="G:\\Code"
 
-# bash "G:\Code\Bash\cowsay.sh"
+# bash "cowsay.sh"
 
 alias codedir="cd G:\Code"
 alias desktop="cd '~\Desktop'"

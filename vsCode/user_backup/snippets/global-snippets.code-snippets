@@ -1,0 +1,149 @@
+{
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	"Console.log": {
+		"scope": "javascript, javascriptreact, typescriptreact",
+		"prefix": "log",
+		"body": [
+			"console.log($1)",
+		],
+		"description": "Log output to console"
+	},
+	"Brackets": {
+		"scope": "javascript, javascriptreact, css, json, typescript, typescriptreact",
+		"prefix": "bra",
+		"body": [
+			"{$0}"
+		],
+		"description": "Brackets {}"
+	},
+	"Arrow Function": {
+		"scope": "javascript, javascriptreact",
+		"prefix": "arrowfunction",
+		"body": [
+			"($1) => $2"
+		],
+		"description": "Arrow Function"
+	},
+	"For Loop": {
+		"scope": "javascript, javascriptreact",
+		"prefix": "forloop",
+		"body": [
+			"for (let ${1:i} = 0; ${1:i} < ${2:array}.length; ${1:i}++)  {",
+			"\tconst el = ${2:array}[${1:i}]",
+			"\t$3",
+			"}"
+		],
+		"description": "For Loop"
+	},
+	"If throw err": {
+		"scope": "javascript, javascriptreact",
+		"prefix": "err",
+		"body": [
+			"if (err) throw err"
+		],
+		"description": "if (err) throw err"
+	},
+	"querySelector": {
+		"scope": "javascript, javascriptreact",
+		"prefix": "dqs",
+		"body": [
+			"document.querySelector('$1')",
+			"$2"
+		],
+		"description": "querySelector"
+	},
+	"esLint-disable": {
+		"scope": "javascript, javascriptreact",
+		"prefix": "esl-d",
+		"body": [
+			"/* eslint-disable */"
+		],
+		"description": "esLint-disable"
+	},
+	"esLint-disable-next-line": {
+		"scope": "javascript, javascriptreact",
+		"prefix": "esl-d-n-l",
+		"body": [
+			"// eslint-disable-next-line"
+		],
+		"description": "esLint-disable-next-line"
+	},
+	"react-boilerplate": {
+		"scope": "javascript, javascriptreact",
+		"prefix": "rebo",
+		"body": [
+			"import React, { Component } from 'react'",
+			"",
+			"export default class $1 extends Component {",
+			"\tconstructor() {",
+			"\t\tsuper()",
+			"\t\tthis.state = {}",
+			"\t}",
+			"",
+			"\trender() {",
+			"\t\treturn (",
+			"\t\t\t<div>",
+			"\t\t\t\t$2",
+			"\t\t\t</div>",
+			"\t\t)",
+			"\t}",
+			"}",
+			""
+		],
+		"description": "react-boilerplate-class"
+	},
+	"react-boilerplate-arrow-function-component": {
+		"scope": "javascript, javascriptreact",
+		"prefix": "reafc",
+		"body": [
+			"import React from 'react'",
+			"",
+			"const $1 = ($2) => {",
+			"",
+			"\treturn (",
+			"\t\t<div>",
+			"\t\t\t$3",
+			"\t\t</div>",
+			"\t)",
+			"}",
+			"",
+			"export default $1"
+		],
+		"description": "react-boilerplate-arrow-function-component"
+	},
+	"Open external git bash": {
+		"prefix": "bash",
+		"body": [
+			"start \"\" \"C:\\Program Files\\Git\\bin\\sh.exe\" --login"
+		],
+		"description": "Open external git bash"
+	},
+	"Open github origin in browser": {
+		"prefix": "github url",
+		"body": [
+			"GHURL=$(git config remote.origin.url) && start \\${GHURL:0:-4}"
+		],
+		"description": "Open github origin in browser"
+	},
+	"Break new line": {
+		"scope": "javascriptreact, html",
+		"prefix": "break",
+		"body": [
+			"<br />"
+		],
+		"description": "<br />"
+	},
+	"Shebang": {
+		"scope": "javascript",
+		"prefix": "shebang",
+		"body": [
+			"#!/usr/bin/env"
+		]
+	}
+}

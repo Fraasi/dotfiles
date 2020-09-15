@@ -1,5 +1,7 @@
+#!/bin/bash
 # ~/.profile
 # overrides C:\Program Files\Git\etc\profile.d\git.prompt.sh
+# shellcheck disable=SC1090,SC2012,SC2010,2034
 
 if test -f /etc/profile.d/git-sdk.sh
 then

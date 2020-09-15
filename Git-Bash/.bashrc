@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 # ~/.bashrc
-# shellcheck disable=SC1091
+# shellcheck disable=SC1091,SC1090
 
 # bash-jump starter folder
 export BASH_JUMP="G:\\Code"
@@ -23,4 +23,4 @@ export GIT_PS1_SHOWUPSTREAM="auto verbose"
 # export PS1='\w$(__git_ps1 " (%s)")\$ '
 
 # put functions to enviroment
-source ./functions.sh
+source ~/functions.sh

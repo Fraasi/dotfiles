@@ -16,21 +16,21 @@ function pdtapp() {
 
 # Copy all files from subdirs to ./All-Files/
 copy-all-to-all() {
-  # ask if sure to run in this folder
-  read -pr "Are you sure? (don't do it in a large folder/root) (y/n)" ANSWER
+  read -rp "Are you sure? (don't do it in a large folder/root) (Y/n) " ANSWER
   case ${ANSWER:0:1} in
-    y|Y )
-        echo "Copying all files to ./All_Files..."; exit 0 ;;
+    Y )
+        echo "Copying all files to ./All_Files..."
+        # test if folder already exist, if not make one
+        [ ! -d ./All_Files ] && mkdir ./All_Files
+
+        # The '{}' and ";" executes the copy on each file.
+        # FIXME: tries to copy already copied files from All-Files to All-Files
+        find ./ -type f -exec cp -pr {} './All_Files' ';' 2> /dev/null
+        echo "done."
+        ;;
     * )
-        echo "Canceling..."; exit 1 ;;
+        echo "Canceling...";;
   esac
-
-  # test if folder already exist, if not make one
-  [ ! -d ./All_Files ] && mkdir ./All_Files
-
-  # find all files type of f, execute copy
-  # The '{}' and ";" executes the copy on each file.
-  find ./ -type f -exec cp -prv {} './All_Files' ';'
 }
 
 

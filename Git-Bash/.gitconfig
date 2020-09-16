@@ -4,7 +4,6 @@
 	required = true
 	clean = git-lfs clean -- %f
 [user]
-	name = Fraasi
 [credential]
 	helper = wincred
 [alias]

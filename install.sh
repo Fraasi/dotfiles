@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 # shellcheck disable=SC2044,SC2059
 
 echo ''
@@ -49,6 +49,13 @@ copy_files_to_HOME() {
   success 'copy files'
 }
 
-setup_gitconfig
-copy_files_to_HOME
+select choise in exit setup_gitconfig copy_files_to_HOME
+do
+  case $REPLY in
+    1) user "$choise"; break ;;
+    2) ( "$choise" ) ;;
+    3) ( "$choise" ) ;;
+  esac
+done
+
 info "All done, run 'exec bash' to reflash current shell."

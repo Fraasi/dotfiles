@@ -3,6 +3,9 @@
 # overrides C:\Program Files\Git\etc\profile.d\git.prompt.sh
 # shellcheck disable=SC1090,SC2012,SC2010,2034
 
+# has to be very first here to capture right exit status
+PIPE_EXIT_STATUS="\${PIPESTATUS[-1]}"
+
 if test -f /etc/profile.d/git-sdk.sh
 then
 	TITLEPREFIX=SDK-${MSYSTEM#MINGW}
@@ -41,6 +44,7 @@ else
 	fi
 	PS1="$PS1"'\[\033[0m\]'        # change color
 	PS1="$PS1"'\n'                 # new line
+  PS1="$PS1""[$PIPE_EXIT_STATUS]" # exit status of last executed foreground pipeline
 	PS1="$PS1"'--> '               # prompt: always $
 fi
 

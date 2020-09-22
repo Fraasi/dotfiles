@@ -25,7 +25,7 @@
 		"tab.activeBorder": "#f5db19",
 		"editorIndentGuide.activeBackground": "#f5db19",
 		"editorBracketMatch.border": "#515151",
-		"editorBracketMatch.background": "#515151"
+    "editorBracketMatch.background": "#515151"
 	},
 	// editor
 	"editor.acceptSuggestionOnEnter": "smart",
@@ -48,7 +48,13 @@
 	"editor.detectIndentation": false,
 	"editor.cursorSurroundingLines": 2,
 	"diffEditor.ignoreTrimWhitespace": true,
-	"editor.tabSize": 2,
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+		"source.fixAll.eslint": false
+	},
+	"editor.padding.bottom": 20,
+  "editor.padding.top": 20,
+  "editor.formatOnSaveMode": "modifications",
 	// emmet
 	"emmet.includeLanguages": {
 		"javascript": "javascriptreact"
@@ -86,12 +92,5 @@
 	},
 	"sync.quietSync": false,
 	"sync.gist": "6e085a524768436a4ab548b0859e1c83",
-	"workbench.sideBar.location": "left",
-	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": false
-	},
-	"search.enableSearchEditorPreview": true,
-	"timeline.showView": true,
-	"editor.padding.bottom": 20,
-	"editor.padding.top": 20
+	"workbench.sideBar.location": "left"
 }

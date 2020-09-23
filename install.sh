@@ -1,22 +1,23 @@
-#!/usr/bin/bash
-# shellcheck disable=SC2044,SC2059
+#!/bin/bash
+# shellcheck disable=SC2044,SC2059,SC1091
 
+source ./utils/colors.sh
 echo ''
 
 info() {
-  printf "\r  [ \033[00;34m..\033[0m ] $1\n"
+  printf "\r  [ $CYAN!!$RESTORE ] $1\n"
 }
 
 user() {
-  printf "\r  [ \033[0;33m??\033[0m ] $1\n"
+  printf "\r  [ $YELLOW??$RESTORE ] $1\n"
 }
 
 success() {
-  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n\n"
+  printf "\r  [ ${GREEN}OK$RESTORE ] $1\n\n"
 }
 
 fail() {
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  printf "\r\033[2K  [ ${RED}FAIL$RESTORE ] $1\n"
   echo ''
   exit
 }
@@ -70,15 +71,15 @@ choices='exit setup_gitconfig copy_Git_Bash_to_HOME copy_bin_to_HOME_bin'
 
 select choise in ${choices}; do
   case $REPLY in
-  1)
-    user "$choise"
-    break
-    ;;
-  2) ("$choise") ;;
-  3) ("$choise") ;;
-  4) ("$choise") ;;
+    1)
+      user "$choise"
+      break
+      ;;
+    2) ("$choise") ;;
+    3) ("$choise") ;;
+    4) ("$choise") ;;
   esac
 done
 
-info "All done, run 'source ~/.profile' to reflash current prompt."
-info "Or 'exec bash' to update PATH."
+info "All done, run 'exec bash' to update PATH."
+info "Or 'source ~/.profile' to reflash current prompt."

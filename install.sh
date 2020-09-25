@@ -64,5 +64,5 @@ select choise in ${choices}; do
   esac
 done
 
-log_info "All done, run 'exec bash' to update shell PATH."
+log_info "All done, run 'exec bash' to update shell PATH & functions."
 log_info "Or 'source ~/.profile' to reflash current prompt."

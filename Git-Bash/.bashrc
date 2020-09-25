@@ -24,3 +24,7 @@ export GIT_PS1_SHOWUPSTREAM="auto verbose"
 
 # put functions to enviroment
 source ~/functions.sh
+
+# don't put duplicate lines in the history
+# don't save commands which start with a space
+HISTCONTROL=ignoredups:erasedups:ignorespace

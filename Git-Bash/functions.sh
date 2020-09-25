@@ -13,7 +13,6 @@ function pdtapp() {
   npm start;
 }
 
-
 # Copy all files from subdirs to ./All-Files/
 copy-all-to-all() {
   read -rp "Are you sure? (don't do it in a large folder/root) (Y/n) " ANSWER
@@ -42,4 +41,16 @@ print-tree() {
   else
     find . | sed -e 's/:$//' -e 's/[^-][^\/]*\// /g' -e 's/^/ /'
 	fi
+}
+
+# print all color codes in color (max NUM=255), can pipe to column. https://unix.stackexchange.com/questions/269077/tput-setaf-color-table-how-to-determine-color-codes
+print-colors() {
+  NUM=${1:-15}
+  for (( c=0; c<="$NUM"; c++ ))
+  do
+    tput setaf "$c"
+    tput setaf "$c" | cat -v
+    tput sgr0
+    echo " #$c"
+  done
 }

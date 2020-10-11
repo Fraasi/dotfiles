@@ -14,7 +14,7 @@ CDPATH=".:$HOME:$HOME/Desktop:/g/Code/"
 # aliases
 alias desktop="cd '~\Desktop'"
 alias np++="start notepad++"
-alias li="ls -1A"
+alias li="ls -1AX"
 alias ..="cd .."
 
 #git bash prompt env variables to show

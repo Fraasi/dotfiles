@@ -1,10 +1,6 @@
 #!/usr/bin/env node
-// have to be Node.exe for bash piping to work
-// for piping to work eg. ./gh-repos.js | grep dotfiles
-// just run '$ bash' before executing
-// see below to rubbleshoot--
-// https://nodejs.org/api/tty.html#tty_tty
 
+// piping works when this file is in $PATH. eg. '$ gh-repos.js | grep dotfiles'
 
 const https = require('https')
 
@@ -27,7 +23,7 @@ https.get(URI, { headers: {'user-agent': userName} }, (response) => {
 			}
 			return res
 		}, [])
-		console.log('result:', result)
+		console.log('repos:', result)
   })
 
 }).on("error", (err) => {

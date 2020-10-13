@@ -9,6 +9,7 @@
 [alias]
 	s = status -sb
 	b = branch
+  d = diff --stat master origin/master # git fetch first
 	co = checkout
 	aa = add --all
 	c = commit

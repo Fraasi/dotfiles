@@ -15,7 +15,7 @@ PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]' # set window title
 PS1="$PS1"'\n'                 # new line
 PS1="$PS1"'\[\033[35m\]'       # change to purple
 PS1="$PS1"'[\t] '              # show time in 24 hour
-PS1="$PS1""($(ls -1ah | wc -l) files, $(ls -lah | grep -m 1 total | sed 's/total //')b)\n" # filecount
+# PS1="$PS1""($(ls -1ah | wc -l) files, $(ls -lah | grep -m 1 total | sed 's/total //')b)\n" # filecount
 PS1="$PS1"'\[\033[32m\]'       # change to green
 PS1="$PS1"'\u@\h '             # user@host<space>
 PS1="$PS1"'\[\033[35m\]'       # change to purple
@@ -36,12 +36,12 @@ then
     PS1="$PS1"'`__git_ps1`'   # bash function
   fi
 fi
-PS1="$PS1"'\[\033[0m\]'        # change color
+
 PS1="$PS1"'\n'                 # new line
 # exit status of last executed foreground pipeline
-PS1="$PS1""[\[\033[90m\]\${PIPESTATUS[-1]}\[\033[0m\]]"
+PS1="$PS1""\[\033[90m\][\${PIPESTATUS[-1]}]"
 
-PS1="$PS1"'--> '               # prompt: always $
+PS1="$PS1""\[\033[0m\]--> "    # reset colot & prompt sign
 
 MSYS2_PS1="$PS1"               # for detection by MSYS2 SDK's bash.basrc
 

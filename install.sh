@@ -23,17 +23,21 @@ setup_gitconfig() {
 }
 
 copy_Git_Bash_to_HOME() {
-  log_info 'copy Git-Bash/ files to ~/\n'
+  echo ''
+  log_info 'copy Git-Bash/ files to ~/'
+  log_info 'copying .gitconfig will reset your [user] field\n'
 
   for file in $(find ./Git-Bash -type f); do
     filename=$(basename "$file")
     cp -v --interactive "$file" "$HOME/$filename"
   done
+
   echo ''
   log_success "${FUNCNAME[@]}"
 }
 
 copy_bin_to_HOME_bin() {
+  echo ''
   log_info 'copy bin/ files to ~/bin to put them in PATH\n'
 
   if ! [[ -e ~/bin && -d ~/bin ]]; then

@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# open vscode in project folder
+
+PROJECT_FOLDER="/g/Code/github/"
+echo ''
+
+if [[ -n $1 && -d "$PROJECT_FOLDER$1" ]]; then
+  echo "Running vsCode in $PROJECT_FOLDER$1"
+  code "$PROJECT_FOLDER$1"
+else
+  echo "No '$1' folder in $PROJECT_FOLDER"
+  echo ''
+  ls "$PROJECT_FOLDER"
+fi

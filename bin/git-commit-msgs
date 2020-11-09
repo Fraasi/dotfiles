@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# get all commit msges after last tag
+# @ === HEAD
+
+case "$1" in
+  [0-9])
+    git log --format="%s" | head -"$1"
+    ;;
+  '-t')
+    git log --format="%s" "$(git describe --tags --abbrev=0 @^)"..@
+    ;;
+  *)
+    git log --oneline
+esac

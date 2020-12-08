@@ -59,3 +59,8 @@ print-colors() {
     echo " #$c"
   done
 }
+
+# show my ip address
+show-ip() {
+  curl ifconfig.me
+}

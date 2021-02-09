@@ -68,6 +68,5 @@ function show-ip() {
 
 # show filecount total size
 function dir-size() {
-  echo "$(ls -1ah | wc -l) files, $(ls -lah | grep -m 1 total | sed 's/tot
-al //')b"
+  echo "$(ls -1ah | wc -l) files, $(ls -lah | grep -m 1 total | sed 's/total //')b"
 }

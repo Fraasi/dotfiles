@@ -1,17 +1,22 @@
 #!/bin/sh
 #
 # get all commit msges after last tag
+#
 # @ === HEAD
+#
+# --oneline ~= --format="%C(yellow)%h %Creset%s %C(brightyellow)%d %Creset"
+# decorate=full & format keeps tags when piping to a file
+# https://git-scm.com/docs/pretty-formats
 
 shopt -s extglob
 echo ''
 case "$1" in
   +([0-9]) )
-    git log --format="%s" | head -"$1"
+    git log --oneline --decorate=full -"$1"
     ;;
   '-t' )
-    git log --format="%s" "$(git describe --tags --abbrev=0 @^)"..@
+    git log --oneline --decorate=full "$(git describe --tags --abbrev=0 @^)"..@
     ;;
   * )
-    git log --oneline
+    git log --oneline --decorate=full
 esac

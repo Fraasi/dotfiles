@@ -22,12 +22,12 @@ setup_gitconfig() {
   log_success "${FUNCNAME[@]}"
 }
 
-copy_Git_Bash_to_HOME() {
+copy_HOME_to_HOME() {
   echo ''
-  log_info 'copy Git-Bash/ files to ~/'
+  log_info 'copy HOME/ files to ~/'
   log_info 'copying .gitconfig will reset your [user] field\n'
 
-  for file in $(find ./Git-Bash -type f); do
+  for file in $(find ./HOME -type f); do
     filename=$(basename "$file")
     cp -v --interactive "$file" "$HOME/$filename"
   done
@@ -54,7 +54,7 @@ copy_bin_to_HOME_bin() {
   log_success "${FUNCNAME[@]}"
 }
 
-choices='exit setup_gitconfig copy_Git_Bash_to_HOME copy_bin_to_HOME_bin'
+choices='exit setup_gitconfig copy_HOME_to_HOME copy_bin_to_HOME_bin'
 
 select choise in ${choices}; do
   case $REPLY in

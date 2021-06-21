@@ -3,9 +3,14 @@
 #
 # Find all env files & put their content in envs.txt file
 # & optionally encrypt the file for backup purposes
-#
 
 ENV_FILES=$(find . -maxdepth 2 -regex '.*\(.env\|env.js\)$')
+
+if [[ -z "$ENV_FILES" ]]; then
+  echo -e '\nNo env files found with -maxdepth 2 from: ' "$PWD"
+  exit 1
+fi
+
 echo -e '\nFound env files at -maxdepth 2\n'
 echo "$ENV_FILES" | xargs -n1
 echo ''
@@ -29,7 +34,7 @@ for FILE in $ENV_FILES; do
     echo ''
     cat "$FILE"
   } >> envs.txt
-  echo -e '\n--------------------------\n' >>envs.txt
+  echo -e '\n--------------------------\n' >> envs.txt
 done
 
 echo 'envs.txt file created'

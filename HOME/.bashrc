@@ -16,6 +16,7 @@ alias desktop="cd '~\Desktop'"
 alias np++="start notepad++"
 alias li="ls -1AX"
 alias ..="cd .."
+alias mv="mv -iv"
 
 #git bash prompt env variables to show
 export GIT_PS1_SHOWCOLORHINTS=1

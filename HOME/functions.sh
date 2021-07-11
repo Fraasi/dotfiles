@@ -70,3 +70,7 @@ function show-ip() {
 function dir-size() {
   echo "$(ls -1ah | wc -l) files, $(ls -lah | grep -m 1 total | sed 's/total //')b"
 }
+
+function showHiddenFilesAndFoldersOnly() {
+  ls -Ap | grep "^\."
+}

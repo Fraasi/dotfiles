@@ -26,7 +26,11 @@ y)
   ;;
 esac
 
-echo '' > envs.txt
+{
+  echo -e '\n***********************\n'
+  date '+%d-%m-%Y %T'
+  echo -e '\n***********************\n'
+} >> envs.txt
 
 for FILE in $ENV_FILES; do
   {

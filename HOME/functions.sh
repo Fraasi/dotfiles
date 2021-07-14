@@ -63,7 +63,9 @@ function print-colors() {
 
 # show my ip address
 function show-ip() {
-  curl ifconfig.me
+  echo
+  curl -s ifconfig.me
+  echo
 }
 
 # show filecount total size

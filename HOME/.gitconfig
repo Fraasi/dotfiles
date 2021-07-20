@@ -22,6 +22,7 @@
   cg = config --global
 	opengh = "!sh start $(git config remote.origin.url | cut -f1-2 -d.)"
 	ignored = status --ignored -s
+	alias = "!git config --get-regexp ^alias\."
 [grep]
 	lineNumber = true
 [color]

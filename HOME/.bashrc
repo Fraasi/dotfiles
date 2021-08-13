@@ -12,11 +12,16 @@ CDPATH=".:$HOME:$HOME/Desktop:/g/Code/"
 # bash "cowsay.sh"
 
 # aliases
-alias desktop="cd '~\Desktop'"
-alias np++="start notepad++"
-alias li="ls -1AX"
 alias ..="cd .."
+alias desktop="cd ~/Desktop/"
+alias li="ls -1AX --color=auto"
+alias ll="ls -lX --color=auto"
+alias ls="ls -F --color=auto"
 alias mv="mv -iv"
+alias node="winpty node.exe"
+alias np++="start notepad++"
+alias tree="tree.com //a"
+
 
 #git bash prompt env variables to show
 export GIT_PS1_SHOWCOLORHINTS=1

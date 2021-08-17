@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# simple wrapper function around http://wttr.io to get sensible defaults
+# easily modified by changing the defaults and/or last parameters in the url
+
+function wttr() {
+  USAGE="
+  Usage: wttr [OPTIONS]
+
+  Options:
+    -c <city>             city name, double words with +, eg. new+york
+    -d <number>           number of days to show, 0-3
+    -l <language>         choose language, use wttr -w for options
+    -N                    NOT narrow version (only day and night)
+    -m                    show moon info instead of weather
+    -h                    print this help
+    -w                    curl wttr:help
+    -r                    region weather (experimental)
+    -g                    graph view (experimental)
+  "
+  # default values
+  CITY="Tampere"
+  LANG="fi"
+  DAYS=1
+  NARROW='n'
+
+  OPTIND=1    # OPTIND is not automatically reset
+
+  while getopts "c:d:l:Nmhwrg" OPTNAME; do
+    case "$OPTNAME" in
+      c)
+        CITY=${OPTARG}
+        ;;
+      d)
+        DAYS=${OPTARG}
+        ;;
+      l)
+        LANG=${OPTARG}
+        ;;
+      N)
+        NARROW=''
+        ;;
+      m)
+        curl -s "http://${LANG}.wttr.in/moon?F"
+        return 0
+        ;;
+      h)
+        echo "$USAGE"
+        return 0
+        ;;
+      w)
+        curl -s "http://wttr.in/:help"
+        return 0
+        ;;
+      r)
+        curl -s "v3.wttr.in/${CITY}.sxl?F"
+        return 0
+        ;;
+      g)
+        curl -s "v2.wttr.in/${CITY}?F"
+        return 0
+        ;;
+      *)
+        echo "$USAGE"
+        return 1
+        ;;
+    esac
+  done
+
+  curl -s "http://${LANG}.wttr.in/${CITY}?${DAYS}${NARROW}FMq"
+}
+
+wttr $@

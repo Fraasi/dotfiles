@@ -14,41 +14,6 @@ function pdtapp() {
   npm start;
 }
 
-# Copy all files from subdirs to ./All-Files/
-function copy-all-to-all() {
-  read -rp "Are you sure? (don't do it in a large folder/root) (Y/n) " ANSWER
-  case ${ANSWER:0:1} in
-    Y )
-        # test if folder already exist, if not make one
-        if [ ! -d ./All_Files ]; then
-          mkdir ./All_Files
-          echo 'No folder, created ./All_Files'
-        else
-          echo 'Folder already exist, canceling...'
-          return 1
-        fi
-
-        echo 'Copying ´./ -type f´ to ./All_Files...'
-        # The '{}' and ";" executes the copy on each file.
-        find ./ -type f -exec cp -pr {} './All_Files' ';' 2> /dev/null
-        echo 'Done, files copied.'
-        ;;
-    * )
-        echo 'Canceling...';;
-  esac
-}
-
-
-# print files in folders in a tree
-function print-tree() {
-  if [ "$1" = "--write" ]; then
-    find . -not -path './node_modules/*' -not -path './.git/*' | sed -e 's/:$//' -e 's/[^-][^\/]*\// /g' -e 's/^/ /' > Tree_listing-"$(date +'%Y_%m_%d')".txt
-    echo "Tree written to file Tree_listing-$(date +'%Y_%m_%d').txt"
-  else
-    find . -not -path './node_modules/*' -not -path './.git/*' | sed -e 's/:$//' -e 's/[^-][^\/]*\// /g' -e 's/^/ /'
-	fi
-}
-
 # print all color codes in color (max NUM=255), can pipe to column. https://unix.stackexchange.com/questions/269077/tput-setaf-color-table-how-to-determine-color-codes
 function print-colors() {
   NUM=${1:-15}

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Copy all files from subdirs to ./All-Files/
+
+read -rp "Are you sure? (don't do it in a large folder/root) (Y/n) " ANSWER
+case ${ANSWER:0:1} in
+  Y )
+    if [ ! -d ./All_Files ]; then
+      mkdir ./All_Files
+      echo 'No folder, created ./All_Files'
+    else
+      echo 'Folder already exist, canceling...'
+      return 1
+    fi
+
+    echo 'Copying ´./ -type f´ to ./All_Files...'
+    _err=$( find ./ -type f -exec cp -pr {} './All_Files' ';' 2>&1 )
+    echo 'Done, files copied.'
+    echo ''
+
+    if $_err;
+      then
+        echo 'No errors'
+      else
+        echo 'Errors:'
+        echo $_err
+    fi
+    ;;
+  * )
+    echo 'Canceling...';;
+esac

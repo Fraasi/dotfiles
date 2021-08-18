@@ -69,4 +69,4 @@ function wttr() {
   curl -s "http://${LANG}.wttr.in/${CITY}?${DAYS}${NARROW}FMq"
 }
 
-wttr $@
+wttr "$@"

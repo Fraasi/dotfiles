@@ -48,7 +48,11 @@ copy_bin_to_HOME_bin() {
 
   for file in $(find ./bin -type f); do
     filename=$(basename "$file")
-    cp -v --interactive "$file" "$HOME/bin/$filename"
+    if cmp "$file" "$HOME/bin/$filename" &>/dev/null; then
+      echo "$filename hasn't changed, skipping..."
+    else
+      cp -v --interactive "$file" "$HOME/bin/$filename"
+    fi
   done
   echo ''
   log_success "${FUNCNAME[@]}"

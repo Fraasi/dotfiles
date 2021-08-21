@@ -7,13 +7,16 @@ from bs4 import BeautifulSoup
 
 url = 'https://www.primewire.li/?type=movie&sort=Featured'
 prefix = 'https://www.primewire.li'
-html = requests.get(url).text
-soup = BeautifulSoup(html, 'html.parser')
+try:
+  html = requests.get(url).text
+except requests.exceptions.RequestException as err:
+  raise SystemExit(err)
 try:
   limit = int(sys.argv[1])
 except:
   limit = 6
 
+soup = BeautifulSoup(html, 'html.parser')
 for div in soup.find_all('div', class_='index_item', limit=limit):
   link = div.find('a').get('href')
   img = div.find('img').get('src')

@@ -1,6 +1,7 @@
 #!/bin/sh
+# shellcheck disable=SC3044,SC3002
 #
-# get all commit msges after last tag
+# get all commit messages after last tag
 #
 # @ === HEAD
 #

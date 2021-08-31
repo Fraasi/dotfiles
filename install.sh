@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 # shellcheck disable=SC2044,SC1091
 
 source ./utils/logging.sh
@@ -36,6 +36,7 @@ copy_HOME_to_HOME() {
   log_success "${FUNCNAME[@]}"
 }
 
+# symlinks better than copying, delete later
 copy_bin_to_HOME_bin() {
   echo ''
   log_info 'copy bin/ files to ~/bin to put them in PATH\n'
@@ -58,12 +59,24 @@ copy_bin_to_HOME_bin() {
   log_success "${FUNCNAME[@]}"
 }
 
-choices='exit setup_gitconfig copy_HOME_to_HOME copy_bin_to_HOME_bin'
+symlink_bin_to_HOME_bin() {
+  log_info '(needs to be run as administrator)'
+  log_info 'making symlinks... '
+  home=C:$(sed 's:/:\\:g' <(realpath ~/bin/) | cut -c 3-)
+  dot=G:$(sed 's:/:\\:g' <(realpath ./bin/) | cut -c 3-)
 
+  for file in ./bin/*; do
+    cmd.exe /c "mklink $home\\$(basename "$file") $dot\\$(basename "$file")"
+  done
+}
+
+choices='exit setup_gitconfig copy_HOME_to_HOME symlink_bin_to_HOME_bin'
 select choise in ${choices}; do
   case $REPLY in
     1)
       log_user "$choise"
+      log_info "All done, run 'exec bash' to update shell PATH & functions."
+      log_info "Or 'source ~/.profile' to reflash current prompt."
       break
       ;;
     2) ("$choise") ;;
@@ -71,6 +84,3 @@ select choise in ${choices}; do
     4) ("$choise") ;;
   esac
 done
-
-log_info "All done, run 'exec bash' to update shell PATH & functions."
-log_info "Or 'source ~/.profile' to reflash current prompt."

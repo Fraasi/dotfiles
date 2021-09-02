@@ -10,7 +10,6 @@ function wttr() {
     -c <city>             city name, double words with +, eg. new+york
     -d <number>           number of days to show, 0-3
     -l <language>         choose language, use wttr -w for options
-    -N                    NOT narrow version (only day and night)
     -m                    show moon info instead of weather
     -h                    print this help
     -w                    curl wttr:help
@@ -22,10 +21,12 @@ function wttr() {
   LANG="fi"
   DAYS=1
   NARROW='n'
+   # If width > 125 cols, automatic wide mode
+  (( $(tput cols) > 125 )) && NARROW=''
 
   OPTIND=1    # OPTIND is not automatically reset
 
-  while getopts "c:d:l:Nmhwrg" OPTNAME; do
+  while getopts "c:d:l:mhwrg" OPTNAME; do
     case "$OPTNAME" in
       c)
         CITY=${OPTARG}
@@ -35,9 +36,6 @@ function wttr() {
         ;;
       l)
         LANG=${OPTARG}
-        ;;
-      N)
-        NARROW=''
         ;;
       m)
         curl -s "http://${LANG}.wttr.in/moon?F"

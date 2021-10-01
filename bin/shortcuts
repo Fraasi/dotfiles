@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 shortcuts="
-Ctrl + A  Go to the beginning of the line you are currently typing on
-Ctrl + E  Go to the end of the line you are currently typing on
+# use 'bind -P | less' to see all bound keys...
+
+Ctrl + A  Move to the start of line
+Ctrl + E  Move to the end of line
 Ctrl + XX Move between the beginning of the line and the current position of the cursor
 Ctrl + L  Clears the Screen, similar to the clear command
 Ctrl + H  Same as backspace
@@ -27,6 +29,7 @@ Alt + F   Move cursor forward one word on the current line
 Alt + B   Move cursor backward one word on the current line
 Alt + D   Delete all characters after the cursor on the current line
 Alt + .   Paste the last word of the most recently command
+Alt + Shift + # To make line a comment, to keep it in history
 "
 
 if [[ -n $1 ]]; then
@@ -34,3 +37,4 @@ if [[ -n $1 ]]; then
 else
   echo "$shortcuts"
 fi
+

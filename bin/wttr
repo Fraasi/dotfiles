@@ -16,6 +16,7 @@ function wttr() {
     -r                    region weather (experimental)
     -g                    graph view (experimental)
   "
+
   # default values
   CITY="Tampere"
   LANG="fi"

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+awk '
+BEGIN { FS = " " }
+{
+  D =  $1 / 86400
+  H = ($1 / (60 * 60)) % 24
+  M = ($1 / 60) % 60
+  S = $1 % 60
+
+  printf "\nUptime: %dd - %dh:%dm:%ds\n", D, H, M, S
+}
+' /proc/uptime

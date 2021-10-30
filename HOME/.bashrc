@@ -14,6 +14,7 @@ CDPATH=".:$HOME:$HOME/Desktop:/g/Code/"
 # aliases
 alias ..="cd .."
 alias desktop="cd ~/Desktop/"
+alias grep="grep --color=auto"
 alias li="ls -1AX --color=auto"
 alias ll="ls -lX --color=auto"
 alias ls="ls -F --color=auto"

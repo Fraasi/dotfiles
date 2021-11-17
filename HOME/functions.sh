@@ -41,3 +41,12 @@ function dir-size() {
 function showHiddenFilesAndFoldersOnly() {
   ls -Ap | grep "^\."
 }
+
+# open man website for $1
+function b-man() {
+  if [[ -z $1 ]]; then
+    echo "Usage: b-man <bash command>"
+  else
+    start "https://ss64.com/bash/$1.html"
+  fi
+}

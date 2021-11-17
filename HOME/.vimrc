@@ -11,6 +11,9 @@ imap jk <Esc>
 nnoremap <space> za
 " run current script
 nnoremap <leader>r :! clear && ./% <return>
+" un/comment line with #
+nnoremap gc 0i#<Esc>
+nnoremap gu 0x
 
 """""""""""""""""""""""""""""""""""""
 " Indents

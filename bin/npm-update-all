@@ -3,9 +3,9 @@
 USAGE="Usage:
 
   npm-update-all
-    -> prints all devdepencies
+    -> prints all dependencies
   -d
-    -> prints all devDevdepencies
+    -> prints all devDependencies
 
   from current dirs package.json
   in a ready list to copy paste
@@ -27,14 +27,13 @@ fi
 
 if [[ -z $1 ]]; then
   echo "npm install $(jq -j '.dependencies | keys | join("@latest ")' package.json)@latest"
-  exit 0
 fi
 
 case $1 in
--d)
-  echo "npm install -D $(jq -j '.devDependencies | keys | join("@latest ")' package.json)@latest"
-  ;;
-*)
-  echo "$USAGE"
-  ;;
+  -d)
+    echo "npm install -D $(jq -j '.devDependencies | keys | join("@latest ")' package.json)@latest"
+    ;;
+  *)
+    echo "$USAGE"
+    ;;
 esac

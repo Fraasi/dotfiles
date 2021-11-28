@@ -1,0 +1,40 @@
+#!/bin/bash
+
+USAGE="Usage:
+
+  npm-update-all
+    -> prints all devdepencies
+  -d
+    -> prints all devDevdepencies
+
+  from current dirs package.json
+  in a ready list to copy paste
+  & update all dependencies to @latest"
+
+echo ''
+
+if ! command -v jq &>/dev/null; then
+  echo "jq must be installed and in PATH to run this script"
+  echo "https://stedolan.github.io/jq/download/"
+  exit 1
+fi
+
+if [[ ! -f ./package.json ]]; then
+  echo "no package.json found in current directory"
+  echo "$USAGE"
+  exit 1
+fi
+
+if [[ -z $1 ]]; then
+  echo "npm install $(jq -j '.dependencies | keys | join("@latest ")' package.json)@latest"
+  exit 0
+fi
+
+case $1 in
+-d)
+  echo "npm install -D $(jq -j '.devDependencies | keys | join("@latest ")' package.json)@latest"
+  ;;
+*)
+  echo "$USAGE"
+  ;;
+esac

@@ -1,26 +1,5 @@
 #!/usr/bin/env bash
 
-user=$(id | cut -d ' ' -f 1)
-# network node hostname | machine hardware name | kernel name
-machine_names=$( uname -n; uname -m; uname -s; )
-machine_names=${machine_names//[$'\n']/ }
-
-uptime=$(awk '
-BEGIN { FS = " " }
-{
-  D =  $1 / 86400
-  H = ($1 / (60 * 60)) % 24
-  M = ($1 / 60) % 60
-  S = $1 % 60
-
-  printf "Uptime: %dd - %dh:%dm:%ds\n", D, H, M, S
-}
-' /proc/uptime)
-
-disk_free=$(
-  df -h | awk 'BEGIN { print "Mount \t Used \t Avail" } /C|G/ { printf "%s \t %s \t %s\n", $NF, $(NF-1), $(NF-2)}'
-)
-
 function center_text {
      TERM_COLS="$(tput cols)"
      str_len="${#1}"
@@ -38,12 +17,53 @@ function center_text {
      return 0
 }
 
+
+user_id=$(id | cut -d ' ' -f 1)
+machine_hardware_name=$(uname -m)
+uname=$(uname -s)
+shell="${SHELL##*/}"
+shell_version="${BASH_VERSION:-' '}"
+CPU="$(grep 'model name' /proc/cpuinfo -m 1 | sed 's/model name\t:\s//')"
+computer="$(sed '1d' <(wmic csproduct get version) | tr -d '\n')"
+model=$(sed '1d' <(wmic computersystem get model) | tr -d '\n')
+os=$(sed '1d' <(wmic os get Caption) | tr -d '[:cntrl:]') # remove windows ^M
+os=${os/Microsoft }
+os=${os::-2}
+build=$(sed '1d' <(wmic os get version) | tr -d '\n\r')
+ip="$(curl -s --max-time 5 -w '\n' "http://ident.me")"
+
+uptime=$(awk '
+BEGIN { FS = " " }
+{
+  D =  $1 / 86400
+  H = ($1 / (60 * 60)) % 24
+  M = ($1 / 60) % 60
+  S = $1 % 60
+
+  printf "Uptime: %dd - %dh:%dm:%ds\n", D, H, M, S
+}
+' /proc/uptime)
+
+disk_free=$(
+  df -h | awk 'BEGIN { print "Mount \t Used \t Avail" } /C|G/ { printf "%s \t %s \t %s\n", $NF, $(NF-1), $(NF-2)}'
+)
+
 echo ''
 center_text '' '='
 center_text "s(tat)s"
+center_text "$USERNAME@$HOSTNAME"
+center_text "$uptime"
 
 echo "
-$user @ $machine_names | $uptime
+user id: $user_id
+uname: $uname @ $OSTYPE
+shell: $shell $shell_version
+term: $TERM
+CPU: $CPU
+computer: $computer
+model: $model
+OS: $os $machine_hardware_name, build $build
+$( [[ $ip ]] && echo ip: "$ip")
 
 $disk_free
 "

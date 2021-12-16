@@ -45,7 +45,7 @@ BEGIN { FS = " " }
 ' /proc/uptime)
 
 disk_free=$(
-  df -h | awk 'BEGIN { print "Mount \t Used \t Avail" } /C|G/ { printf "%s \t %s \t %s\n", $NF, $(NF-1), $(NF-2)}'
+  df -h | awk 'BEGIN { print "Mount \t Used \t Avail" } /C|G/ { printf "%-6s \t %s \t  %s\n", $NF, $(NF-1), $(NF-2)}'
 )
 
 echo ''

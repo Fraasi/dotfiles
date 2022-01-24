@@ -1,30 +1,42 @@
 #!/usr/bin/env bash
 # Copy all files from subdirs to ./All-Files/
 
+copyFolder='./All_Files'
 read -rp "Are you sure? (don't do it in a large folder/root) (Y/n) " ANSWER
 case ${ANSWER:0:1} in
   Y )
-    if [ ! -d ./All_Files ]; then
-      mkdir ./All_Files
+    if [[ ! -d $copyFolder ]]; then
+      mkdir "$copyFolder"
       echo 'No folder, created ./All_Files'
     else
-      echo 'Folder already exist, canceling...'
-      return 1
-    fi
+      read -rp "Folder already exist, overwrite? (Y/n) " ANSWER
+			case ${ANSWER:0:1} in
+				Y )
+					echo 'Overwriting...'
+					rm -rf "$copyFolder"
+					mkdir "$copyFolder"
+					;;
+				* )
+					echo 'Canceling...'
+					exit 1
+					;;
+			esac
+		fi
 
-    echo 'Copying ´./ -type f´ to ./All_Files...'
-    _err=$( find ./ -type f -exec cp -pr {} './All_Files' ';' 2>&1 )
-    echo 'Done, files copied.'
-    echo ''
+    echo "Copying './ -type f' to $copyFolder..."
+		i=0
+		while IFS= read -r -d '' file; do
+			base_name=$(basename "$file")
+			if [[ -e "$copyFolder"/"$base_name" ]]; then
+				cp -pr "$file" "$copyFolder"/"${base_name%.*}"-$((++i))."${base_name#*.}"
+			else
+				cp -pr "$file" "$copyFolder"/"$base_name"
+			fi
+		done < <(find ./ -type f -print0)
 
-    if $_err;
-      then
-        echo 'No errors'
-      else
-        echo 'Errors:'
-        echo $_err
-    fi
-    ;;
+		echo 'Done, files copied.'
+		echo ''
+		;;
   * )
     echo 'Canceling...';;
 esac

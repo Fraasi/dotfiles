@@ -4,8 +4,7 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 
-
-url = 'https://www.primewire.li/?type=movie&sort=Featured'
+url = 'https://www.primewire.li/?sort=Featured&type=movie&quality=DVD'
 prefix = 'https://www.primewire.li'
 try:
   html = requests.get(url).text
@@ -14,7 +13,7 @@ except requests.exceptions.RequestException as err:
 try:
   limit = int(sys.argv[1])
 except:
-  limit = 6
+  limit = 5
 
 soup = BeautifulSoup(html, 'html.parser')
 for div in soup.find_all('div', class_='index_item', limit=limit):

@@ -6,6 +6,6 @@ else
   git config remote.origin.url 1>/dev/null &&
     start "$(git config remote.origin.url | cut -f1-2 -d.)" ||
     echo "
-  Not a git repository!
-  Usage: $(basename "$0") [repository]"
+  Not in a git repository!
+  Usage: $(basename "$0") [repository name]"
 fi

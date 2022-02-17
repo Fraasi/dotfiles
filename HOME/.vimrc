@@ -1,5 +1,9 @@
 " for changes to take effect, run ':so %'
 
+" To see a list of ready-to-use themes,
+" :colorscheme [space] [Ctrl+d]
+colorscheme slate
+
 """"""""""""""""""""""""""""""""""""""
 " Shortcuts
 """"""""""""""""""""""""""""""""""""""
@@ -11,6 +15,8 @@ imap jk <Esc>
 nnoremap <space> za
 " run current script
 nnoremap <leader>r :! clear && ./% <return>
+" run cursor blinking fix
+nnoremap <leader>b :! tput cvvis <return>
 " un/comment line with #
 nnoremap gc 0i#<Esc>
 nnoremap gu 0x
@@ -46,7 +52,7 @@ set incsearch
 """""""""""""""""""""""""""""""""""""
 " Mix
 """""""""""""""""""""""""""""""""""""
-" show line nuumbers
+" show line numbers
 set number
 " show the mathing brackets
 set showmatch

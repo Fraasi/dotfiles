@@ -2,14 +2,23 @@
 
 " To see a list of ready-to-use themes,
 " :colorscheme [space] [Ctrl+d]
-colorscheme slate
+" colorscheme torte
+packadd! onedark.vim
+if has("termguicolors")
+  set termguicolors
+endif
+let g:onedark_color_overrides = {
+  \ "background": {"gui": "#131313", "cterm": "233", "cterm16": "0" },
+  \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
+  \}
+colorscheme onedark
 
 """"""""""""""""""""""""""""""""""""""
 " Shortcuts
 """"""""""""""""""""""""""""""""""""""
 " map leader key to space
-let mapleader = " " 
-" map jk to esc 
+let mapleader = " "
+" map jk to esc
 imap jk <Esc>
 " a shortcut for opening/closing folds, bind it to the spacebar.
 nnoremap <space> za
@@ -29,7 +38,7 @@ set expandtab
 " 1 tab = 2 spaces
 set tabstop=2 shiftwidth=2
 
-" when deleting whitespace at the beginning of a line, delete 
+" when deleting whitespace at the beginning of a line, delete
 " 1 tab worth of spaces (for us this is 2 spaces)
 set smarttab
 
@@ -78,4 +87,3 @@ set wildmenu
 
 " allows folding code blocks for easier navigation through the code.
 set foldenable
-

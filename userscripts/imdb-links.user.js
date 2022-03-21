@@ -35,6 +35,7 @@
       color: whitesmoke;
       border-radius: 4px;
       border: 1px solid black;
+      box-shadow: 0px 3px 5px 2px #605084;
       background-color: ${bgColor};`
 
     const elem = document.createElement(el)

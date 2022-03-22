@@ -17,8 +17,8 @@
   const imdb_id = window.location.pathname.match(/tt\d+/)[0]
   const title = docTitle.split(/ \(| - /)[0].trim()
   const isEpisodePage = window.location.pathname.includes('episodes')
-  const year = isEpisodePage ? '' : docTitle.match(/\d{4}/)[0]
-  const isSeries = /TV Series|Season/.test(docTitle)
+  const year = docTitle.match(/\d{4}/)?.[0] || ''
+  // const isSeries = /TV Series|Season/.test(docTitle)
   let episodeCount = isEpisodePage ? document.querySelectorAll('.list_item').length : 0
   let selectedEpisode = 1
 
@@ -77,11 +77,11 @@
           ${options}
         </select>`
 
-        episodesSpan.innerHTML = epHTML
-        document.getElementById("select-episode").onchange = function (evt) {
-          selectedEpisode = Number(evt.target.value)
-          update()
-        }
+      episodesSpan.innerHTML = epHTML
+      document.getElementById("select-episode").onchange = function (evt) {
+        selectedEpisode = Number(evt.target.value)
+        update()
+      }
     } else {
       episodesSpan.style = 'display: none;'
     }
@@ -90,16 +90,18 @@
   document.querySelector('#wrapper').prepend(vidsrcLink, putlockerLink, crocovidLink, episodesSpan)
   update()
 
-  function getNewData(mutationsList, observer) {
-    for (const mutation of mutationsList) {
-      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-        selectedEpisode = 1
-        episodeCount = isEpisodePage ? document.querySelectorAll('.list_item').length : 0
-        update()
+  if (isEpisodePage) {
+    function getNewData(mutationsList, observer) {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          selectedEpisode = 1
+          episodeCount = isEpisodePage ? document.querySelectorAll('.list_item').length : 0
+          update()
+        }
       }
-    }
-  };
-  const observer = new MutationObserver(getNewData)
-  observer.observe(document.querySelector('#episodes_content'), { childList: true })
+    };
+    const observer = new MutationObserver(getNewData)
+    observer.observe(document.querySelector('#episodes_content'), { childList: true })
+  }
 
 })();

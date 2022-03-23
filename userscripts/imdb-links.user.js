@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Add video links to imdb pages
 // @author       Fraasi
 // @match        https://www.imdb.com/title/tt*
@@ -24,7 +24,7 @@
 
   function createLink(text, bgColor, el = 'a') {
     const styles = `
-      z-index: 1;
+      z-index: 5;
       position: sticky;
       top: 5px;
       margin-left: 5px;
@@ -87,7 +87,9 @@
     }
   }
 
-  document.querySelector('#wrapper').prepend(vidsrcLink, putlockerLink, crocovidLink, episodesSpan)
+  const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
+  if (wrapper.getAttribute('role')) wrapper.style.background = '#1f1f1f'
+  wrapper.prepend(vidsrcLink, putlockerLink, crocovidLink, episodesSpan)
   update()
 
   if (isEpisodePage) {

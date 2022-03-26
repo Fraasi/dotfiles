@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+
+import sys
+import re
+import requests
+from bs4 import BeautifulSoup
+
+# url = 'https://www.primewire.tf/filter?sort=Featured&type=movie&quality=DVD'
+# prefix = 'https://www.primewire.tf'
+url = 'https://movgotv.com/genre/featured/'
+
+try:
+  html = requests.get(url).text
+except requests.exceptions.RequestException as err:
+  raise SystemExit(err)
+try:
+  limit = int(sys.argv[1])
+except:
+  limit = 6
+
+# for troubleshooting
+# f = open('featured_test.html', 'w')
+# f.write(html)
+# f.close()
+
+soup = BeautifulSoup(html, 'html.parser')
+
+# movgotv
+for div in soup.find_all('div', class_='ml-item'):
+  if limit <= 0:
+    break
+  quality = div.find(class_='jtip-quality').get_text()
+  if quality == 'CAM':
+    continue
+
+  title = div.find('h2').get_text()
+  year = div.find(class_="jt-info").findNext('a').get_text()
+  rating = div.find(class_='jt-imdb').get_text()
+  genres = ''
+  for genre in div.findAll('a', attrs={"title": re.compile('Movies$')}):
+    genres +=  ''.join(genre.findAll(text=True)) + ' '
+  link = 'https://www.imdb.com/find?q={}'.format(title.replace(' ', '+'))
+  parsed = '\n {0} ({1}) - {2}{3} - {4}\n {5}'.format(title, year, quality, rating, genres, link)
+  print(parsed)
+  limit -= 1
+
+
+# primewire, out of order
+# for div in soup.find_all('div', class_='index_item', limit=limit):
+#   link = div.find('a').get('href')
+#   img = div.find('img').get('src')
+#   title = div.find('h2').get_text()
+#   cats = div.find('div', class_='item_categories').get_text(' ', strip=True)
+#   imdb_title = re.sub('[()]', '', title).replace(' ', '+')
+#   imdb_link = 'https://www.imdb.com/find?q={search}'.format(search = imdb_title)
+#   parsed = '\n' + title.upper() + ' - ' + cats + '\n' + prefix + link + '\n' + imdb_link
+#   print(parsed)

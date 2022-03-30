@@ -3,29 +3,50 @@
 #
 # find newest file already backed up &
 # compare it to phones photos & copy newer
+#
+# TODO: find better way to copy/sync files
 
 
+# adb not in path, run here
 cd ~/.android/platform-tools/ || exit 1
-[[ -e ./Camera ]] && rm -rf ./Camera
+rm -rf ./temp && mkdir ./temp
 
-# adb doesnt work from script in git-bash, creates Camera folder to .
-cmd.exe /c "adb pull -a /sdcard/dcim/Camera/ ." || exit 1
+declare -a folders=(dcim/Camera Download Pictures)
 
-bc_dir="/g/Aza/N3/Camera"
-newest_backed_up_file=$(ls -rt $bc_dir | tail -1)
+for folder in "${folders[@]}"; do
+  # adb doesnt work straight from script in git-bash
+  # -a preserve timestamps, creates folders to ./temp
+  cmd.exe /c "adb pull -a /sdcard/$folder ./temp/${folder#*/}" || exit 1
 
-echo -e "\n$newest_backed_up_file - $(stat -c %y $bc_dir/"$newest_backed_up_file" | cut -d'.' -f1) <<< newest_backed_up_file"
-
-counter=0
-for phoneimg in ./Camera/*; do
-  if [[ $phoneimg -nt $bc_dir/$newest_backed_up_file ]]; then
-    ((counter += 1))
-    echo "$(basename "$phoneimg") - $(stat -c %y "$phoneimg" | cut -d'.' -f1)"
-    cp -np "$phoneimg" "$bc_dir"/"$(basename "$phoneimg")"
+  temp_dir="./temp/$folder"
+  bc_dir="/g/Aza/N3/${folder#*/}"
+  [[ ! -e "$bc_dir" ]] && mkdir "$bc_dir"
+  newest_backed_up_file=$(ls -rt "$bc_dir" | tail -1)
+  if [[ -z $newest_backed_up_file ]]; then
+    newest_backed_up_file=$(ls -rt "$temp_dir" | head -1)
+    echo -e "\nno files in $bc_dir, using $temp_dir/$newest_backed_up_file"
+    use_temp_dir=true
   fi
+
+  check_file="$bc_dir/$newest_backed_up_file"
+  if [[ $use_temp_dir ]]; then
+    check_file="$temp_dir/$newest_backed_up_file"
+  fi
+  echo -e "\n$newest_backed_up_file - $(stat -c %y "$check_file" | cut -d'.' -f1) <<< newest_backed_up_file"
+
+  counter=0
+  for file in "$temp_dir"/*; do
+    if [[ $file -nt $check_file ]]; then
+      ((counter += 1))
+      echo "$(basename "$file") - $(stat -c %y "$file" | cut -d'.' -f1)"
+      cp -np --recursive "$file" "$bc_dir"/"$(basename "$file")"
+    fi
+  done
+  echo -e "\n$counter new files copied to $bc_dir"
+  echo -e "------------------------------------\n"
+
 done
 
-echo -e "\n$counter new images copied to $bc_dir"
-rm -rf ./Camera \
-  && echo "Removed ~/.android/platform-tools/Camera temp folder" \
-  || echo "Couldn't remove ~/.android/platform-tools/Camera temp folder"
+rm -rf ./temp \
+  && echo "Removed ~/.android/platform-tools/temp folder" \
+  || echo "Couldn't remove ~/.android/platform-tools/temp folder"

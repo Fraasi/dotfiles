@@ -43,10 +43,29 @@ function showHiddenFilesAndFoldersOnly() {
 }
 
 # open man website for $1
-function b-man() {
+function man() {
   if [[ -z $1 ]]; then
-    echo "Usage: b-man <bash command>"
+    echo "Usage: man <bash command>"
   else
     start "https://ss64.com/bash/$1.html"
   fi
 }
+
+# -r: recursive and download all links on page
+# -l1: only one level link
+# -H: span host, visit other hosts
+# -t1: numbers of retries
+# -nd: don't make new directories, download to here
+# -N: turn on timestamp
+# -np: no parent
+# -A: type (separate by ,)
+# -e robots=off: ignore the robots.txt file which stop wget from crashing the site, sorry example.com
+# -nv --no-verbose
+function wget-images() {
+  if [[ -z $1 ]]; then
+    echo "Usage: wget-images <url>"
+  else
+    wget -r -l1 -H -t1 -nd -N -np -nv -e robots=off -P /g/Downs/wget/ -A jpeg,jpg,bmp,gif,png,webp "$1"
+  fi
+}
+

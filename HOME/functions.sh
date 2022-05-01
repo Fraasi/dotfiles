@@ -86,3 +86,8 @@ function on-this-day() {
     echo "$month $day - $event"
   fi
 }
+
+# list & count different filetypes in .
+function filetypes-in-dir() {
+  file -bi ./* | sort | uniq -c | cut -d';' -f1
+}

@@ -21,7 +21,7 @@
 	ls = log --oneline --stat --graph
   cg = config --global
 	ignored = status --ignored -s
-	alias = "!git config --get-regexp ^alias\."
+	alias = "!git config --get-regexp ^alias"
 [grep]
 	lineNumber = true
 [color]

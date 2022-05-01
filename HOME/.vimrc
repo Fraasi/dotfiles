@@ -26,6 +26,7 @@ nnoremap <space> za
 nnoremap <leader>r :! clear && ./% <return>
 " run cursor blinking fix
 nnoremap <leader>b :! tput cvvis <return>
+autocmd VimEnter * :! tput cvvis
 " visual-block mode ctrl+v remap fix
 nnoremap <leader>v <c-v>
 " un/comment line with #

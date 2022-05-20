@@ -44,7 +44,11 @@ function showHiddenFilesAndFoldersOnly() {
 # open man website for $1
 function man() {
   if [[ -z $1 ]]; then
-    echo "Usage: man <bash command>"
+    echo "Usage: man [-w] <bash command>"
+  elif [[ $1 == '-w' ]]; then
+    start "https://ss64.com/bash/$2.html"
+  elif ( "$1" --help >/dev/null 2>&1 ); then
+    "$1" --help | less
   else
     start "https://ss64.com/bash/$1.html"
   fi

@@ -30,6 +30,7 @@ Alt + B   Move cursor backward one word on the current line
 Alt + D   Delete all characters after the cursor on the current line
 Alt + .   Paste the last word of the most recently command
 Alt + Shift + # To make line a comment, to keep it in history
+Alt + *   Expand glob, e.g 'echo *<alt+*>' expands current directory files to echo
 "
 
 if [[ -n $1 ]]; then

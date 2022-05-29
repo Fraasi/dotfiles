@@ -2,35 +2,37 @@
 
 shortcuts="
 # use 'bind -P | less' to see all bound keys...
+# On some keyboards Meta is not Alt, but Esc. eg. Ctrl-Alt-e -> Esc, then Ctrl-e
 
-Ctrl + A  Move to the start of line
-Ctrl + E  Move to the end of line
-Ctrl + XX Move between the beginning of the line and the current position of the cursor
-Ctrl + L  Clears the Screen, similar to the clear command
-Ctrl + H  Same as backspace
-Ctrl + D  Exit the current shell (EOF) if on an empty line, otherwise same as delete
-Ctrl + R  Lets you search through previously used commands
-Ctrl + P  Previous command in history
-Ctrl + N  Next command in history
-Ctrl + C  Kill whatever you are running
-Ctrl + Z  Puts whatever you are running into a suspended background process, fg restores it
-Ctrl + T  Swap the last two characters before the cursor
-Ctrl + F  Move cursor forward one character
-Ctrl + B  Move cursor backward one character
-Ctrl + W  Cut the word before the cursor, adding it to the clipboard
-Ctrl + K  Cut the part of the line after the cursor, adding it to the clipboard
-Ctrl + U  Cut the part of the line before the cursor, adding it to the clipboard
-Ctrl + Y  Paste the last thing you cut from the clipboard, y here stands for 'yank'
-Ctrl + S  Stops the output to the screen (for long running verbose command)
-Ctrl + Q  Allow output to the screen (if previously stopped using command above)
-Ctrl + _  Undo your last key press, you can repeat this to undo multiple times
-Alt + T   Swap the current word with the previous word
-Alt + F   Move cursor forward one word on the current line
-Alt + B   Move cursor backward one word on the current line
-Alt + D   Delete all characters after the cursor on the current line
-Alt + .   Paste the last word of the most recently command
-Alt + Shift + # To make line a comment, to keep it in history
-Alt + *   Expand glob, e.g 'echo *<alt+*>' expands current directory files to echo
+Ctrl + A    Move to the start of line
+Ctrl + E    Move to the end of line
+Ctrl + XX   Move between the beginning of the line and the current position of the cursor
+Ctrl + L    Clears the Screen, similar to the clear command
+Ctrl + H    Same as backspace
+Ctrl + D    Exit the current shell (EOF) if on an empty line, otherwise same as delete
+Ctrl + R    Lets you search through previously used commands
+Ctrl + P    Previous command in history
+Ctrl + N    Next command in history
+Ctrl + C    Kill whatever you are running
+Ctrl + Z    Puts whatever you are running into a suspended background process, fg restores it
+Ctrl + T    Swap the last two characters before the cursor
+Ctrl + F    Move cursor forward one character
+Ctrl + B    Move cursor backward one character
+Ctrl + W    Cut the word before the cursor, adding it to the clipboard
+Ctrl + K    Cut the part of the line after the cursor, adding it to the clipboard
+Ctrl + U    Cut the part of the line before the cursor, adding it to the clipboard
+Ctrl + Y    Paste the last thing you cut from the clipboard, y here stands for 'yank'
+Ctrl + S    Stops the output to the screen (for long running verbose command)
+Ctrl + Q    Allow output to the screen (if previously stopped using command above)
+Ctrl + _    Undo your last key press, you can repeat this to undo multiple times
+Alt + T     Swap the current word with the previous word
+Alt + F     Move cursor forward one word on the current line
+Alt + B     Move cursor backward one word on the current line
+Alt + D     Delete all characters after the cursor on the current line
+Alt + .     Paste the last word of the most recent command
+Alt + #     To make line a comment, to keep it in history
+Alt + *     Expand glob, e.g 'echo *<alt+*>' expands current directory files to echo
+Ctrl-Alt-e  To perform the readline function shell-expand-line which will do alias, history and word expansions.
 "
 
 if [[ -n $1 ]]; then

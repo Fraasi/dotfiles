@@ -2,3 +2,4 @@ vsCode/user_backup/syncLocalSettings.json
 vsCode/user_backup/vsicons.settings.json
 vsCode/user_backup/locale.json
 /test*
+.*.swp

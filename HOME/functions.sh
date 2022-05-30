@@ -27,9 +27,7 @@ function print-colors() {
 
 # show my ip address
 function show-ip() {
-  echo
   curl -s ifconfig.me
-  echo
 }
 
 # show filecount total size
@@ -47,6 +45,8 @@ function man() {
     echo "Usage: man [-w] <bash command>"
   elif [[ $1 == '-w' ]]; then
     start "https://ss64.com/bash/$2.html"
+  elif ( builtin "$1" >/dev/null 2>&1 ); then
+    help $1 | less
   elif ( "$1" --help >/dev/null 2>&1 ); then
     "$1" --help | less
   else

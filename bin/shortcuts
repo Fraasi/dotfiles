@@ -38,6 +38,6 @@ Ctrl-Alt-e  To perform the readline function shell-expand-line which will do ali
 if [[ -n $1 ]]; then
   grep -i "$1" <<< "$shortcuts"
 else
-  echo "$shortcuts"
+  echo "$shortcuts" | less
 fi
 

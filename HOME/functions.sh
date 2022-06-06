@@ -46,7 +46,7 @@ function man() {
   elif [[ $1 == '-w' ]]; then
     start "https://ss64.com/bash/$2.html"
   elif ( builtin "$1" >/dev/null 2>&1 ); then
-    help $1 | less
+    help "$1" | less
   elif ( "$1" --help >/dev/null 2>&1 ); then
     "$1" --help | less
   else

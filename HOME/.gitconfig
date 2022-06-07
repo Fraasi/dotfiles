@@ -4,8 +4,8 @@
 	required = true
 	clean = git-lfs clean -- %f
 [user]
-  name = Fraasi
-  email = fraasi.gh@gmail.com
+	name = Fraasi
+	email = fraasi.gh@gmail.com
 [credential]
 	helper = wincred
 [alias]

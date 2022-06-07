@@ -1,12 +1,54 @@
-#!/usr/bin/bash
-# shellcheck disable=SC2044,SC1091
+#!/bin/env bash
+# shellcheck disable=SC1091,SC2155
 
 source ./utils/logging.sh
 echo ''
 
+home_files=$(find ./HOME -type f)
+bin_files=$(find ./bin -type f)
+
+log_info "This script needs to be run as administrator for symlinking to work"
+
+# from https://github.com/michaeljsmalley/dotfiles/blob/master/makesymlinks.sh
+backup_old_dotfiles() {
+  local olddir=~/dotfiles_old
+  log_info "Creating $olddir for backup of any existing dotfiles in ~ ..."
+  mkdir -p $olddir
+  log_info "Moving any existing dotfiles from ~ to $olddir"
+  for file in $home_files; do
+    mv -iv ~/"$(basename "$file")" "$olddir"
+  done
+  log_success "${FUNCNAME[@]}"
+}
+
+cleanup_broken_symlinks() {
+  log_info "Cleaning broken symlinks..."
+  for file in $home_files $bin_files; do
+    local real_file_path=$(find ~/ ~/bin/ -maxdepth 1 -type l -name "$(basename "$file")")
+    if [[ -n $real_file_path ]] && [[ ! -e $real_file_path ]]; then
+      rm -iv "$real_file_path"
+    fi
+  done
+  log_success "${FUNCNAME[@]}"
+}
+
+make_symlinks() {
+  log_info "Creating symlinks..."
+  local home=C:$(sed 's:/:\\:g' <(realpath ~/) | cut -c 3-)
+  local dot=G:$(sed 's:/:\\:g' <(realpath ./HOME/) | cut -c 3-)
+
+  for file in $home_files $bin_files; do
+    local filename=$(basename "$file")
+    local real_file_path=$(find ~/ ~/bin/ -maxdepth 1 -type l -name "$filename")
+    if [[ -z $real_file_path ]]; then
+      cmd.exe /c "mklink $home\\$filename $dot\\$filename"
+    fi
+  done
+  log_success "${FUNCNAME[@]}"
+}
 
 setup_gitconfig() {
-  log_info 'setup gitconfig, press enter to keep old ones\n'
+  log_info 'Setup gitconfig, press enter to keep old ones\n'
 
   old_git_username=$(git config --global user.name)
   old_git_useremail=$(git config --global user.email)
@@ -22,65 +64,24 @@ setup_gitconfig() {
   log_success "${FUNCNAME[@]}"
 }
 
-copy_HOME_to_HOME() {
-  echo ''
-  log_info 'copy HOME/ files to ~/'
-  log_info 'copying .gitconfig will reset your [user] field\n'
-
-  for file in $(find ./HOME -type f); do
-    filename=$(basename "$file")
-    cp -v --interactive "$file" "$HOME/$filename"
-  done
-
-  echo ''
+# TODO:
+copy_vscode_settings() {
+  log_info ""
   log_success "${FUNCNAME[@]}"
 }
 
-# symlinks better than copying, delete later
-copy_bin_to_HOME_bin() {
-  echo ''
-  log_info 'copy bin/ files to ~/bin to put them in PATH\n'
-
-  if ! [[ -e ~/bin && -d ~/bin ]]; then
-    log_info 'No ~/bin folder, creating one...'
-    echo ''
-    mkdir ~/bin
-  fi
-
-  for file in $(find ./bin -type f); do
-    filename=$(basename "$file")
-    if cmp "$file" "$HOME/bin/$filename" &>/dev/null; then
-      echo "$filename hasn't changed, skipping..."
-    else
-      cp -v --interactive "$file" "$HOME/bin/$filename"
-    fi
-  done
-  echo ''
-  log_success "${FUNCNAME[@]}"
-}
-
-symlink_bin_to_HOME_bin() {
-  log_info '(needs to be run as administrator)'
-  log_info 'making symlinks... '
-  home=C:$(sed 's:/:\\:g' <(realpath ~/bin/) | cut -c 3-)
-  dot=G:$(sed 's:/:\\:g' <(realpath ./bin/) | cut -c 3-)
-
-  for file in ./bin/*; do
-    cmd.exe /c "mklink $home\\$(basename "$file") $dot\\$(basename "$file")"
-  done
-}
-
-choices='exit setup_gitconfig copy_HOME_to_HOME symlink_bin_to_HOME_bin'
+choices='exit setup_gitconfig make_symlinks cleanup_broken_symlinks backup_old_dotfiles'
 select choise in ${choices}; do
   case $REPLY in
-    1)
-      log_user "$choise"
-      log_info "All done, run 'exec bash' to update shell PATH & functions."
-      log_info "Or 'source ~/.profile' to reflash current prompt."
-      break
-      ;;
-    2) ("$choise") ;;
-    3) ("$choise") ;;
-    4) ("$choise") ;;
+  1)
+    log_user "$choise"
+    log_info "All done, run 'exec bash' to update shell PATH & functions"
+    log_info "Or 'source ~/.profile' to reflash current prompt"
+    break
+    ;;
+  2) ("$choise") ;;
+  3) ("$choise") ;;
+  4) ("$choise") ;;
+  5) ("$choise") ;;
   esac
 done

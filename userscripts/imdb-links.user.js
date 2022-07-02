@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  Add video links to imdb pages
 // @author       Fraasi
 // @match        https://www.imdb.com/title/tt*
@@ -46,9 +46,11 @@
   }
 
   const vidsrcLink = createLink('vidsrc', '#e600e6')
-  const putlockerLink = createLink('putlocker', '#46920e')
+  //const putlockerLink = createLink('putlocker', '#46920e')
+  const watchfilmLink = createLink('watchfilm', '#08ab4b')
   const crocovidLink = createLink('crocovid', '#7aae28')
   const episodesSpan = createLink('', '#1f1f1f', 'span')
+  const soundtrackLink = createLink('soundtracks', '#f3ce00')
 
   function update() {
 
@@ -56,14 +58,21 @@
     const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
     vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
 
-    const putSearchTitle = title.toLowerCase().replaceAll(' ', '+')
-    const putSearchString = isEpisodePage ? `${putSearchTitle}+season+${season}` : putSearchTitle
-    putlockerLink.setAttribute('href', `https://putlockers.gs/search-movies/${putSearchString}.html`)
+   // const putSearchTitle = title.toLowerCase().replaceAll(' ', '+')
+   // const putSearchString = isEpisodePage ? `${putSearchTitle}+season+${season}` : putSearchTitle
+   // putlockerLink.setAttribute('href', `https://putlockers.gs/search-movies/${putSearchString}.html`)
+
+    const watchfilmSearchTitle = title.toLowerCase().replaceAll(' ', '-')
+    const watchfilmSearchString = `${watchfilmSearchTitle}-${year}`
+    watchfilmLink.setAttribute('href', `https://ww22.watchfilm.net/search//${watchfilmSearchString}`)
 
     const season_NUM = season ? Number(season) < 10 ? `0${season}` : season : ''
     const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
     const crocoExtras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
     crocovidLink.setAttribute('href', `https://crocovid.com/?q=${title} ${crocoExtras}`)
+
+    soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
+    soundtrackLink.setAttribute('target', '')
 
     let epHTML = ''
     if (isEpisodePage) {
@@ -89,7 +98,7 @@
 
   const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
   if (wrapper.getAttribute('role')) wrapper.style.background = '#1f1f1f'
-  wrapper.prepend(vidsrcLink, putlockerLink, crocovidLink, episodesSpan)
+  wrapper.prepend(vidsrcLink, watchfilmLink, crocovidLink, episodesSpan, soundtrackLink)
   update()
 
   if (isEpisodePage) {

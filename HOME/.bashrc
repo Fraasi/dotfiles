@@ -27,6 +27,7 @@ alias ll="ls -lX --color=auto"
 alias ls="ls -F --color=auto"
 alias mv="mv -iv"
 # alias node="winpty node.exe"
+alias np="node -p"
 alias np++="start notepad++"
 alias tree="tree.com //a"
 

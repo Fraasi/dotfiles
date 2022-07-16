@@ -1,24 +1,59 @@
 #!/usr/bin/env python
 
-import calendar
-from datetime import datetime, date
+"""Simple (unix like) command line calendar in python"""
+
 import os
+from datetime import datetime
+import argparse
+import calendar
 
 
-# https://github.com/python/cpython/issues/84315
-os.system("") # Comment this out to disable ANSI codes
-
-class colors:
-    RESTORE='\033[0m'
-    CYAN='\033[00;36m'
-
-currentDay = datetime.now().day
 currentMonth = datetime.now().month
 currentYear = datetime.now().year
-cal = calendar.month(currentYear, currentMonth)
 
-splt = cal.rsplit(str(currentDay), 1)
-frmat = f"{colors.CYAN}{currentDay}{colors.RESTORE}".join(splt)
+parser = argparse.ArgumentParser(description='Simple command line calendar')
+parser.add_argument('month', help='what month to display (1-12)',
+                    nargs='?', default=currentMonth, type=int, choices=range(1, 13), metavar='month')
+parser.add_argument('year', help='what year to display',
+                    nargs='?', default=currentYear, type=int)
+group = parser.add_mutually_exclusive_group()
+group.add_argument('-y', help='display whole year', action='store_true')
+group.add_argument(
+    '-M', help='display previous, current and next month', action='store_true')
+args = parser.parse_args()
 
-print(frmat, end = '')
+if args.y:
+    cal = calendar.calendar(args.year)
+    print(cal, end='')
+elif args.M:
+    if args.month == 1:
+        prevMonth = 12
+        prevYear = args.year - 1
+    else:
+        prevMonth = args.month - 1
+        prevYear = args.year
+    if args.month == 12:
+        nextMonth = 1
+        nextYear = args.year + 1
+    else:
+        nextMonth = args.month + 1
+        nextYear = args.year
 
+    print(calendar.month(prevYear, prevMonth))
+    print(calendar.month(args.year, args.month))
+    print(calendar.month(nextYear, nextMonth), end='')
+else:
+    # https://github.com/python/cpython/issues/84315
+    os.system("")  # Comment this out to disable ANSI codes
+
+    cal = calendar.month(args.year, args.month)
+
+    if args.month == currentMonth and args.year == currentYear:
+        class colors:
+            CYAN = '\033[00;36m'
+            RESTORE = '\033[0m'
+        currentDay = datetime.now().day
+        splt = cal.rsplit(str(currentDay), 1)
+        cal = f"{colors.CYAN}{currentDay}{colors.RESTORE}".join(splt)
+
+    print(cal, end='')

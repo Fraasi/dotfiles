@@ -3,6 +3,7 @@
 import sys
 import re
 import requests
+import urllib
 from bs4 import BeautifulSoup
 
 # url = 'https://www.primewire.tf/filter?sort=Featured&type=movie&quality=DVD'
@@ -39,7 +40,7 @@ for div in soup.find_all('div', class_='ml-item'):
   genres = ''
   for genre in div.findAll('a', attrs={"title": re.compile('Movies$')}):
     genres +=  ''.join(genre.findAll(text=True)) + ' '
-  link = 'https://www.imdb.com/find?q={}'.format(title.replace(' ', '+'))
+  link = f"https://www.imdb.com/find?q={urllib.parse.quote_plus(title)}"
   parsed = '\n {0} ({1}) - {2}{3} - {4}\n {5}'.format(title, year, quality, rating, genres, link)
   print(parsed)
   limit -= 1

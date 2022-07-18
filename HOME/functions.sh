@@ -95,3 +95,11 @@ function on-this-day() {
 function filetypes-in-dir() {
   file -bi ./* | sort | uniq -c | cut -d';' -f1
 }
+
+# encrypt file passed to func
+function encrypt-file() {
+  extension="${1##*.}"
+  filename="${1%.*}"
+  SAVE_FILE="${filename}_$(date '+%F').$extension.gpg"
+  gpg -iv --symmetric --no-symkey-cache -o "$SAVE_FILE" "$1"
+}

@@ -34,14 +34,22 @@ cleanup_broken_symlinks() {
 
 make_symlinks() {
   log_info "Creating symlinks..."
-  local home=C:$(sed 's:/:\\:g' <(realpath ~/) | cut -c 3-)
-  local dot=G:$(sed 's:/:\\:g' <(realpath ./HOME/) | cut -c 3-)
+  # cygpath converts posix <-> win paths
+  local home_win=$(cygpath -aw "$HOME")
+  local repo_win=$(cygpath -aw ./)
 
-  for file in $home_files $bin_files; do
+  for file in $bin_files $home_files; do
     local filename=$(basename "$file")
-    local real_file_path=$(find ~/ ~/bin/ -maxdepth 1 -type l -name "$filename")
-    if [[ -z $real_file_path ]]; then
-      cmd.exe /c "mklink $home\\$filename $dot\\$filename"
+    local link_exists=$(find ~/ ~/bin/ -maxdepth 1 -type l -name "$filename")
+    if [[ -z $link_exists ]]; then
+      case "$file" in
+      *bin*)
+        cmd.exe /c "mklink $home_win\\bin\\$filename $repo_win\\bin\\$filename"
+        ;;
+      *HOME*)
+        cmd.exe /c "mklink $home_win\\$filename $repo_win\\HOME\\$filename"
+        ;;
+      esac
     fi
   done
   log_success "${FUNCNAME[@]}"

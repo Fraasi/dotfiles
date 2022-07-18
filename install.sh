@@ -72,12 +72,6 @@ setup_gitconfig() {
   log_success "${FUNCNAME[@]}"
 }
 
-# TODO:
-copy_vscode_settings() {
-  log_info ""
-  log_success "${FUNCNAME[@]}"
-}
-
 choices='exit setup_gitconfig make_symlinks cleanup_broken_symlinks backup_old_dotfiles'
 select choise in ${choices}; do
   case $REPLY in

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+
+cp -iv "/C/Users/$USERNAME/AppData/Roaming/Code/User/keybindings.json" "/G/Code/GitHub/dotfiles/vsCode/"
+cp -iv "/C/Users/$USERNAME/AppData/Roaming/Code/User/settings.json" "/G/Code/GitHub/dotfiles/vsCode/"
+cp -ivr "/C/Users/$USERNAME/AppData/Roaming/Code/User/snippets" "/G/Code/GitHub/dotfiles/vsCode/"

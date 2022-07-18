@@ -15,6 +15,7 @@
 		"description": "Log output to console"
 	},
 	"Brackets": {
+		"scope": "javascript, javascriptreact, css, json, typescript, typescriptreact, shell",
 		"prefix": "bra",
 		"body": [
 			"{$0}"
@@ -139,6 +140,7 @@
 		"description": "<br />"
 	},
 	"Shebang": {
+		"scope": "javascript",
 		"prefix": "shebang",
 		"body": [
 			"#!/usr/bin/env"

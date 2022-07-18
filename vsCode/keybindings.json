@@ -130,4 +130,8 @@
         "command": "-console.log.wrap.down.prefix",
         "when": "editorTextFocus"
     },
+    {
+        "key": "ctrl+shift+oem_3",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
 ]

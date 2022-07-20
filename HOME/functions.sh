@@ -103,3 +103,11 @@ function encrypt-file() {
   SAVE_FILE="${filename}_$(date '+%F').$extension.gpg"
   gpg -iv --symmetric --no-symkey-cache -o "$SAVE_FILE" "$1"
 }
+
+# https://superuser.com/questions/144772/finding-the-definition-of-a-bash-function 
+whereisfunc() {
+  shopt -s extdebug
+  declare -F $1
+  shopt -u extdebug
+}
+

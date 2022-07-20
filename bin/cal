@@ -16,12 +16,15 @@ parser.add_argument('month', help='what month to display (1-12)',
                     nargs='?', default=currentMonth, type=int, choices=range(1, 13), metavar='month')
 parser.add_argument('year', help='what year to display',
                     nargs='?', default=currentYear, type=int)
+parser.add_argument('-s', help='display sunday as the first day of the week (default: monday)', default=False, action='store_true')
 group = parser.add_mutually_exclusive_group()
 group.add_argument('-y', help='display whole year', action='store_true')
 group.add_argument(
     '-M', help='display previous, current and next month', action='store_true')
 args = parser.parse_args()
 
+if args.s:
+    calendar.setfirstweekday(6)
 if args.y:
     cal = calendar.calendar(args.year)
     print(cal, end='')

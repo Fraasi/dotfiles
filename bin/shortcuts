@@ -24,7 +24,7 @@ Ctrl + U    Cut the part of the line before the cursor, adding it to the clipboa
 Ctrl + Y    Paste the last thing you cut from the clipboard, y here stands for 'yank'
 Ctrl + S    Stops the output to the screen (for long running verbose command)
 Ctrl + Q    Allow output to the screen (if previously stopped using command above)
-Ctrl + _    Undo your last key press, you can repeat this to undo multiple times
+Ctrl + _    Undo your last key press, you can repeat this to undo multiple times (Ctrl + X, Ctrl + U)
 Alt + T     Swap the current word with the previous word
 Alt + F     Move cursor forward one word on the current line
 Alt + B     Move cursor backward one word on the current line

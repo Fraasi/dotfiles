@@ -30,3 +30,5 @@
 	ui = auto
 [core]
 	autocrlf = false
+[credential "https://git.heroku.com"]
+	provider = generic

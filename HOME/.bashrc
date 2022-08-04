@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 # ~/.bashrc
-# shellcheck disable=SC1091,SC1090
+# shellcheck disable=SC1091,SC1090,SC2155
 
 # set EDITOR to vim
 export EDITOR=vim
@@ -26,6 +26,7 @@ alias li="ls -1AX --color=auto"
 alias ll="ls -lX --color=auto"
 alias ls="ls -F --color=auto"
 alias mv="mv -iv"
+alias n="notes"
 # alias node="winpty node.exe"
 alias np="node -p"
 alias np++="start notepad++"

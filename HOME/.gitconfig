@@ -32,3 +32,6 @@
 	autocrlf = false
 [credential "https://git.heroku.com"]
 	provider = generic
+[diff]
+  tool = vimdiff
+  wsErrorHighlight = all

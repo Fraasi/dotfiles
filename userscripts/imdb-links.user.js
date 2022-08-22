@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Add video links to imdb pages
 // @author       Fraasi
 // @match        https://www.imdb.com/title/tt*
@@ -16,6 +16,7 @@
   const docTitle = document.title
   const imdb_id = window.location.pathname.match(/tt\d+/)[0]
   const title = docTitle.split(/ \(| - /)[0].trim()
+  const isMainPage = Boolean(document.querySelector('.titlereference-section-overview'))
   const isEpisodePage = window.location.pathname.includes('episodes')
   const year = docTitle.match(/\d{4}/)?.[0] || ''
   // const isSeries = /TV Series|Season/.test(docTitle)
@@ -24,19 +25,19 @@
 
   function createLink(text, bgColor, el = 'a') {
     const styles = `
-      z-index: 5;
-      position: sticky;
-      top: 5px;
-      margin-left: 5px;
-      padding: 0px 5px;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: bold;
-      color: whitesmoke;
-      border-radius: 4px;
-      border: 1px solid black;
-      box-shadow: 0px 3px 5px 2px #605084;
-      background-color: ${bgColor};`
+    z-index: 5;
+    position: sticky;
+    top: 5px;
+    margin-left: 5px;
+    padding: 0px 5px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: whitesmoke;
+    border-radius: 4px;
+    border: 1px solid black;
+    box-shadow: 0px 3px 5px 2px #605084;
+    background-color: ${bgColor};`
 
     const elem = document.createElement(el)
     elem.setAttribute('target', '_blank')
@@ -45,22 +46,15 @@
     return elem
   }
 
-  const vidsrcLink = createLink('vidsrc', '#e600e6')
-  //const putlockerLink = createLink('putlocker', '#46920e')
-  const watchfilmLink = createLink('watchfilm', '#08ab4b')
-  const crocovidLink = createLink('crocovid', '#7aae28')
-  const episodesSpan = createLink('', '#1f1f1f', 'span')
-  const soundtrackLink = createLink('soundtracks', '#f3ce00')
-
   function update() {
 
     const season = isEpisodePage ? document.querySelector('#bySeason option[selected="selected"]').value : ''
     const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
     vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
 
-   // const putSearchTitle = title.toLowerCase().replaceAll(' ', '+')
-   // const putSearchString = isEpisodePage ? `${putSearchTitle}+season+${season}` : putSearchTitle
-   // putlockerLink.setAttribute('href', `https://putlockers.gs/search-movies/${putSearchString}.html`)
+    // const putSearchTitle = title.toLowerCase().replaceAll(' ', '+')
+    // const putSearchString = isEpisodePage ? `${putSearchTitle}+season+${season}` : putSearchTitle
+    // putlockerLink.setAttribute('href', `https://putlockers.gs/search-movies/${putSearchString}.html`)
 
     const watchfilmSearchTitle = title.toLowerCase().replaceAll(' ', '-')
     const watchfilmSearchString = `${watchfilmSearchTitle}-${year}`
@@ -81,10 +75,10 @@
         options += `<option value="${i + 1}" ${(i + 1) === selectedEpisode ? 'selected' : ''}>${i + 1}</option>`
       }
       epHTML = `
-        <label for="episodes">${episodeCount} episodes</label>
-        <select name="episodes" id="select-episode">
-          ${options}
-        </select>`
+      <label for="episodes">${episodeCount} episodes</label>
+      <select name="episodes" id="select-episode">
+        ${options}
+      </select>`
 
       episodesSpan.innerHTML = epHTML
       document.getElementById("select-episode").onchange = function (evt) {
@@ -96,9 +90,24 @@
     }
   }
 
+  const vidsrcLink = createLink('vidsrc', '#e600e6')
+  //const putlockerLink = createLink('putlocker', '#46920e')
+  const watchfilmLink = createLink('watchfilm', '#08ab4b')
+  const crocovidLink = createLink('crocovid', '#7aae28')
+  const episodesSpan = createLink('', '#1f1f1f', 'span')
+  const soundtrackLink = createLink('soundtracks', '#f3ce00')
   const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
-  if (wrapper.getAttribute('role')) wrapper.style.background = '#1f1f1f'
+
+  wrapper.style.background = 'rgb(18, 18, 18)'
+
+  if (isMainPage) {
+    const langs = [...document.querySelectorAll('[href^="/language"]')].map(el => el.href.split('/').pop()).join(' / ')
+    const langLink = createLink(`languages: ${langs}`, '#666')
+    wrapper.prepend(langLink)
+  }
+
   wrapper.prepend(vidsrcLink, watchfilmLink, crocovidLink, episodesSpan, soundtrackLink)
+
   update()
 
   if (isEpisodePage) {

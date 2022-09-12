@@ -6,9 +6,8 @@ import requests
 import urllib
 from bs4 import BeautifulSoup
 
-# url = 'https://www.primewire.tf/filter?sort=Featured&type=movie&quality=DVD'
-# prefix = 'https://www.primewire.tf'
-url = 'https://movgotv.com/genre/featured/'
+
+url = 'https://movgotv.com' # /genre/featured/'
 
 try:
   html = requests.get(url).text
@@ -34,7 +33,7 @@ for div in soup.find_all('div', class_='ml-item'):
   if quality == 'CAM':
     continue
 
-  title = div.find('h2').get_text()
+  title = div.find(class_='mli-info ntitl').get_text()
   year = div.find(class_="jt-info").findNext('a').get_text()
   rating = div.find(class_='jt-imdb').get_text()
   genres = ''
@@ -44,15 +43,3 @@ for div in soup.find_all('div', class_='ml-item'):
   parsed = '\n {0} ({1}) - {2}{3} - {4}\n {5}'.format(title, year, quality, rating, genres, link)
   print(parsed)
   limit -= 1
-
-
-# primewire, out of order
-# for div in soup.find_all('div', class_='index_item', limit=limit):
-#   link = div.find('a').get('href')
-#   img = div.find('img').get('src')
-#   title = div.find('h2').get_text()
-#   cats = div.find('div', class_='item_categories').get_text(' ', strip=True)
-#   imdb_title = re.sub('[()]', '', title).replace(' ', '+')
-#   imdb_link = 'https://www.imdb.com/find?q={search}'.format(search = imdb_title)
-#   parsed = '\n' + title.upper() + ' - ' + cats + '\n' + prefix + link + '\n' + imdb_link
-#   print(parsed)

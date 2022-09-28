@@ -6,6 +6,7 @@ echo ''
 
 home_files=$(find ./HOME -type f)
 bin_files=$(find ./bin -type f)
+hook_files=$(find ./hooks -type f)
 
 log_info "This script needs to be run as administrator for symlinking to work"
 
@@ -23,7 +24,7 @@ backup_old_dotfiles() {
 
 cleanup_broken_symlinks() {
   log_info "Cleaning broken symlinks..."
-  for file in $home_files $bin_files; do
+  for file in $home_files $bin_files $hook_files; do
     local real_file_path=$(find ~/ ~/bin/ -maxdepth 1 -type l -name "$(basename "$file")")
     if [[ -n $real_file_path ]] && [[ ! -e $real_file_path ]]; then
       rm -iv "$real_file_path"
@@ -38,9 +39,12 @@ make_symlinks() {
   local home_win=$(cygpath -aw "$HOME")
   local repo_win=$(cygpath -aw ./)
 
-  for file in $bin_files $home_files; do
+  # make sure ~/bin & ~/hooks exists
+  mkdir ~/bin ~/hooks >/dev/null 2>&1
+
+  for file in $bin_files $home_files $hook_files; do
     local filename=$(basename "$file")
-    local link_exists=$(find ~/ ~/bin/ -maxdepth 1 -type l -name "$filename")
+    local link_exists=$(find ~/ ~/bin/ ~/hooks -maxdepth 1 -type l -name "$filename")
     if [[ -z $link_exists ]]; then
       case "$file" in
       *bin*)
@@ -48,6 +52,9 @@ make_symlinks() {
         ;;
       *HOME*)
         cmd.exe /c "mklink $home_win\\$filename $repo_win\\HOME\\$filename"
+        ;;
+      *hooks*)
+        cmd.exe /c "mklink $home_win\\hooks\\$filename $repo_win\\hooks\\$filename"
         ;;
       esac
     fi

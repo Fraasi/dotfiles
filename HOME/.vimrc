@@ -20,6 +20,8 @@ colorscheme onedark
 let mapleader = " "
 " map jk to esc
 imap jk <Esc>
+" save file in insert mode with §
+inoremap § <C-O>:w<CR>
 " a shortcut for opening/closing folds, bind it to the spacebar.
 nnoremap <space> za
 " run current script

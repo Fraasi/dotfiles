@@ -105,9 +105,32 @@ function encrypt-file() {
 }
 
 # https://superuser.com/questions/144772/finding-the-definition-of-a-bash-function 
-whereisfunc() {
+function whereisfunc() {
   shopt -s extdebug
   declare -F $1
   shopt -u extdebug
+}
+
+# print date & time for use in logging
+function log-datetime() {
+  if [[ -z "$1" ]]; then
+    date "+%F %T"
+  else
+    case "$1" in
+      -t)
+        date "+%T"
+        ;;
+      -d)
+        date "+%F"
+        ;;
+      *)
+        printf "Usage: ${FUNCNAME[0]} [-t | -d]
+  Display the current time & date in Y-m-d H:M:S format
+
+  -t  print only time
+  -d  print only date"
+        ;;
+    esac
+  fi
 }
 

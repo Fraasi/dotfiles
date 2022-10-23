@@ -1,0 +1,74 @@
+@-moz-document domain("imdb.com") {
+:root {
+    --bg-color: #222;
+    --font-white: #fff;
+    --font-blue: #2080cb
+}
+div.recently-viewed {
+    background-color: var(--bg-color);
+}
+
+/* list page */
+#wrapper,
+#pagecontent,
+div.pagecontent,
+.lister-widget .lister-header .nav,
+.lister-widget .lister-controls .nav {
+    background-color: var(--bg-color);
+    color: var(--font-white);
+}
+
+#wrapper .lister-widget .lister-item-header > a,
+#wrapper .lister-widget .lister-item-credits > a {
+    color: var(--font-blue);
+}
+
+p.plot.hidden-xs::before,
+p.plot.hidden-xs::after {
+    display: none;
+}
+
+/* movie page */
+.article,
+table,
+tr.odd,
+tr.even,
+.titlereference-list .ipl-zebra-list__item td {
+    background-color: var(--bg-color) !important;
+    color: var(--font-white);
+    border-color: #333;
+}
+
+.cast_list .character {
+    color: grey;
+    border-collapse: unset;
+}
+
+.titlereference-header h3 {
+    color: var(--font-blue);
+}
+
+div#sidebar {
+    display: none;
+}
+
+/* director, actor page */
+#maindetails_sidebar_bottom {
+    display: none;
+}
+
+.article h1.header span.itemprop,
+div.even,
+div.odd {
+    background-color: var(--bg-color);
+    color: var(--font-white);
+    border-color: #333;
+}
+
+#filmography .head,
+#filmography .head:hover {
+    background: unset;
+    text-shadow: unset;
+}
+
+}

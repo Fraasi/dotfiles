@@ -56,6 +56,11 @@ fi
 # don't put duplicate lines in the history
 # don't save commands which start with a space
 export HISTCONTROL=ignoredups:erasedups:ignorespace
+# append to history
+shopt -s histappend
+# increase history size
+export HISTSIZE=1000
+export HISTFILESIZE=2000
 
 # ls colors / https://www.howtogeek.com/307899/how-to-change-the-colors-of-directories-and-files-in-the-ls-command/
 # Normal Text: 0

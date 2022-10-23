@@ -1,74 +1,101 @@
 @-moz-document domain("imdb.com") {
-:root {
-    --bg-color: #222;
-    --font-white: #fff;
-    --font-blue: #2080cb
-}
-div.recently-viewed {
-    background-color: var(--bg-color);
-}
+  :root {
+      --bg-color: #222;
+      --font-white: #ddd;
+      --font-grey: #666;
+      --font-blue: #2080cb;
+      --border-color: #444;
+  }
 
-/* list page */
-#wrapper,
-#pagecontent,
-div.pagecontent,
-.lister-widget .lister-header .nav,
-.lister-widget .lister-controls .nav {
-    background-color: var(--bg-color);
-    color: var(--font-white);
-}
+  html,
+  body,
+  div.recently-viewed {
+      background-color: var(--bg-color);
+  }
 
-#wrapper .lister-widget .lister-item-header > a,
-#wrapper .lister-widget .lister-item-credits > a {
-    color: var(--font-blue);
-}
+  /* list page */
+  #wrapper,
+  #pagecontent,
+  div.pagecontent,
+  .lister-widget .lister-header .nav,
+  .lister-widget .lister-controls .nav {
+      background-color: var(--bg-color);
+      color: var(--font-white);
+  }
 
-p.plot.hidden-xs::before,
-p.plot.hidden-xs::after {
-    display: none;
-}
+  #wrapper .lister-widget .lister-item-header > a,
+  #wrapper .lister-widget .lister-item-credits > a {
+      color: var(--font-blue);
+  }
 
-/* movie page */
-.article,
-table,
-tr.odd,
-tr.even,
-.titlereference-list .ipl-zebra-list__item td {
-    background-color: var(--bg-color) !important;
-    color: var(--font-white);
-    border-color: #333;
-}
+  p.plot.hidden-xs::before,
+  p.plot.hidden-xs::after {
+      display: none;
+  }
 
-.cast_list .character {
-    color: grey;
-    border-collapse: unset;
-}
+  /* movie page */
+  .article,
+  table,
+  tr.odd,
+  tr.even,
+  .titlereference-list .ipl-zebra-list__item td {
+      background-color: var(--bg-color) !important;
+      color: var(--font-white);
+      border-color: var(--border-color);
+  }
 
-.titlereference-header h3 {
-    color: var(--font-blue);
-}
+  .cast_list .character {
+      color: var(--font-grey);
+      border-collapse: unset;
+  }
 
-div#sidebar {
-    display: none;
-}
+  .titlereference-header h3 {
+      color: var(--font-blue);
+  }
 
-/* director, actor page */
-#maindetails_sidebar_bottom {
-    display: none;
-}
+  div#sidebar {
+      display: none;
+  }
 
-.article h1.header span.itemprop,
-div.even,
-div.odd {
-    background-color: var(--bg-color);
-    color: var(--font-white);
-    border-color: #333;
-}
+  /* director, actor page */
+  #maindetails_sidebar_bottom {
+      display: none;
+  }
 
-#filmography .head,
-#filmography .head:hover {
-    background: unset;
-    text-shadow: unset;
-}
+  .article h1.header span.itemprop,
+  div.even,
+  div.odd {
+      background-color: var(--bg-color);
+      color: var(--font-white);
+      border-color: var(--border-color);
+  }
 
-}
+  #filmography .head,
+  #filmography .head:hover {
+      background: unset;
+      text-shadow: unset;
+  }
+
+  /* reviews page */
+  .lister>.header {
+      background: unset;
+  }
+
+  .imdb-user-review .title {
+      color: var(--font-white);
+  }
+
+  .text-muted {
+      color: var(--font-grey);
+  }
+
+  div.lister-list div.lister-item {
+      background: var(--bg-color) !important;
+  }
+
+  .lister-list .lister-item .gradient-container {
+      background: unset !important;
+  }
+
+
+  }

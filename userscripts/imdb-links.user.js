@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  Add video links to imdb pages
 // @author       Fraasi
 // @match        https://www.imdb.com/title/tt*
@@ -23,7 +23,7 @@
   let episodeCount = isEpisodePage ? document.querySelectorAll('.list_item').length : 0
   let selectedEpisode = 1
 
-  function createLink(text, bgColor, el = 'a') {
+  function createLink(text, el = 'a') {
     const styles = `
     z-index: 5;
     position: sticky;
@@ -33,11 +33,11 @@
     text-decoration: none;
     font-size: 16px;
     font-weight: bold;
-    color: whitesmoke;
+    color: #ddd;
     border-radius: 4px;
     border: 1px solid black;
-    box-shadow: 0px 3px 5px 2px #605084;
-    background-color: ${bgColor};`
+    box-shadow: #2080cb 0px 1px 2px 0px;
+    background-color: #121212;`
 
     const elem = document.createElement(el)
     elem.setAttribute('target', '_blank')
@@ -52,10 +52,6 @@
     const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
     vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
 
-    // const putSearchTitle = title.toLowerCase().replaceAll(' ', '+')
-    // const putSearchString = isEpisodePage ? `${putSearchTitle}+season+${season}` : putSearchTitle
-    // putlockerLink.setAttribute('href', `https://putlockers.gs/search-movies/${putSearchString}.html`)
-
     const watchfilmSearchTitle = title.toLowerCase().replaceAll(' ', '-')
     const watchfilmSearchString = `${watchfilmSearchTitle}-${year}`
     watchfilmLink.setAttribute('href', `https://ww22.watchfilm.net/search//${watchfilmSearchString}`)
@@ -64,9 +60,6 @@
     const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
     const crocoExtras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
     crocovidLink.setAttribute('href', `https://crocovid.com/?q=${title} ${crocoExtras}`)
-
-    soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
-    soundtrackLink.setAttribute('target', '')
 
     let epHTML = ''
     if (isEpisodePage) {
@@ -90,19 +83,20 @@
     }
   }
 
-  const vidsrcLink = createLink('vidsrc', '#e600e6')
-  //const putlockerLink = createLink('putlocker', '#46920e')
-  const watchfilmLink = createLink('watchfilm', '#08ab4b')
-  const crocovidLink = createLink('crocovid', '#7aae28')
-  const episodesSpan = createLink('', '#1f1f1f', 'span')
-  const soundtrackLink = createLink('soundtracks', '#f3ce00')
+  const vidsrcLink = createLink('vidsrc')
+  const watchfilmLink = createLink('watchfilm')
+  const crocovidLink = createLink('crocovid')
+  const episodesSpan = createLink('', 'span')
+  const soundtrackLink = createLink('soundtracks')
+  soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
+  soundtrackLink.setAttribute('target', '')
   const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
 
   wrapper.style.background = 'rgb(18, 18, 18)'
 
   if (isMainPage) {
     const langs = [...document.querySelectorAll('[href^="/language"]')].map(el => el.href.split('/').pop()).join(' / ')
-    const langLink = createLink(`languages: ${langs}`, '#666')
+    const langLink = createLink(`languages: ${langs}`)
     wrapper.prepend(langLink)
   }
 

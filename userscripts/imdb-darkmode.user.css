@@ -1,3 +1,12 @@
+/* ==UserStyle==
+@name         Imdb dark mode
+@author       fraasi
+@namespace    https://github.com/fraasi
+@version      1.0.0
+@license      MIT
+@preprocessor default
+@homepageURL  https://github.com/Fraasi/dotfiles/blob/master/userscripts/imdb-darkmode.user.css
+==/UserStyle== */
 @-moz-document domain("imdb.com") {
   :root {
       --bg-color: #222;
@@ -77,7 +86,7 @@
   }
 
   /* reviews page */
-  .lister>.header {
+  .lister > .header {
       background: unset;
   }
 
@@ -97,5 +106,39 @@
       background: unset !important;
   }
 
-
+  /* search page */
+  #main > div > h1 {
+      color: var(--font-grey);
   }
+
+  #main > div > h1.findHeader > span.findSearchTerm {
+      color: var(--font-white);
+  }
+
+  #main .findSection > .findMoreMatches {
+      background-color: var(--bg-color);
+  }
+
+  /* Episode List page */
+  #episodes_content > div.seasonAndYearNav,
+  select#byYear,
+  select#bySeason {
+      color: var(--font-grey);
+      background: unset;
+  }
+
+  /* refine list block */
+  #wrapper .lister-widget .faceter-content,
+  #wrapper .lister-widget .faceter-fieldset,
+  .lister-widget .faceter-categories > ul > li:hover,
+  .lister-widget .faceter-categories > ul > li.active {
+      background: unset;
+  }
+
+  /* input fields */
+  .lister-widget .lister-control-group select,
+  .lister-widget .header-actions select,
+  .lister-widget .lister-controls .working {
+      background: unset;
+  }
+}

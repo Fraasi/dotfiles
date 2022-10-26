@@ -8,137 +8,168 @@
 @homepageURL  https://github.com/Fraasi/dotfiles/blob/master/userscripts/imdb-darkmode.user.css
 ==/UserStyle== */
 @-moz-document domain("imdb.com") {
-  :root {
-      --bg-color: #222;
-      --font-white: #ddd;
-      --font-grey: #666;
-      --font-blue: #2080cb;
-      --border-color: #444;
-  }
+    :root {
+        --bg-color: #222;
+        --font-white: #ddd;
+        --font-grey: #666;
+        --font-blue: #2b8fdf;
+        --border-color: #444;
+    }
 
-  html,
-  body,
-  div.recently-viewed {
-      background-color: var(--bg-color);
-  }
+    html,
+    body,
+    div.recently-viewed {
+        background-color: var(--bg-color);
+    }
+    
+    a:link {
+        color: var(--font-blue);
+    }
 
-  /* list page */
-  #wrapper,
-  #pagecontent,
-  div.pagecontent,
-  .lister-widget .lister-header .nav,
-  .lister-widget .lister-controls .nav {
-      background-color: var(--bg-color);
-      color: var(--font-white);
-  }
+    /* list page */
+    #wrapper,
+    #pagecontent,
+    div.pagecontent,
+    .lister-widget .lister-header .nav,
+    .lister-widget .lister-controls .nav {
+        background-color: var(--bg-color);
+        color: var(--font-white);
+    }
 
-  #wrapper .lister-widget .lister-item-header > a,
-  #wrapper .lister-widget .lister-item-credits > a {
-      color: var(--font-blue);
-  }
+    #wrapper .lister-widget .lister-item-header > a,
+    #wrapper .lister-widget .lister-item-credits > a{
+        color: var(--font-blue);
+    }
+    
+    .lister-widget .ratings-bar>div {
+        color: var(--font-grey);
+    }
+    
+    .lister-widget .lister-list.mode-detail>* {
+        border-bottom-color: var(--font-grey);
+    }
 
-  p.plot.hidden-xs::before,
-  p.plot.hidden-xs::after {
-      display: none;
-  }
+    p.plot.hidden-xs::before,
+    p.plot.hidden-xs::after {
+        display: none;
+    }
 
-  /* movie page */
-  .article,
-  table,
-  tr.odd,
-  tr.even,
-  .titlereference-list .ipl-zebra-list__item td {
-      background-color: var(--bg-color) !important;
-      color: var(--font-white);
-      border-color: var(--border-color);
-  }
+    /* movie page */
+    .article,
+    table,
+    tr.odd,
+    tr.even,
+    .titlereference-list .ipl-zebra-list__item td {
+        background-color: var(--bg-color) !important;
+        color: var(--font-white);
+        border-color: var(--border-color);
+    }
 
-  .cast_list .character {
-      color: var(--font-grey);
-      border-collapse: unset;
-  }
+    .cast_list .character {
+        color: var(--font-grey);
+        border-collapse: unset;
+    }
 
-  .titlereference-header h3 {
-      color: var(--font-blue);
-  }
+    .titlereference-header h3 {
+        color: var(--font-white);
+    }
 
-  div#sidebar {
-      display: none;
-  }
+    div#sidebar,
+    .titlereference-change-view-link {
+        display: none;
+    }
 
-  /* director, actor page */
-  #maindetails_sidebar_bottom {
-      display: none;
-  }
+    /* name page */
+    #maindetails_sidebar_bottom,
+    #prometer_container,
+    table#name-overview-widget-layout td#overview-middle div.pro-list {
+        display: none;
+    }
+    
+    .redesign .article.highlighted {
+        border: unset;
+    }
+    
+    div.infobar a span.itemprop {
+        color: var(--font-blue);
+    }
 
-  .article h1.header span.itemprop,
-  div.even,
-  div.odd {
-      background-color: var(--bg-color);
-      color: var(--font-white);
-      border-color: var(--border-color);
-  }
+    .article h1.header span.itemprop,
+    div.even,
+    div.odd,
+    .article.name-overview {
+        background-color: var(--bg-color);
+        color: var(--font-white);
+        border-color: var(--border-color);
+    }
 
-  #filmography .head,
-  #filmography .head:hover {
-      background: unset;
-      text-shadow: unset;
-  }
+    #filmography .head,
+    #filmography .head:hover {
+        background: unset;
+        text-shadow: unset;
+    }
 
-  /* reviews page */
-  .lister > .header {
-      background: unset;
-  }
+    /* reviews page */
+    .lister > .header {
+        background: unset;
+    }
 
-  .imdb-user-review .title {
-      color: var(--font-white);
-  }
+    .imdb-user-review .title {
+        color: var(--font-white);
+    }
 
-  .text-muted {
-      color: var(--font-grey);
-  }
+    .text-muted {
+        color: var(--font-grey);
+    }
 
-  div.lister-list div.lister-item {
-      background: var(--bg-color) !important;
-  }
+    div.lister-list div.lister-item {
+        background: var(--bg-color) !important;
+    }
 
-  .lister-list .lister-item .gradient-container {
-      background: unset !important;
-  }
+    .lister-list .lister-item .gradient-container {
+        background: unset !important;
+    }
 
-  /* search page */
-  #main > div > h1 {
-      color: var(--font-grey);
-  }
+    /* search page */
+    #main > div > h1 {
+        color: var(--font-grey);
+    }
 
-  #main > div > h1.findHeader > span.findSearchTerm {
-      color: var(--font-white);
-  }
+    #main > div > h1.findHeader > span.findSearchTerm {
+        color: var(--font-white);
+    }
 
-  #main .findSection > .findMoreMatches {
-      background-color: var(--bg-color);
-  }
+    #main .findSection > .findMoreMatches {
+        background-color: var(--bg-color);
+    }
 
-  /* Episode List page */
-  #episodes_content > div.seasonAndYearNav,
-  select#byYear,
-  select#bySeason {
-      color: var(--font-grey);
-      background: unset;
-  }
+    /* Episode List page */
+    #episodes_content > div.seasonAndYearNav,
+    select#byYear,
+    select#bySeason {
+        color: var(--font-grey);
+        background: unset;
+    }
 
-  /* refine list block */
-  #wrapper .lister-widget .faceter-content,
-  #wrapper .lister-widget .faceter-fieldset,
-  .lister-widget .faceter-categories > ul > li:hover,
-  .lister-widget .faceter-categories > ul > li.active {
-      background: unset;
-  }
+    /* refine list block */
+    #wrapper .lister-widget .faceter-content,
+    #wrapper .lister-widget .faceter-fieldset,
+    .lister-widget .faceter-categories > ul > li:hover,
+    .lister-widget .faceter-categories > ul > li.active {
+        background: unset;
+    }
 
-  /* input fields */
-  .lister-widget .lister-control-group select,
-  .lister-widget .header-actions select,
-  .lister-widget .lister-controls .working {
-      background: unset;
-  }
+    /* input field */
+    .lister-widget .lister-control-group select,
+    .lister-widget .header-actions select,
+    .lister-widget .lister-controls .working {
+        background: unset;
+    }
+    
+    /* ratings page  */
+    .listo .header .nav {
+        background-image: unset;
+        background-color: var(--bg-color);
+        border-top: unset;
+    }
 }

@@ -1,8 +1,9 @@
 /* ==UserStyle==
 @name         Imdb dark mode
+@version      1.0.0
 @author       fraasi
 @namespace    https://github.com/fraasi
-@version      1.0.0
+@description  Imdb-darkmode for the 'reference view with full cast and crew (advanced view)', NOT the new shitty one
 @license      MIT
 @preprocessor default
 @homepageURL  https://github.com/Fraasi/dotfiles/blob/master/userscripts/imdb-darkmode.user.css
@@ -18,10 +19,11 @@
 
     html,
     body,
+    #root,
     div.recently-viewed {
         background-color: var(--bg-color);
     }
-    
+
     a:link {
         color: var(--font-blue);
     }
@@ -37,21 +39,29 @@
     }
 
     #wrapper .lister-widget .lister-item-header > a,
-    #wrapper .lister-widget .lister-item-credits > a{
+    #wrapper .lister-widget .lister-item-credits > a {
         color: var(--font-blue);
     }
-    
-    .lister-widget .ratings-bar>div {
+
+    .lister-widget .star-rating-value,
+    .lister-widget .ratings-bar > div {
         color: var(--font-grey);
     }
-    
-    .lister-widget .lister-list.mode-detail>* {
+
+    .lister-widget .lister-list.mode-detail > * {
         border-bottom-color: var(--font-grey);
     }
 
     p.plot.hidden-xs::before,
     p.plot.hidden-xs::after {
         display: none;
+    }
+
+    .wl-ribbon.poster,
+    .wl-ribbon.poster.retinar,
+    .wl-ribbon.standalone,
+    .wl-ribbon.standalone.retina {
+        filter: saturate(1.5);
     }
 
     /* movie page */
@@ -85,11 +95,11 @@
     table#name-overview-widget-layout td#overview-middle div.pro-list {
         display: none;
     }
-    
+
     .redesign .article.highlighted {
         border: unset;
     }
-    
+
     div.infobar a span.itemprop {
         color: var(--font-blue);
     }
@@ -130,6 +140,10 @@
         background: unset !important;
     }
 
+    hr {
+        border-top: 1px solid var(--font-grey);
+    }
+
     /* search page */
     #main > div > h1 {
         color: var(--font-grey);
@@ -165,7 +179,7 @@
     .lister-widget .lister-controls .working {
         background: unset;
     }
-    
+
     /* ratings page  */
     .listo .header .nav {
         background-image: unset;

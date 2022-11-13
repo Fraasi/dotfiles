@@ -27,6 +27,10 @@
     a:link {
         color: var(--font-blue);
     }
+    
+    .ipl-rating-selector__rating-value {
+        color: var(--font-grey);
+    }
 
     /* list page */
     #wrapper,
@@ -82,6 +86,11 @@
 
     .titlereference-header h3 {
         color: var(--font-white);
+    }
+
+    .titlereference-header hr:nth-child(n+1):nth-child(-n+2) {
+        color: red;
+        display: none;
     }
 
     div#sidebar,
@@ -166,11 +175,15 @@
     }
 
     /* refine list block */
-    #wrapper .lister-widget .faceter-content,
+/*     #wrapper .lister-widget .faceter-content,
     #wrapper .lister-widget .faceter-fieldset,
-    .lister-widget .faceter-categories > ul > li:hover,
+    .lister-widget .faceter-categories > ul > li:hover, */
     .lister-widget .faceter-categories > ul > li.active {
         background: unset;
+    }
+    
+    #wrapper .lister-widget .faceter-fieldset, #wrapper .lister-widget .faceter-content {
+        background-color: var(--bg-color);
     }
 
     /* input field */
@@ -185,5 +198,14 @@
         background-image: unset;
         background-color: var(--bg-color);
         border-top: unset;
+    }
+    
+    /* plotsummary page */
+    .ipl-itemcount-header {
+        background-image: unset;
+    }
+    
+    ul.ipl-zebra-list li.ipl-zebra-list__item {
+        background-color: var(--bg-color) !important;
     }
 }

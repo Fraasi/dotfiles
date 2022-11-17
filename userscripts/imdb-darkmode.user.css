@@ -1,211 +1,215 @@
 /* ==UserStyle==
 @name         Imdb dark mode
-@version      1.0.0
+@version      1.1.0
 @author       fraasi
 @namespace    https://github.com/fraasi
-@description  Imdb-darkmode for the 'reference view with full cast and crew (advanced view)', NOT the new shitty one
+@description  Imdb darkmode stylings
 @license      MIT
 @preprocessor default
 @homepageURL  https://github.com/Fraasi/dotfiles/blob/master/userscripts/imdb-darkmode.user.css
 ==/UserStyle== */
 @-moz-document domain("imdb.com") {
-    :root {
-        --bg-color: #222;
-        --font-white: #ddd;
-        --font-grey: #666;
-        --font-blue: #2b8fdf;
-        --border-color: #444;
-    }
+  :root {
+    --bg-color: #222;
+    --font-white: #ddd;
+    --font-grey: #666;
+    --font-blue: #2b8fdf;
+    --border-color: #444;
 
-    html,
-    body,
-    #root,
-    div.recently-viewed {
-        background-color: var(--bg-color);
-    }
+    /* override imdb base colors */
+    --ipt-base-bg: var(--bg-color);
+    --ipc-pageSection-base-bg: var(--bg-color);
+    --ipt-on-base-textPrimary-color: var(--font-white);
+    --ipt-on-base-textSecondary-color: var(--font-grey);
+    --ipt-base-border-color: var(--border-color);
+    --ipc-listCard-base-bg: var(--bg-color);
+    --ipt-base-shade3-bg: var(--bg-color)
+  }
 
-    a:link {
-        color: var(--font-blue);
-    }
-    
-    .ipl-rating-selector__rating-value {
-        color: var(--font-grey);
-    }
+  html,
+  body,
+  #root,
+  div.recently-viewed {
+    background-color: var(--bg-color);
+  }
 
-    /* list page */
-    #wrapper,
-    #pagecontent,
-    div.pagecontent,
-    .lister-widget .lister-header .nav,
-    .lister-widget .lister-controls .nav {
-        background-color: var(--bg-color);
-        color: var(--font-white);
-    }
+  a:link {
+    color: var(--font-blue);
+  }
 
-    #wrapper .lister-widget .lister-item-header > a,
-    #wrapper .lister-widget .lister-item-credits > a {
-        color: var(--font-blue);
-    }
+  .ipl-rating-selector__rating-value {
+    color: var(--font-grey);
+  }
 
-    .lister-widget .star-rating-value,
-    .lister-widget .ratings-bar > div {
-        color: var(--font-grey);
-    }
+  /* list page */
+  #wrapper,
+  #pagecontent,
+  div.pagecontent,
+  .lister-widget .lister-header .nav,
+  .lister-widget .lister-controls .nav {
+    background-color: var(--bg-color);
+    color: var(--font-white);
+  }
 
-    .lister-widget .lister-list.mode-detail > * {
-        border-bottom-color: var(--font-grey);
-    }
+  #wrapper .lister-widget .lister-item-header>a,
+  #wrapper .lister-widget .lister-item-credits>a {
+    color: var(--font-blue);
+  }
 
-    p.plot.hidden-xs::before,
-    p.plot.hidden-xs::after {
-        display: none;
-    }
+  .lister-widget .star-rating-value,
+  .lister-widget .ratings-bar>div {
+    color: var(--font-grey);
+  }
 
-    .wl-ribbon.poster,
-    .wl-ribbon.poster.retinar,
-    .wl-ribbon.standalone,
-    .wl-ribbon.standalone.retina {
-        filter: saturate(1.5);
-    }
+  .lister-widget .lister-list.mode-detail>* {
+    border-bottom-color: var(--font-grey);
+  }
 
-    /* movie page */
-    .article,
-    table,
-    tr.odd,
-    tr.even,
-    .titlereference-list .ipl-zebra-list__item td {
-        background-color: var(--bg-color) !important;
-        color: var(--font-white);
-        border-color: var(--border-color);
-    }
+  p.plot.hidden-xs::before,
+  p.plot.hidden-xs::after {
+    display: none;
+  }
 
-    .cast_list .character {
-        color: var(--font-grey);
-        border-collapse: unset;
-    }
+  .wl-ribbon.poster,
+  .wl-ribbon.poster.retinar,
+  .wl-ribbon.standalone,
+  .wl-ribbon.standalone.retina {
+    filter: saturate(1.5);
+  }
 
-    .titlereference-header h3 {
-        color: var(--font-white);
-    }
+  /* movie page */
+  .article,
+  table,
+  tr.odd,
+  tr.even,
+  .titlereference-list .ipl-zebra-list__item td {
+    background-color: var(--bg-color) !important;
+    color: var(--font-white);
+    border-color: var(--border-color);
+  }
 
-    .titlereference-header hr:nth-child(n+1):nth-child(-n+2) {
-        color: red;
-        display: none;
-    }
+  .cast_list .character {
+    color: var(--font-grey);
+    border-collapse: unset;
+  }
 
-    div#sidebar,
-    .titlereference-change-view-link {
-        display: none;
-    }
+  .titlereference-header h3 {
+    color: var(--font-white);
+  }
 
-    /* name page */
-    #maindetails_sidebar_bottom,
-    #prometer_container,
-    table#name-overview-widget-layout td#overview-middle div.pro-list {
-        display: none;
-    }
+  .titlereference-header hr:nth-child(n+1):nth-child(-n+2) {
+    color: red;
+    display: none;
+  }
 
-    .redesign .article.highlighted {
-        border: unset;
-    }
+  div#sidebar,
+  .titlereference-change-view-link {
+    display: none;
+  }
 
-    div.infobar a span.itemprop {
-        color: var(--font-blue);
-    }
+  /* name page */
+  #maindetails_sidebar_bottom,
+  #prometer_container,
+  table#name-overview-widget-layout td#overview-middle div.pro-list {
+    display: none;
+  }
 
-    .article h1.header span.itemprop,
-    div.even,
-    div.odd,
-    .article.name-overview {
-        background-color: var(--bg-color);
-        color: var(--font-white);
-        border-color: var(--border-color);
-    }
+  .redesign .article.highlighted {
+    border: unset;
+  }
 
-    #filmography .head,
-    #filmography .head:hover {
-        background: unset;
-        text-shadow: unset;
-    }
+  div.infobar a span.itemprop {
+    color: var(--font-blue);
+  }
 
-    /* reviews page */
-    .lister > .header {
-        background: unset;
-    }
+  .article h1.header span.itemprop,
+  div.even,
+  div.odd,
+  .article.name-overview {
+    background-color: var(--bg-color);
+    color: var(--font-white);
+    border-color: var(--border-color);
+  }
 
-    .imdb-user-review .title {
-        color: var(--font-white);
-    }
+  #filmography .head,
+  #filmography .head:hover {
+    background: unset;
+    text-shadow: unset;
+  }
 
-    .text-muted {
-        color: var(--font-grey);
-    }
+  /* reviews page */
+  .lister>.header {
+    background: unset;
+  }
 
-    div.lister-list div.lister-item {
-        background: var(--bg-color) !important;
-    }
+  .imdb-user-review .title {
+    color: var(--font-white);
+  }
 
-    .lister-list .lister-item .gradient-container {
-        background: unset !important;
-    }
+  .text-muted {
+    color: var(--font-grey);
+  }
 
-    hr {
-        border-top: 1px solid var(--font-grey);
-    }
+  div.lister-list div.lister-item {
+    background: var(--bg-color) !important;
+  }
 
-    /* search page */
-    #main > div > h1 {
-        color: var(--font-grey);
-    }
+  .lister-list .lister-item .gradient-container {
+    background: unset !important;
+  }
 
-    #main > div > h1.findHeader > span.findSearchTerm {
-        color: var(--font-white);
-    }
+  hr {
+    border-top: 1px solid var(--font-grey);
+  }
 
-    #main .findSection > .findMoreMatches {
-        background-color: var(--bg-color);
-    }
+  /* Episode List page */
+  #episodes_content>div.seasonAndYearNav,
+  select#byYear,
+  select#bySeason {
+    color: var(--font-grey);
+    background: unset;
+  }
 
-    /* Episode List page */
-    #episodes_content > div.seasonAndYearNav,
-    select#byYear,
-    select#bySeason {
-        color: var(--font-grey);
-        background: unset;
-    }
+  /* refine list block */
+  /*     #wrapper .lister-widget .faceter-content,
+  #wrapper .lister-widget .faceter-fieldset,
+  .lister-widget .faceter-categories > ul > li:hover, */
+  .lister-widget .faceter-categories>ul>li.active {
+    background: unset;
+  }
 
-    /* refine list block */
-/*     #wrapper .lister-widget .faceter-content,
-    #wrapper .lister-widget .faceter-fieldset,
-    .lister-widget .faceter-categories > ul > li:hover, */
-    .lister-widget .faceter-categories > ul > li.active {
-        background: unset;
-    }
-    
-    #wrapper .lister-widget .faceter-fieldset, #wrapper .lister-widget .faceter-content {
-        background-color: var(--bg-color);
-    }
+  #wrapper .lister-widget .faceter-fieldset,
+  #wrapper .lister-widget .faceter-content {
+    background-color: var(--bg-color);
+  }
 
-    /* input field */
-    .lister-widget .lister-control-group select,
-    .lister-widget .header-actions select,
-    .lister-widget .lister-controls .working {
-        background: unset;
-    }
+  /* input field */
+  .lister-widget .lister-control-group select,
+  .lister-widget .header-actions select,
+  .lister-widget .lister-controls .working {
+    background: unset;
+  }
 
-    /* ratings page  */
-    .listo .header .nav {
-        background-image: unset;
-        background-color: var(--bg-color);
-        border-top: unset;
-    }
-    
-    /* plotsummary page */
-    .ipl-itemcount-header {
-        background-image: unset;
-    }
-    
-    ul.ipl-zebra-list li.ipl-zebra-list__item {
-        background-color: var(--bg-color) !important;
-    }
+  /* ratings page  */
+  .listo .header .nav {
+    background-image: unset;
+    background-color: var(--bg-color);
+    border-top: unset;
+  }
+
+  /* plotsummary page */
+  .ipl-itemcount-header {
+    background-image: unset;
+  }
+
+  ul.ipl-zebra-list li.ipl-zebra-list__item {
+    background-color: var(--bg-color) !important;
+  }
+
+  /* help pages */
+  #article_content,
+  #article_content ol,
+  #article_content ul {
+    color: var(--font-white);
+  }
 }

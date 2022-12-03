@@ -5,7 +5,7 @@
 # & optionally encrypt the file for backup purposes
 
 ENV_FILES=$(find . -maxdepth 2 -regextype posix-extended -regex '.*(.env(.local)?|env.js)$')
-SAVE_FILE="envs_$(date '+%d-%m-%Y').txt"
+SAVE_FILE="envs_$(date '+%Y-%m-%d').txt"
 
 if [[ -z "$ENV_FILES" ]]; then
   echo -e '\nNo env files found with -maxdepth 2 from: ' "$PWD"
@@ -29,7 +29,7 @@ esac
 
 {
   echo -e '***********************\n'
-  date '+%d-%m-%Y %T'
+  date '+%Y-%m-%d %T'
   echo -e '\n***********************\n'
 } > "$SAVE_FILE"
 

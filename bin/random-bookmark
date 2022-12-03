@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+bookmarks=( $(grep http "/C/Users/$(whoami)/AppData/Local/Vivaldi/User Data/Default/Bookmarks" | grep -Ev 'Description|Thumbnail|"name"' | sed 's/\"url\"://') )
+b_length=${#bookmarks[@]}
+rand_num=$(( RANDOM % b_length ))
+url=$( echo ${bookmarks[$rand_num]} | sed 's/\"//g' )
+printf "%d bookmarks\n%s" "$b_length" "$url" ; start "$url"
+

@@ -7,7 +7,7 @@
 	name = Fraasi
 	email = fraasi.gh@gmail.com
 [credential]
-	helper = wincred
+	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager-core.exe
 [alias]
 	s = status -sb
 	b = branch

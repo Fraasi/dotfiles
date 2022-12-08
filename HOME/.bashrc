@@ -8,6 +8,19 @@ export EDITOR=vim
 # bash-jump starter folder
 export BASH_JUMP="G:\\Code"
 
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+# Case-insensitive globbing (used in pathname expansion)
+shopt -s nocaseglob
+# Autocorrect typos in path names when using `cd`
+shopt -s cdspell
+# When running commands like cat dirname/test, have the shell fix minor typos
+shopt -s dirspell
+# Allow us to use Ctrl+S to perform forward search, by disabling the start and
+# stop output control signals, which are not needed on modern systems.
+stty -ixon
+
 # cd lookup paths, in case of trouble unset: https://bosker.wordpress.com/2012/02/12/bash-scripters-beware-of-the-cdpath/
 CDPATH=".:$HOME:$HOME/Desktop:/g/Code/"
 
@@ -16,21 +29,22 @@ CDPATH=".:$HOME:$HOME/Desktop:/g/Code/"
 
 # aliases
 alias ..="cd .."
+alias bat="batcat"
 alias desktop="cd ~/Desktop/"
 alias df="df -h"
 alias e="echo"
 alias grep="grep --color=auto"
 alias g="goto"
 alias gt="goto"
+alias ld="ls -ld */"   # List in long format, only directories
 alias li="ls -1AX --color=auto"
-alias ll="ls -lX --color=auto"
+alias ll="ls -lXh --color=auto"
 alias ls="ls -F --color=auto"
 alias mv="mv -iv"
 alias n="notes"
-# alias node="winpty node.exe"
 alias np="node -p"
-alias np++="start notepad++"
-alias tree="tree.com //a"
+# alias np++="start notepad++"
+# alias tree="tree.com //a"
 
 #git bash prompt env variables to show
 export GIT_PS1_SHOWCOLORHINTS=1
@@ -46,10 +60,10 @@ export GIT_PS1_SHOWUPSTREAM="auto verbose"
 source ~/functions.sh
 
 # put goto to environment
-if [[ -f ~/goto.sh ]]; then
-  source ~/goto.sh
+if [[ -f /usr/local/bin/goto.sh ]]; then
+  source /usr/local/bin/goto.sh
 else
-  echo 'goto.sh not found in ~'
+  echo 'goto.sh not found'
   echo 'https://github.com/iridakos/goto'
 fi
 

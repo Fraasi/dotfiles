@@ -11,19 +11,20 @@
 [alias]
 	s = status -sb
 	b = branch
-  d = diff --stat master origin/master # git fetch first
+    d = diff --stat master origin/master # git fetch first
 	co = checkout
 	aa = add --all
 	c = commit
 	cm = commit -m
 	acm = "!git add -A && git commit -m"
-	wc = whatchanged
+    files-changed = show --pretty="" --name-status
 	ca = commit --amend
 	po = push origin
 	ls = log --oneline --stat --graph
-  cg = config --global
+    cg = config --global
 	ignored = status --ignored -s
 	alias = "!git config --get-regexp ^alias"
+	ll = log --graph --format=\"%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)\" # for fzf_git_log function in .bashrc
 [grep]
 	lineNumber = true
 [color]

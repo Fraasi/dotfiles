@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+export FZF_ALT_C_OPTS="--preview 'tree {} | head -100'"
+export FZF_DEFAULT_OPTS="
+  --height 90% --multi --layout reverse --border --info inline
+  --bind 'ctrl-j:preview-page-down,ctrl-k:preview-page-up'
+  --no-mouse
+"
+
+# https://bluz71.github.io/2018/11/26/fuzzy-finding-in-bash-with-fzf.html
+fzf_find_edit() {
+    local file=$(
+      fzf --query="$1" --no-multi --select-1 --exit-0 \
+          --preview 'bat --color=always --line-range :500 {}'
+      )
+    if [[ -n $file ]]; then
+        $EDITOR "$file"
+    fi
+}
+
+# needs 'git config --global alias.ll 'log --graph --format="%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)"'
+fzf_git_log() {
+    local selections=$(
+      git ll --color=always "$@" |
+        fzf --ansi --no-sort --no-height \
+            --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+                       xargs -I@ sh -c 'git show --color=always @'"
+      )
+    if [[ -n $selections ]]; then
+        local commits=$(echo "$selections" | sed 's/^[* |]*//' | cut -d' ' -f1 | tr '\n' ' ')
+        # do not quote this, unquoted is needed here to work
+        git show $commits
+    fi
+}
+
+alias f="fzf"
+alias fp="fzf \
+	--color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899' \
+	--preview 'bat --style=numbers --color=always --line-range :300 {}'
+"
+alias ffe='fzf_find_edit'
+alias fgl='fzf_git_log'
+
+# Append this line to ~/.bashrc to enable fzf keybindings for Bash:
+source /usr/share/doc/fzf/examples/key-bindings.bash
+
+# Append this line to ~/.bashrc to enable fuzzy auto-completion for Bash:
+# source /usr/share/doc/fzf/examples/completion.bash

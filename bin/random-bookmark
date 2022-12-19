@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2207,SC2001
 #
-# get & open a random bookmark from vivaldi's bookmarks
+# get & open a random bookmark(s) from vivaldi's bookmarks
+# usage <filename> [num_of_bookmarks]
+
+num=${1:-1}
+(( num > 10 )) && num=10
 
 path="/c/Users/$(whoami)/AppData/Local/Vivaldi/User Data/Default/Bookmarks"
-if [[ $(uname) = "Linux" ]]; then
-    path="/mnt$path"
-fi
+[[ $(uname) = "Linux" ]] && path="/mnt$path"
 
 bookmarks=($(grep http "$path" | grep -Ev 'Description|Thumbnail|"name"' | sed 's/\"url\"://'))
-
 b_length=${#bookmarks[@]}
-rand_num=$((RANDOM % b_length))
-url=$(echo "${bookmarks[$rand_num]}" | sed 's/\"//g')
-printf "%d bookmarks\n%s\n" "$b_length" "$url"
-explorer.exe "$url"
+printf "%d bookmarks\n" "$b_length"
+
+for (( i=num; i>0; i-- )); do
+  rand_num=$((RANDOM % b_length))
+  url=$(echo "${bookmarks[$rand_num]}" | sed 's/\"//g')
+  printf "%s\n" "$url"
+  explorer.exe "$url"
+done
+

@@ -7,7 +7,7 @@
 	name = fraasi
 	email = fraasi.gh@gmail.com
 [credential]
-	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager-core.exe
+	helper = /c/Program\\ Files/Git/mingw64/bin/git-credential-manager-core.exe
 [alias]
 	s = status -sb
 	b = branch
@@ -34,5 +34,5 @@
 [credential "https://git.heroku.com"]
 	provider = generic
 [diff]
-  tool = vimdiff
-  wsErrorHighlight = all
+    tool = vimdiff
+    wsErrorHighlight = all

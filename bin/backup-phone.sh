@@ -8,10 +8,10 @@
 declare -a folders=(DCIM Download Pictures)
 
 # adb doesnt work well with wsl, run from windows side
-adb="/mnt/c/Program Files/platform-tools/adb.exe"
+adb="/c/Program Files/platform-tools/adb.exe"
 
 temp_dir=$(mktemp -d --suffix="_$(basename "${0%.*}")")
-bc_dir="/mnt/d/Aza/Phone/backup"
+bc_dir="/d/Aza/Phone/backup"
 log_name="last_update.log"
 log_path="$bc_dir/$log_name"
 

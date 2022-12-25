@@ -130,3 +130,14 @@ function log-datetime() {
 function tre() {
     tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
 }
+
+# better du
+# du-xh <directory> [max-depth]
+function du-xh() {
+    du -xh --max-depth="${2:-1}" "$1"
+}
+
+# https://github.com/stuartleeks/wsl-notify-send
+notify-send() {
+    wsl-notify-send.exe --category "$WSL_DISTRO_NAME" "${@}"
+}

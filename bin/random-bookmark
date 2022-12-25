@@ -8,7 +8,6 @@ num=${1:-1}
 (( num > 10 )) && num=10
 
 path="/c/Users/$(whoami)/AppData/Local/Vivaldi/User Data/Default/Bookmarks"
-[[ $(uname) = "Linux" ]] && path="/mnt$path"
 
 bookmarks=($(grep http "$path" | grep -Ev 'Description|Thumbnail|"name"' | sed 's/\"url\"://'))
 b_length=${#bookmarks[@]}

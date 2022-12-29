@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Global search focus hotkey
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/fraasi
 // @version      0.1
 // @description  hotkey to focus search input on any page
 // @author       Fraasi

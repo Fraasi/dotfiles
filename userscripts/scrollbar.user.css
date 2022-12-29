@@ -1,0 +1,26 @@
+/* ==UserStyle==
+@name           Scrollbar tweaks
+@namespace      https://github.com/fraasi
+@version        1.0.0
+@description    Scrollbar color fixes
+@author         fraasi
+==/UserStyle== */
+@-moz-document regexp(".*") {
+    html::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    html::-webkit-scrollbar-track {
+        background: #2e2f37;
+        border-left: 1px solid #525252;
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    html::-webkit-scrollbar-thumb {
+        background: #525252;
+    }
+
+    html::-webkit-scrollbar-thumb:hover {
+        background: #5e5e5e;
+    }
+}

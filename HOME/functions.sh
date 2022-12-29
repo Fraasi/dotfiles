@@ -113,7 +113,7 @@ function log-datetime() {
             ;;
         *)
             printf "Usage: %s [-t | -d]
-  Display the current time & date in Y-m-d H:M:S format
+  Display the current date & time in Y-m-d H:M:S format
 
   -t  print only time
   -d  print only date" "${FUNCNAME[0]}"
@@ -138,6 +138,6 @@ function du-xh() {
 }
 
 # https://github.com/stuartleeks/wsl-notify-send
-notify-send() {
+function notify-send() {
     wsl-notify-send.exe --category "$WSL_DISTRO_NAME" "${@}"
 }

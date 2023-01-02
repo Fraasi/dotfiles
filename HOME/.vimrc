@@ -12,6 +12,8 @@ let g:onedark_color_overrides = {
   \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
   \}
 colorscheme onedark
+" loads all plugins?
+packloadall
 
 """"""""""""""""""""""""""""""""""""""
 " Shortcuts
@@ -34,6 +36,8 @@ nnoremap <leader>v <c-v>
 " un/comment line with #
 nnoremap gc 0i#<Esc>
 nnoremap gu 0x
+" run prettier on
+nmap <Leader>p <Plug>(Prettier)
 
 """""""""""""""""""""""""""""""""""""
 " Indents

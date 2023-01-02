@@ -94,7 +94,7 @@ LS_COLORS='rs=0:di=01;36:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:c
 export LS_COLORS
 
 # NNN hack to quitCD on ctrl+G
-n () {
+ee() {
     # Block nesting of nnn in subshells
     if [[ "${NNNLVL:-0}" -ge 1 ]]; then
         echo "nnn is already running"
@@ -104,7 +104,7 @@ n () {
     # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
     # If NNN_TMPFILE is set to a custom path, it must be exported for nnn to
     # see. To cd on quit only on ^G, remove the "export" and make sure not to
-    # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
+   # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
     # export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
 

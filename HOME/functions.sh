@@ -32,13 +32,13 @@ function win-man() {
     if [[ -z $1 ]]; then
         echo "Usage: man [-w] <bash command>"
     elif [[ $1 == '-w' ]]; then
-        start "https://ss64.com/bash/$2.html"
+        explorer.exe "https://ss64.com/bash/$2.html"
     elif (builtin "$1" >/dev/null 2>&1); then
         help "$1" | less
     elif ("$1" --help >/dev/null 2>&1); then
         "$1" --help | less
     else
-        start "https://ss64.com/bash/$1.html"
+        explorer.exe "https://ss64.com/bash/$1.html"
     fi
 }
 

@@ -92,7 +92,16 @@ set cmdheight=2
 set showcmd
 
 " autocomplete menu
+" On first tab hit, complete as much as possible. The second tab hit will provide a list. The third and subsequent tabs will cycle through completion options so you can complete the file without further keys. https://stackoverflow.com/questions/526858/how-do-i-make-vim-do-normal-bash-like-tab-completion-for-file-names
+" set wildmode=longest:full,full"
+set wildmode=longest,list,full
 set wildmenu
 
 " allows folding code blocks for easier navigation through the code.
 set foldenable
+
+" location of swap files
+" // means that the directory information will be saved in the filename
+set directory=/tmp//
+set backupdir=/tmp//
+set undodir=/tmp//

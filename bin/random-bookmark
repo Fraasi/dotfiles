@@ -4,8 +4,8 @@
 # get & open a random bookmark(s) from vivaldi's bookmarks
 # usage <filename> [num_of_bookmarks]
 
-num=${1:-1}
-(( num > 10 )) && num=10
+num=${1:-10}
+(( num > 15 )) && num=15
 
 path="/c/Users/$(whoami)/AppData/Local/Vivaldi/User Data/Default/Bookmarks"
 

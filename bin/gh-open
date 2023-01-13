@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 if [[ -n "$1" ]]; then
-  start "https://github.com/$USERNAME/$1"
+  explorer.exe "https://github.com/$USER/$1"
 else
   git config remote.origin.url 1>/dev/null &&
-    start "$(git config remote.origin.url | cut -f1-2 -d.)" ||
+    explorer.exe "$(git config remote.origin.url | cut -f1-2 -d.)" ||
     echo "
   Not in a git repository!
   Usage: $(basename "$0") [repository name]"

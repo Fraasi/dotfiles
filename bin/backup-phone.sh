@@ -11,7 +11,7 @@ declare -a folders=(DCIM Download Pictures)
 adb="/c/Program Files/platform-tools/adb.exe"
 
 temp_dir=$(mktemp -d --suffix="_$(basename "${0%.*}")")
-bc_dir="/d/Aza/Phone/backup"
+bc_dir="/d/Fraasi/Backups/Phone/backup"
 log_name="last_update.log"
 log_path="$bc_dir/$log_name"
 
@@ -41,7 +41,11 @@ printf "\n>>> %s mtime - %s\n" "$log_name" "$(stat -c %y "$log_path" | cut -d'.'
 
 for folder in "${folders[@]}"; do
   # -a preserve timestamps, create folders to temp_dir for checking before copying
-  "$adb" pull -a "/sdcard/$folder" "$temp_dir/${folder#*/}" || exit 1
+  "$adb" pull -a "/sdcard/$folder" "$temp_dir/${folder#*/}" || {
+    echo "Failed to pull any files..."  
+    "$adb" kill-server
+    exit 1
+  }
 
   files_to_copy=()
   while IFS= read -r -d $'\0'; do
@@ -67,4 +71,4 @@ rm -rf "$temp_dir" &&
 
 printf "\n>>> %s mtime now at - %s" "$log_name" "$(date +'%F %T')" | tee -a "$log_path"
 
-# "$adb" kill-server
+"$adb" kill-server

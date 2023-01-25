@@ -7,7 +7,13 @@
 num=${1:-10}
 (( num > 15 )) && num=15
 
+# win
 path="/c/Users/$(whoami)/AppData/Local/Vivaldi/User Data/Default/Bookmarks"
+start="explorer.exe"
+if [[ ! -e $path ]]; then
+  path="/home/$(whoami)/.config/vivaldi/Default/Bookmarks"
+  start="xdg-open"
+fi
 
 bookmarks=($(grep http "$path" | grep -Ev 'Description|Thumbnail|"name"' | sed 's/\"url\"://'))
 b_length=${#bookmarks[@]}
@@ -17,6 +23,6 @@ for (( i=num; i>0; i-- )); do
   rand_num=$((RANDOM % b_length))
   url=$(echo "${bookmarks[$rand_num]}" | sed 's/\"//g')
   printf "%s\n" "$url"
-  explorer.exe "$url"
+  "$start" "$url"
 done
 

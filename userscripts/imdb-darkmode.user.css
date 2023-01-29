@@ -12,7 +12,7 @@
   :root {
     --bg-color: #222;
     --font-white: #ddd;
-    --font-grey: #666;
+    --font-grey: #909090;
     --font-blue: #2b8fdf;
     --border-color: #444;
 
@@ -171,16 +171,13 @@
   }
 
   /* refine list block */
-  /*     #wrapper .lister-widget .faceter-content,
-  #wrapper .lister-widget .faceter-fieldset,
-  .lister-widget .faceter-categories > ul > li:hover, */
-  .lister-widget .faceter-categories>ul>li.active {
-    background: unset;
+  .faceter-facet-text {
+    color: var(--font-grey);
   }
 
-  #wrapper .lister-widget .faceter-fieldset,
-  #wrapper .lister-widget .faceter-content {
-    background-color: var(--bg-color);
+  .faceter>.faceter-content,
+  .faceter>.faceter-content>.faceter-facets {
+    background-color: var(--border-color);
   }
 
   /* input field */
@@ -195,6 +192,11 @@
     background-image: unset;
     background-color: var(--bg-color);
     border-top: unset;
+  }
+
+  .title-ratings-sub-page .allText,
+  .title-ratings-sub-page .bigcell {
+    color: var(--font-grey);
   }
 
   /* plotsummary page */

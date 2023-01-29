@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.6
 // @description  Add video links to imdb pages
 // @author       Fraasi
 // @match        https://www.imdb.com/title/tt*
@@ -90,6 +90,9 @@
   const soundtrackLink = createLink('soundtracks')
   soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
   soundtrackLink.setAttribute('target', '')
+  const ratingslink = createLink('ratings')
+  ratingslink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/ratings`)
+  ratingslink.setAttribute('target', '')
   const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
 
   wrapper.style.background = 'rgb(18, 18, 18)'
@@ -100,7 +103,7 @@
     wrapper.prepend(langLink)
   }
 
-  wrapper.prepend(vidsrcLink, watchfilmLink, crocovidLink, episodesSpan, soundtrackLink)
+  wrapper.prepend(vidsrcLink, watchfilmLink, crocovidLink, episodesSpan, soundtrackLink, ratingslink)
 
   update()
 

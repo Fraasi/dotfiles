@@ -105,3 +105,12 @@ set foldenable
 set directory=/tmp//
 set backupdir=/tmp//
 set undodir=/tmp//
+
+" highlight echo in red to avoid using it
+highlight Sloppy ctermbg=red guibg=Red
+"syn keyword Sloppy echo
+match Sloppy /echo/
+
+" Show trailing whitespace:
+highlight ExtraWhitespace ctermbg=red guibg=red
+call matchadd("ExtraWhitespace",'\s\+$')

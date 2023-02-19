@@ -1,5 +1,12 @@
 " for changes to take effect, run ':so %'
 
+" If you create your own .vimrc, it is recommended to add these lines somewhere near the top. Then Vim works like before you had a .vimrc.
+unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
+
+""""""""""""""""""""""""""""""
+" Theme
+""""""""""""""""""""""""""""""
 " To see a list of ready-to-use themes,
 " :colorscheme [space] [Ctrl+d]
 " colorscheme torte
@@ -15,9 +22,9 @@ colorscheme onedark
 " loads all plugins?
 packloadall
 
-""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""
 " Shortcuts
-""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""
 " map leader key to space
 let mapleader = " "
 " map jk to esc
@@ -64,12 +71,12 @@ set smartcase
 " highlight search results (after pressing Enter)
 set hlsearch
 
-" highlight all pattern matches WHILE typing the pattern
-set incsearch
-
 """""""""""""""""""""""""""""""""""""
 " Mix
 """""""""""""""""""""""""""""""""""""
+" Show a few lines of context around the cursor
+set scrolloff=3
+
 " show line numbers
 set number
 " show the mathing brackets
@@ -88,29 +95,24 @@ endif
 " Set the command window height to 2 lines, to avoid many cases of having to "press <Enter> to continue"
 set cmdheight=2
 
-" show the command in the bottom bar, no matter what.
-set showcmd
-
-" autocomplete menu
-" On first tab hit, complete as much as possible. The second tab hit will provide a list. The third and subsequent tabs will cycle through completion options so you can complete the file without further keys. https://stackoverflow.com/questions/526858/how-do-i-make-vim-do-normal-bash-like-tab-completion-for-file-names
-" set wildmode=longest:full,full"
-set wildmode=longest,list,full
-set wildmenu
-
 " allows folding code blocks for easier navigation through the code.
 set foldenable
 
-" location of swap files
+" Location of swap files
 " // means that the directory information will be saved in the filename
 set directory=/tmp//
 set backupdir=/tmp//
 set undodir=/tmp//
 
-" highlight echo in red to avoid using it
-highlight Sloppy ctermbg=red guibg=Red
+" Highlight echo in red to avoid using it
+highlight Sloppy ctermbg=red guibg=red
 "syn keyword Sloppy echo
 match Sloppy /echo/
 
 " Show trailing whitespace:
 highlight ExtraWhitespace ctermbg=red guibg=red
 call matchadd("ExtraWhitespace",'\s\+$')
+
+" Cursor is on a character that has actual place in a buffer. After the last character there is no actual place to put cursor on. Unless you use virtual place, some external plugins might become break with this
+set virtualedit+=onemore
+

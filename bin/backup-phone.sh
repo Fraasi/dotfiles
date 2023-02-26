@@ -4,12 +4,11 @@
 # script to backup phone photos etc. to computer with adb
 # use last_update.log to compare time & copy newer files from phone
 
+command -v adb >/dev/null 2>&1 || { printf >&2 "This script requires adb, which was not found in path. Aborting.\n"; exit 1; }
+command -v nmap >/dev/null 2>&1 || { printf >&2 "This script requires nmap, which was not found in path. Aborting.\n"; exit 1; }
+
 printf "  Just a reminder...
-  did you remember to connect to router wifi and turn wireless debugging on?\n\n"
-
-
-# adb doesnt work well with wsl, run from windows side
-adb="/c/Program Files/platform-tools/adb.exe"
+  connect to router wifi, turn wireless debugging on & see that computer is still paired...\n\n"
 
 # folders to copy files from
 declare -a folders=(DCIM Download Pictures)
@@ -32,8 +31,8 @@ if [[ -n "$1" ]]; then
     fi
 fi
 
-# get phone ip
-IFS=' : ' read -ra gateway < <(ipconfig.exe | grep -m2 Default | tail -1)
+# get phone ip, TODO: find unix aternative to ipconfig
+IFS=' : ' read -ra gateway < <(ipconfig.exe | grep Default | tail -1)
 int_ip=${gateway[-1]}
 phone_ip=${int_ip%.*}.3 # static 3 for my phone
 
@@ -42,24 +41,22 @@ phone_ip=${int_ip%.*}.3 # static 3 for my phone
 port_range='30000-47000'
 port=$(nmap -p "$port_range" "$phone_ip" | grep open | cut -d'/' -f 1)
 if [[ -z $port ]]; then
-    printf "could not find an open port, exiting...\n
-        check port from phone under wireless debugging and adjust port_range variable"
+    printf "  could not find an open port, aborting...
+  check port from phone under wireless debugging and adjust port_range variable"
     exit 1
 fi
 
-# start server in a subshell, otherwise hangs wsl forever
-$("$adb" start-server)
-
 # connect to phone
-"$adb" connect "$phone_ip:$port"
+adb start-server
+adb connect "$phone_ip:$port"
 
 printf "\n>>> %s mtime - %s\n" "$log_name" "$(stat -c %y "$log_path" | cut -d'.' -f1)"
 
 for folder in "${folders[@]}"; do
     # this is where adb errors if there was no connection
-    # -a preserve timestamps, create folders to temp_dir for checking before copying
-    "$adb" pull -a "/sdcard/$folder" "$temp_dir/${folder#*/}" || {
-        "$adb" kill-server
+    # create folders to temp_dir for checking before copying, -a preserve timestamps,
+    adb pull -a "/sdcard/$folder" "$temp_dir/${folder#*/}" || {
+        adb kill-server
         exit 1
     }
 
@@ -87,4 +84,4 @@ rm -rf "$temp_dir" &&
 
 printf "\n>>> %s mtime now at - %s" "$log_name" "$(date +'%F %T')" | tee -a "$log_path"
 
-"$adb" kill-server
+adb kill-server

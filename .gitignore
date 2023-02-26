@@ -5,3 +5,4 @@ vsCode/user_backup/locale.json
 .*.swp
 userscripts/youtube-fixes.user.js
 featured_test.html
+.vim/.netrwhist

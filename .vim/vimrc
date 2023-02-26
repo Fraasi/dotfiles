@@ -31,8 +31,8 @@ let mapleader = " "
 imap jk <Esc>
 " save file in insert mode with §
 inoremap § <C-O>:w<CR>
-" a shortcut for opening/closing folds, bind it to the spacebar.
-nnoremap <space> za
+" a shortcut for opening/closing folds
+nnoremap <leader>f za
 " run current script
 nnoremap <leader>r :! clear && ./% <return>
 " run cursor blinking fix
@@ -45,6 +45,12 @@ nnoremap gc 0i#<Esc>
 nnoremap gu 0x
 " run prettier on
 nmap <Leader>p <Plug>(Prettier)
+" clear search highlight
+nnoremap <leader>c :nohlsearch <return>
+" Leader dd: Will open Netrw in the directory of the current file
+nnoremap <leader>dd :Lexplore %:p:h<CR>
+" Leader da: Will open Netrw in the current working directory
+nnoremap <Leader>da :Lexplore<CR>
 
 """""""""""""""""""""""""""""""""""""
 " Indents
@@ -70,6 +76,12 @@ set smartcase
 
 " highlight search results (after pressing Enter)
 set hlsearch
+
+"""""""""""""""""""""""""""""""""""""
+" Netrw
+"""""""""""""""""""""""""""""""""""""
+" hide netrw banner, toggle with <shift-i>
+let g:netrw_banner = 0
 
 """""""""""""""""""""""""""""""""""""
 " Mix

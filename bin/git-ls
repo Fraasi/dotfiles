@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+for file in $(git ls-files); do
+  git log -n 1 --graph --format="$file --- %C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)" "$file"
+done

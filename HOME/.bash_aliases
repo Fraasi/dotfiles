@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
 alias ..="cd .."
-alias df="df -h"
+alias df="df -h /d /c"
 alias dot='ls .[a-zA-Z0-9_]*'
 alias e="echo"
 alias g="goto"
 alias grep="grep --color=auto"
-alias gt="goto"
 alias la="ls -FA"
 alias ld="ls -lhd */"   # List in long format, only directories
 alias lf="ls -lhA --color=always | grep --color=always -v /"  # List in long format, only files

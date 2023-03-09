@@ -117,12 +117,12 @@ set backupdir=/tmp//
 set undodir=/tmp//
 
 " Highlight echo in red to avoid using it
-highlight Sloppy ctermbg=red guibg=red
+highlight Sloppy guibg=darkred guifg=white
 "syn keyword Sloppy echo
 match Sloppy /echo/
 
 " Show trailing whitespace:
-highlight ExtraWhitespace ctermbg=red guibg=red
+highlight ExtraWhitespace guibg=lightred
 call matchadd("ExtraWhitespace",'\s\+$')
 
 " Cursor is on a character that has actual place in a buffer. After the last character there is no actual place to put cursor on. Unless you use virtual place, some external plugins might become break with this

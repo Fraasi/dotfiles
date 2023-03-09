@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  Add video links to imdb pages
 // @author       Fraasi
 // @match        https://www.imdb.com/title/tt*
@@ -58,8 +58,11 @@
 
     const season_NUM = season ? Number(season) < 10 ? `0${season}` : season : ''
     const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
-    const crocoExtras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
-    crocovidLink.setAttribute('href', `https://crocovid.com/?q=${title} ${crocoExtras}`)
+    const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
+    const movieOrSeries = isEpisodePage ? 'series' : 'movie'
+    // crocovidLink.setAttribute('href', `https://crocovid.com/?q=${title} ${extras}`)
+    filepursuitLink.setAttribute('href', `https://filepursuit.com/pursuit?q=${title}+${extras}&type=video`)
+    movieWebLink.setAttribute('href', `https://movie-web.app/search/${movieOrSeries}/${encodeURI(title)}`)
 
     let epHTML = ''
     if (isEpisodePage) {
@@ -85,7 +88,9 @@
 
   const vidsrcLink = createLink('vidsrc')
   const watchfilmLink = createLink('watchfilm')
-  const crocovidLink = createLink('crocovid')
+  // const crocovidLink = createLink('crocovid')
+  const filepursuitLink = createLink('filepursuit')
+  const movieWebLink = createLink('movie-web')
   const episodesSpan = createLink('', 'span')
   const soundtrackLink = createLink('soundtracks')
   soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
@@ -103,7 +108,7 @@
     wrapper.prepend(langLink)
   }
 
-  wrapper.prepend(vidsrcLink, watchfilmLink, crocovidLink, episodesSpan, soundtrackLink, ratingslink)
+  wrapper.prepend(vidsrcLink, watchfilmLink, filepursuitLink, movieWebLink, episodesSpan, soundtrackLink, ratingslink)
 
   update()
 

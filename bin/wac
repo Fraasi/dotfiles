@@ -1,12 +1,50 @@
 #!/usr/bin/env bash
 
+usage() {
+  printf "
+Usage:
+  %s [OPTIONS] <your query>
+
+  Options:
+  -h    show this help
+  -s    spoken mode (default)
+  -r    result mode
+  -w    query the web interface
+  " "$0"
+}
+
 app_id=$WOLFRAM_APP_ID
-modes="simple | spoken | result"
-mode="result"
-base_url="https://api.wolframalpha.com/v1/$mode"
-question="$*"
+mode="spoken"
+base_url="https://api.wolframalpha.com/v1"
+query="$*"
 
-curl --data "appid=$app_id" --data-urlencode "i=$question" "$base_url"
+OPTIND=1    # OPTIND is not automatically reset
 
+while getopts "hsrw" OPTNAME; do
+  case "$OPTNAME" in
+    h)
+      usage
+      exit 0
+      ;;
+    s)
+      mode="spoken"
+      shift
+      ;;
+    r)
+      mode="result"
+      shift
+      ;;
+    w)
+      shift
+      explorer.exe "https://www.wolframalpha.com/input?i=$*"
+      exit 0
+      ;;
+    *)
+      usage
+      exit 1
+      ;;
+  esac
+done
 
-# full="https://api.wolframalpha.com/v2/query?input=worlds++richest+man&format=plaintext&output=JSON&appid=DEMO"
+curl --data "appid=$app_id" --data-urlencode "i=$*" "$base_url/$mode"
+

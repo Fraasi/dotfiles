@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+app_id=$WOLFRAM_APP_ID
+modes="simple | spoken | result"
+mode="result"
+base_url="https://api.wolframalpha.com/v1/$mode"
+question="$*"
+
+curl --data "appid=$app_id" --data-urlencode "i=$question" "$base_url"
+
+
+# full="https://api.wolframalpha.com/v2/query?input=worlds++richest+man&format=plaintext&output=JSON&appid=DEMO"

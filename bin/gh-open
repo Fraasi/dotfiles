@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if command -v xdg-open /dev/null >$ ; then
+if command -v xdg-open &> /dev/null ; then
   cmd="xdg-open"
 else
   cmd="explorer.exe" # for wsl

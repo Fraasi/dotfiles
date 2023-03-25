@@ -14,7 +14,7 @@ printf "  Just a reminder...
 declare -a folders=(DCIM Download Pictures)
 
 temp_dir=$(mktemp -d --suffix="_$(basename "${0%.*}")")
-bc_dir="/d/Fraasi/Backups/Phone/backup"
+bc_dir="/d/Fraasi/backups/phone/backup"
 log_name="last_update.log"
 log_path="$bc_dir/$log_name"
 if [[ ! -e $log_path ]]; then
@@ -31,8 +31,9 @@ if [[ -n "$1" ]]; then
     fi
 fi
 
-# get phone ip, TODO: find unix aternative to ipconfig
-IFS=' : ' read -ra gateway < <(ipconfig.exe | grep Default | tail -1)
+# TODO: find unix aternative to ipconfig
+# get phone ip, sort so longest grep with ip is last
+IFS=' : ' read -ra gateway < <(ipconfig.exe | grep Default | sort | tail -1)
 int_ip=${gateway[-1]}
 phone_ip=${int_ip%.*}.3 # static 3 for my phone
 
@@ -79,8 +80,8 @@ for folder in "${folders[@]}"; do
 done
 
 rm -rf "$temp_dir" &&
-    printf "\nRemoved $temp_dir" ||
-    printf "\nErr, couldn't remove $temp_dir"
+    printf "\nRemoved %s" "$temp_dir" ||
+    printf "\nErr, couldn't remove %s" "$temp_dir"
 
 printf "\n>>> %s mtime now at - %s" "$log_name" "$(date +'%F %T')" | tee -a "$log_path"
 

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      1.0
 // @description  Add video links to imdb pages
 // @author       Fraasi
 // @match        https://www.imdb.com/title/tt*
@@ -63,6 +63,9 @@
     // crocovidLink.setAttribute('href', `https://crocovid.com/?q=${title} ${extras}`)
     filepursuitLink.setAttribute('href', `https://filepursuit.com/pursuit?q=${title}+${extras}&type=video`)
     movieWebLink.setAttribute('href', `https://movie-web.app/search/${movieOrSeries}/${encodeURI(title)}`)
+    soapLink.setAttribute('href', `https://soap2day.to/search/keyword/${encodeURI(title)}`)
+    const ytOver20min = '&sp=EgIYAg%253D%253D'
+    ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
 
     let epHTML = ''
     if (isEpisodePage) {
@@ -91,6 +94,8 @@
   // const crocovidLink = createLink('crocovid')
   const filepursuitLink = createLink('filepursuit')
   const movieWebLink = createLink('movie-web')
+  const soapLink = createLink('soap2day')
+  const ytLink = createLink('yt')
   const episodesSpan = createLink('', 'span')
   const soundtrackLink = createLink('soundtracks')
   soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
@@ -98,8 +103,8 @@
   const ratingslink = createLink('ratings')
   ratingslink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/ratings`)
   ratingslink.setAttribute('target', '')
-  const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
 
+  const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
   wrapper.style.background = 'rgb(18, 18, 18)'
 
   if (isMainPage) {
@@ -108,7 +113,7 @@
     wrapper.prepend(langLink)
   }
 
-  wrapper.prepend(vidsrcLink, watchfilmLink, filepursuitLink, movieWebLink, episodesSpan, soundtrackLink, ratingslink)
+  wrapper.prepend(vidsrcLink, watchfilmLink, filepursuitLink, movieWebLink, soapLink, ytLink, episodesSpan, soundtrackLink, ratingslink)
 
   update()
 

@@ -33,6 +33,9 @@ Alt + .     Paste the last word of the most recent command
 Alt + #     To make line a comment, to keep it in history
 Alt + *     Expand glob, e.g 'echo *<alt+*>' expands current directory files to echo
 Ctrl-Alt-e  To perform the readline function shell-expand-line which will do alias, history and word expansions.
+
+Ctrl + x + u  Undo
+Ctrl + x + e  Edit current line in $EDITOR
 "
 
 if [[ -n $1 ]]; then

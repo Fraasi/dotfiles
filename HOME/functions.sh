@@ -141,3 +141,16 @@ function du-xh() {
 function notify-send() {
     wsl-notify-send.exe --category "$WSL_DISTRO_NAME" "${@}"
 }
+
+function wacl() {
+    command wac "$@" | less -R
+}
+
+function wacp() {
+    command wac "$@" | column -t -s'|' | less -R
+}
+
+function f-rq() {
+    uri_encoded="$( jq -rn --arg uri "$*" '$uri | @uri' )"
+    curl -s https:/f-rq.cyclic.app/"$uri_encoded"
+}

@@ -36,6 +36,9 @@ Ctrl-Alt-e  To perform the readline function shell-expand-line which will do ali
 
 Ctrl + x + u  Undo
 Ctrl + x + e  Edit current line in $EDITOR
+
+!vi	Run PREVIOUS command that BEGINS with vi
+!vi:p	Print previously run command that BEGINS with vi
 "
 
 if [[ -n $1 ]]; then

@@ -67,6 +67,7 @@ set smarttab
 " when creating a new line, copy the indentation from the line above
 set autoindent
 
+set relativenumber
 """""""""""""""""""""""""""""""""""""
 " Search
 """""""""""""""""""""""""""""""""""""

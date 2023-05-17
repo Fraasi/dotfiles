@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         Imdb dark mode
-@version      1.1.0
+@version      1.1.1
 @author       fraasi
 @namespace    https://github.com/fraasi
 @description  Imdb darkmode stylings
@@ -197,6 +197,17 @@
   .title-ratings-sub-page .allText,
   .title-ratings-sub-page .bigcell {
     color: var(--font-grey);
+  }
+
+  p[data-testid="calculations-label"],
+  div[data-testid]>span {
+    color: var(--font-white);
+  }
+
+  text>tspan {
+    fill: var(--font-white) !important;
+    text-shadow: 0px 0px 4px black;
+
   }
 
   /* plotsummary page */

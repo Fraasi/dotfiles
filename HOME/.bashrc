@@ -82,6 +82,8 @@ shopt -s histappend
 export HISTSIZE=1000
 export HISTFILESIZE=2000
 
+# colorize man pages
+export MANPAGER="less -R --use-color -Dd+r -Du+b"
 # ls colors / https://www.howtogeek.com/307899/how-to-change-the-colors-of-directories-and-files-in-the-ls-command/
 # Normal Text: 0
 # Bold or Light Text: 1 (It depends on the terminal emulator.)

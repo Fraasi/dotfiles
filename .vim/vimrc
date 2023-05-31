@@ -129,3 +129,12 @@ call matchadd("ExtraWhitespace",'\s\+$')
 " Cursor is on a character that has actual place in a buffer. After the last character there is no actual place to put cursor on. Unless you use virtual place, some external plugins might become break with this
 set virtualedit+=onemore
 
+" WSL yank support
+let s:clip = '/c/Windows/System32/clip.exe'
+if executable(s:clip)
+  augroup WSLYank
+    autocmd!
+    autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+  augroup END
+endif
+

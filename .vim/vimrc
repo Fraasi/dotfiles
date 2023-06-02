@@ -125,6 +125,8 @@ match Sloppy /echo/
 " Show trailing whitespace:
 highlight ExtraWhitespace guibg=lightred
 call matchadd("ExtraWhitespace",'\s\+$')
+highlight Todo guifg=black guibg=yellow
+call matchadd("Todo", '[Tt]odo')
 
 " Cursor is on a character that has actual place in a buffer. After the last character there is no actual place to put cursor on. Unless you use virtual place, some external plugins might become break with this
 set virtualedit+=onemore
@@ -137,4 +139,8 @@ if executable(s:clip)
     autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
   augroup END
 endif
+
+" custom commands
+:command -nargs=1 Log put ='console.log(\"<args>\", <args>)'
+:command -nargs=1 -complete=file -bar Vopen :rightbelow :vsplit <args> | :wincmd h
 

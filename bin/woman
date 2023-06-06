@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Lookup section meaning in `man man`.
+# https://gist.github.com/thingsiplay/f71383569c10da17f772b9967f5a5767
+# Alternate portable POSIX version
+# by SleepingProcess:
+# https://www.reddit.com/r/bash/comments/13z41ji/woman_preview_list_for_man_documents/jmvdyry/
+
+# shellcheck disable=SC2016,SC2015
+
+sections='1,8,6,5,7'
+
+rc=$(
+  man -k . --sections="${sections}" | sort -t ' ' -k 2,2 -k 1,1  |
+  fzf -q "${*}"   \
+       --cycle        \
+       --border=none      \
+       --bind change:first    \
+       --bind tab:down            \
+       --bind shift-tab:up            \
+       --bind esc:cancel+clear-selection  \
+       --tiebreak=begin,length               \
+       --reverse                                 \
+       --preview='s={}; man -- "${s%% *}" 2> /dev/null' \
+)
+
+[ -z "${rc}" ] && exit || man -- "${rc%% *}" 2> /dev/null

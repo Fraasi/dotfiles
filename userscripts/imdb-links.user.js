@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Add video links to imdb pages
 // @author       Fraasi
 // @match        https://www.imdb.com/title/tt*
@@ -60,10 +60,10 @@
     const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
     const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
     const movieOrSeries = isEpisodePage ? 'series' : 'movie'
-    // crocovidLink.setAttribute('href', `https://crocovid.com/?q=${title} ${extras}`)
     filepursuitLink.setAttribute('href', `https://filepursuit.com/pursuit?q=${title}+${extras}&type=video`)
     movieWebLink.setAttribute('href', `https://movie-web.app/search/${movieOrSeries}/${encodeURI(title)}`)
-    soapLink.setAttribute('href', `https://soap2day.to/search/keyword/${encodeURI(title)}`)
+    const putSearch = isEpisodePage ? `${title}+season+${season}` : title.replaceAll(' ', '+')
+    putLink.setAttribute('href', `https://putlockers.fm/search-movies/${encodeURI(putSearch)}.html`)
     const ytOver20min = '&sp=EgIYAg%253D%253D'
     ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
 
@@ -91,10 +91,9 @@
 
   const vidsrcLink = createLink('vidsrc')
   const watchfilmLink = createLink('watchfilm')
-  // const crocovidLink = createLink('crocovid')
   const filepursuitLink = createLink('filepursuit')
   const movieWebLink = createLink('movie-web')
-  const soapLink = createLink('soap2day')
+  const putLink = createLink('putlockers')
   const ytLink = createLink('yt')
   const episodesSpan = createLink('', 'span')
   const soundtrackLink = createLink('soundtracks')
@@ -113,7 +112,7 @@
     wrapper.prepend(langLink)
   }
 
-  wrapper.prepend(vidsrcLink, watchfilmLink, filepursuitLink, movieWebLink, soapLink, ytLink, episodesSpan, soundtrackLink, ratingslink)
+  wrapper.prepend(vidsrcLink, watchfilmLink, filepursuitLink, movieWebLink, putLink, ytLink, episodesSpan, soundtrackLink, ratingslink)
 
   update()
 
@@ -132,3 +131,4 @@
   }
 
 })();
+

@@ -4,3 +4,6 @@
 [submodule ".vim/pack/plugins/start/vim-prettier"]
 	path = .vim/pack/plugins/start/vim-prettier
 	url = https://github.com/prettier/vim-prettier.git
+[submodule ".vim/pack/Exafunction/start/codeium.vim"]
+	path = .vim/pack/Exafunction/start/codeium.vim
+	url = https://github.com/Exafunction/codeium.vim.git

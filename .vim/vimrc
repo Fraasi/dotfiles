@@ -144,3 +144,10 @@ endif
 :command -nargs=1 Log put ='console.log(\"<args>\", <args>)'
 :command -nargs=1 -complete=file -bar Vopen :rightbelow :vsplit <args> | :wincmd h
 
+" codeium keymaps
+"imap <script><silent><nowait><expr> <C-g> codeium#Accept()
+imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
+imap <C-.>   <Cmd>call codeium#CycleCompletions(-1)<CR>
+imap <C-x>   <Cmd>call codeium#Clear()<CR>
+imap <C-c>   <Cmd>call codeium#Complete()<CR>
+

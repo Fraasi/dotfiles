@@ -37,7 +37,10 @@ nnoremap <leader>f za
 nnoremap <leader>r :! clear && ./% <return>
 " run cursor blinking fix
 nnoremap <leader>b :! tput cvvis <return>
-autocmd VimEnter * :! tput cvvis
+augroup blinkfix
+  autocmd!
+  autocmd VimEnter * :! tput cvvis
+augroup END
 " visual-block mode ctrl+v remap fix
 nnoremap <leader>v <c-v>
 " un/comment line with #
@@ -150,4 +153,19 @@ imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
 imap <C-.>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 imap <C-x>   <Cmd>call codeium#Clear()<CR>
 imap <C-c>   <Cmd>call codeium#Complete()<CR>
+
+" vim tip of the day on start
+function Vtip()
+  echomsg system('curl -s -m 3 https://vtip.43z.one')
+endfunction
+nnoremap <leader>t :call Vtip() <return>
+if v:vim_did_enter
+  echomsg 'vim tip of the day loaded'
+  call Vtip()
+else
+  augroup vtip
+    autocmd!
+    autocmd BufWinEnter * call Vtip()
+  augroup END
+endif
 

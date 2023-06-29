@@ -81,6 +81,9 @@ set smartcase
 " highlight search results (after pressing Enter)
 set hlsearch
 
+" search down into subdirectories. :find <tab>, use * for fuzzy search
+set path+=**
+
 """""""""""""""""""""""""""""""""""""
 " Netrw
 """""""""""""""""""""""""""""""""""""

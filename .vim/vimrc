@@ -56,6 +56,21 @@ nnoremap <leader>dd :Lexplore %:p:h<CR>
 nnoremap <Leader>da :Lexplore<CR>
 
 """""""""""""""""""""""""""""""""""""
+" completions
+"""""""""""""""""""""""""""""""""""""
+" ctrl + space to show completions
+imap <C-space> <C-x><C-o>
+set omnifunc=syntaxcomplete#Complete
+set completeopt=menuone,noinsert,popup
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+" enable vim-auto-popmenu
+let g:apc_enable_ft = {'text':1, 'markdown':1, 'javascript':1, 'html':1, 'css':1}
+" suppress annoy messages.
+set shortmess+=c
+
+"""""""""""""""""""""""""""""""""""""
 " Indents
 """""""""""""""""""""""""""""""""""""
 " replace tabs with spaces
@@ -154,7 +169,7 @@ endif
 "imap <script><silent><nowait><expr> <C-g> codeium#Accept()
 imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
 imap <C-.>   <Cmd>call codeium#CycleCompletions(-1)<CR>
-imap <C-x>   <Cmd>call codeium#Clear()<CR>
+imap <C-l>   <Cmd>call codeium#Clear()<CR>
 imap <C-c>   <Cmd>call codeium#Complete()<CR>
 
 " vim tip of the day on start

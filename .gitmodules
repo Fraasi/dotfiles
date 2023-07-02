@@ -7,3 +7,6 @@
 [submodule ".vim/pack/Exafunction/start/codeium.vim"]
 	path = .vim/pack/Exafunction/start/codeium.vim
 	url = https://github.com/Exafunction/codeium.vim.git
+[submodule ".vim/pack/plugins/start/vim-auto-popmenu"]
+	path = .vim/pack/plugins/start/vim-auto-popmenu
+	url = https://github.com/skywind3000/vim-auto-popmenu.git

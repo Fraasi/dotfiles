@@ -4,6 +4,14 @@
 unlet! skip_defaults_vim
 source $VIMRUNTIME/defaults.vim
 
+"""""""""""""""""""""""""
+" Statusline
+"""""""""""""""""""""""""
+set laststatus=2
+set statusline=
+set statusline+=[%n]\ " buffer number
+set statusline+=%<%f%h%m%r%=%-14.(%l/%L,%c%V%)\ %P
+
 """"""""""""""""""""""""""""""
 " Theme
 """"""""""""""""""""""""""""""
@@ -162,15 +170,18 @@ if executable(s:clip)
 endif
 
 " custom commands
+:command Vimrc :e $MYVIMRC
 :command -nargs=1 Log put ='console.log(\"<args>\", <args>)'
 :command -nargs=1 -complete=file -bar Vopen :rightbelow :vsplit <args> | :wincmd h
 
 " codeium keymaps
 "imap <script><silent><nowait><expr> <C-g> codeium#Accept()
-imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
-imap <C-.>   <Cmd>call codeium#CycleCompletions(-1)<CR>
+imap <C-->   <Cmd>call codeium#CycleCompletions(1)<CR>
+imap <C-_>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 imap <C-l>   <Cmd>call codeium#Clear()<CR>
-imap <C-c>   <Cmd>call codeium#Complete()<CR>
+"inoremap <C-c>   <Cmd>call codeium#Complete()<CR>
+"inoremap <C-a>   <Cmd>call codeium#accept<CR>
+imap <leader>cd :CodeiumDisable<CR>
 
 " vim tip of the day on start
 function Vtip()

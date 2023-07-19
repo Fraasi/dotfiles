@@ -154,3 +154,8 @@ function f-rq() {
     uri_encoded="$( jq -rn --arg uri "$*" '$uri | @uri' )"
     curl -s https:/f-rq.cyclic.app/"$uri_encoded"
 }
+
+function dict() {
+  curl -s dict://dict.org/d:"$1" | bat
+}
+

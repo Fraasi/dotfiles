@@ -31,7 +31,7 @@ Alt + B     Move cursor backward one word on the current line
 Alt + D     Delete all characters after the cursor on the current line
 Alt + .     Paste the last word of the most recent command
 Alt + #     To make line a comment, to keep it in history
-Alt + *     Expand glob, e.g 'echo *<alt+*>' expands current directory files to echo
+Ctrl + x, * (Alt + *) Expand glob, e.g 'echo *<alt+*>' expands current directory files to echo
 Ctrl-Alt-Shift e  To perform the readline function shell-expand-line which will do alias, history and word expansions.
 
 Ctrl + x + u  Undo

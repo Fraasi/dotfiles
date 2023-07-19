@@ -4,6 +4,9 @@
 unlet! skip_defaults_vim
 source $VIMRUNTIME/defaults.vim
 
+" fixes the annoying termresponse on start, https://stackoverflow.com/questions/21618614/vim-shows-garbage-characters?rq=3
+:set t_RV=
+
 """""""""""""""""""""""""
 " Statusline
 """""""""""""""""""""""""
@@ -11,6 +14,27 @@ set laststatus=2
 set statusline=
 set statusline+=[%n]\ " buffer number
 set statusline+=%<%f%h%m%r%=%-14.(%l/%L,%c%V%)\ %P
+
+"""""""""""""""""""""""""""""
+" Open help in curwin with :H (:h help-curwin)
+" By default, help is displayed in a split window.  If you prefer it opens in the current window, try this custom `:HelpCurwin` command:
+"""""""""""""""""""""""""
+	command -bar -nargs=? -complete=help H execute s:HelpCurwin(<q-args>)
+	let s:did_open_help = v:false
+
+	function s:HelpCurwin(subject) abort
+	  let mods = 'silent noautocmd keepalt'
+	  if !s:did_open_help
+	    execute mods .. ' help'
+	    execute mods .. ' helpclose'
+	    let s:did_open_help = v:true
+	  endif
+	  if !getcompletion(a:subject, 'help')->empty()
+	    execute mods .. ' edit ' .. &helpfile
+	    set buftype=help
+	  endif
+	  return 'help ' .. a:subject
+	endfunction
 
 """"""""""""""""""""""""""""""
 " Theme
@@ -36,9 +60,13 @@ packloadall
 " map leader key to space
 let mapleader = " "
 " map jk to esc
-imap jk <Esc>
+inoremap jk <Esc>
 " save file in insert mode with §
 inoremap § <C-O>:w<CR>
+" edit vimrc
+nnoremap <leader>e :e $MYVIMRC<CR>
+" write & delete current buffer, see custom command Wd below
+nnoremap <leader>wq :Wd<CR>
 " a shortcut for opening/closing folds
 nnoremap <leader>f za
 " run current script
@@ -55,19 +83,19 @@ nnoremap <leader>v <c-v>
 nnoremap gc 0i#<Esc>
 nnoremap gu 0x
 " run prettier on
-nmap <Leader>p <Plug>(Prettier)
+nnoremap <Leader>p <Plug>(Prettier)
 " clear search highlight
 nnoremap <leader>c :nohlsearch <return>
-" Leader dd: Will open Netrw in the directory of the current file
-nnoremap <leader>dd :Lexplore %:p:h<CR>
-" Leader da: Will open Netrw in the current working directory
-nnoremap <Leader>da :Lexplore<CR>
+" surround word with quotes
+nnoremap " viw<esc>a"<esc>bi"<esc>lel
+" surround selection (in one line) with quotes
+vnoremap " :s/\%V\(.*\)\%V/"\1"/<CR>
 
 """""""""""""""""""""""""""""""""""""
 " completions
 """""""""""""""""""""""""""""""""""""
 " ctrl + space to show completions
-imap <C-space> <C-x><C-o>
+inoremap <C-space> <C-x><C-o>
 set omnifunc=syntaxcomplete#Complete
 set completeopt=menuone,noinsert,popup
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
@@ -105,13 +133,18 @@ set smartcase
 set hlsearch
 
 " search down into subdirectories. :find <tab>, use * for fuzzy search
-set path+=**
+" **n, n = max subdirs to descent into, default 30
+set path+=**5
 
 """""""""""""""""""""""""""""""""""""
 " Netrw
 """""""""""""""""""""""""""""""""""""
 " hide netrw banner, toggle with <shift-i>
 let g:netrw_banner = 0
+" Leader dd: Will open Netrw in the directory of the current file
+nnoremap <leader>dd :Lexplore %:p:h<CR>
+" Leader dw: Will open Netrw in the current working directory
+nnoremap <Leader>dw :Lexplore<CR>
 
 """""""""""""""""""""""""""""""""""""
 " Mix
@@ -148,12 +181,12 @@ set undodir=/tmp//
 
 " Highlight echo in red to avoid using it
 highlight Sloppy guibg=darkred guifg=white
-"syn keyword Sloppy echo
+syn keyword Sloppy echo
 match Sloppy /echo/
-
 " Show trailing whitespace:
 highlight ExtraWhitespace guibg=lightred
 call matchadd("ExtraWhitespace",'\s\+$')
+" Highlight Todos
 highlight Todo guifg=black guibg=yellow
 call matchadd("Todo", '[Tt]odo')
 
@@ -173,15 +206,16 @@ endif
 :command Vimrc :e $MYVIMRC
 :command -nargs=1 Log put ='console.log(\"<args>\", <args>)'
 :command -nargs=1 -complete=file -bar Vopen :rightbelow :vsplit <args> | :wincmd h
+:command Wd write | bdelete
 
 " codeium keymaps
 "imap <script><silent><nowait><expr> <C-g> codeium#Accept()
-imap <C-->   <Cmd>call codeium#CycleCompletions(1)<CR>
-imap <C-_>   <Cmd>call codeium#CycleCompletions(-1)<CR>
-imap <C-l>   <Cmd>call codeium#Clear()<CR>
+inoremap <C-->   <Cmd>call codeium#CycleCompletions(1)<CR>
+inoremap <C-_>   <Cmd>call codeium#CycleCompletions(-1)<CR>
+inoremap <C-l>   <Cmd>call codeium#Clear()<CR>
 "inoremap <C-c>   <Cmd>call codeium#Complete()<CR>
-"inoremap <C-a>   <Cmd>call codeium#accept<CR>
-imap <leader>cd :CodeiumDisable<CR>
+inoremap <C-a>   <Cmd>call codeium#accept<CR>
+inoremap <leader>cd :CodeiumDisable<CR>
 
 " vim tip of the day on start
 function Vtip()
@@ -189,7 +223,6 @@ function Vtip()
 endfunction
 nnoremap <leader>t :call Vtip() <return>
 if v:vim_did_enter
-  echomsg 'vim tip of the day loaded'
   call Vtip()
 else
   augroup vtip

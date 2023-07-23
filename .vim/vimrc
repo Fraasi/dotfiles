@@ -90,6 +90,9 @@ nnoremap <leader>c :nohlsearch <return>
 nnoremap " viw<esc>a"<esc>bi"<esc>lel
 " surround selection (in one line) with quotes
 vnoremap " :s/\%V\(.*\)\%V/"\1"/<CR>
+" clear prev search & set search to normal regex (very magic), :help magic
+nnoremap / :nohlsearch<return><esc>/\v
+nnoremap ? :nohlsearch<return><esc>?\v
 
 """""""""""""""""""""""""""""""""""""
 " completions

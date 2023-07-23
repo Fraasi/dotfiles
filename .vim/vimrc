@@ -217,7 +217,7 @@ endif
 inoremap <C-o>   <Cmd>call codeium#CycleCompletions(1)<CR>
 inoremap <C-p>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 inoremap <C-l>   <Cmd>call codeium#Clear()<CR>
-inoremap <C-s>   <Cmd>call codeium#Complete()<CR>
+"inoremap <Tab>   <Cmd>call codeium#Complete()<CR>
 "inoremap <C-a>   <Cmd>call codeium#Accept()<CR>
 inoremap <C-d> :CodeiumDisable<CR>
 

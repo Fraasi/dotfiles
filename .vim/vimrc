@@ -65,8 +65,8 @@ inoremap jk <Esc>
 inoremap § <C-O>:w<CR>
 " edit vimrc
 nnoremap <leader>e :e $MYVIMRC<CR>
-" write & delete current buffer, see custom command Wd below
-nnoremap <leader>wq :Wd<CR>
+" write & close current buffer, see custom command Wc below
+nnoremap <leader>wc :Wc<CR>
 " a shortcut for opening/closing folds
 nnoremap <leader>f za
 " run current script
@@ -209,16 +209,17 @@ endif
 :command Vimrc :e $MYVIMRC
 :command -nargs=1 Log put ='console.log(\"<args>\", <args>)'
 :command -nargs=1 -complete=file -bar Vopen :rightbelow :vsplit <args> | :wincmd h
-:command Wd write | bdelete
+:command Wc write | bdelete
+:command Bufonly write | %bdelete | edit#
 
 " codeium keymaps
 "imap <script><silent><nowait><expr> <C-g> codeium#Accept()
-inoremap <C-->   <Cmd>call codeium#CycleCompletions(1)<CR>
-inoremap <C-_>   <Cmd>call codeium#CycleCompletions(-1)<CR>
+inoremap <C-o>   <Cmd>call codeium#CycleCompletions(1)<CR>
+inoremap <C-p>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 inoremap <C-l>   <Cmd>call codeium#Clear()<CR>
-"inoremap <C-c>   <Cmd>call codeium#Complete()<CR>
-inoremap <C-a>   <Cmd>call codeium#accept<CR>
-inoremap <leader>cd :CodeiumDisable<CR>
+inoremap <C-s>   <Cmd>call codeium#Complete()<CR>
+"inoremap <C-a>   <Cmd>call codeium#Accept()<CR>
+inoremap <C-d> :CodeiumDisable<CR>
 
 " vim tip of the day on start
 function Vtip()

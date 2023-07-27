@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  Add video links to imdb pages
 // @author       Fraasi
 // @match        https://www.imdb.com/title/tt*
@@ -52,9 +52,8 @@
     const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
     vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
 
-    const watchfilmSearchTitle = title.toLowerCase().replaceAll(' ', '-')
-    const watchfilmSearchString = `${watchfilmSearchTitle}-${year}`
-    watchfilmLink.setAttribute('href', `https://ww22.watchfilm.net/search//${watchfilmSearchString}`)
+    const watchaSearchString = encodeURI(title)
+    watchaLink.setAttribute('href', `https://watcha.movie/search/${watchaSearchString}`)
 
     const season_NUM = season ? Number(season) < 10 ? `0${season}` : season : ''
     const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
@@ -64,6 +63,7 @@
     movieWebLink.setAttribute('href', `https://movie-web.app/search/${movieOrSeries}/${encodeURI(title)}`)
     const putSearch = isEpisodePage ? `${title}+season+${season}` : title.replaceAll(' ', '+')
     putLink.setAttribute('href', `https://putlockers.fm/search-movies/${encodeURI(putSearch)}.html`)
+    soaperLink.setAttribute('href', `https://soaper.tv/search.html?keyword=${encodeURI(title)}`)
     const ytOver20min = '&sp=EgIYAg%253D%253D'
     ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
 
@@ -90,10 +90,11 @@
   }
 
   const vidsrcLink = createLink('vidsrc')
-  const watchfilmLink = createLink('watchfilm')
+  const watchaLink = createLink('watcha')
   const filepursuitLink = createLink('filepursuit')
   const movieWebLink = createLink('movie-web')
   const putLink = createLink('putlockers')
+  const soaperLink = createLink('soaper')
   const ytLink = createLink('yt')
   const episodesSpan = createLink('', 'span')
   const soundtrackLink = createLink('soundtracks')
@@ -112,7 +113,7 @@
     wrapper.prepend(langLink)
   }
 
-  wrapper.prepend(vidsrcLink, watchfilmLink, filepursuitLink, movieWebLink, putLink, ytLink, episodesSpan, soundtrackLink, ratingslink)
+  wrapper.prepend(vidsrcLink, watchaLink, filepursuitLink, movieWebLink, putLink, soaperLink, ytLink, episodesSpan, soundtrackLink, ratingslink)
 
   update()
 

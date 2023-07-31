@@ -21,10 +21,9 @@ function! s:CommentToggle()
       let l:commented_line = comment_char . ' ' . current_line
     endif
     call setline('.', l:commented_line)
-    echo "commented_line: " . l:commented_line
   endif
 endfunction
 
-nnoremap gc :call <SID>CommentToggle()<CR>
+noremap gc :call <SID>CommentToggle()<CR>
 
 

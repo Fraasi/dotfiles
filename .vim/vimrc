@@ -6,19 +6,157 @@ source $VIMRUNTIME/defaults.vim
 
 " fixes the annoying termresponse on start, https://stackoverflow.com/questions/21618614/vim-shows-garbage-characters?rq=3
 :set t_RV=
+" load all plugins
+" packloadall
 
-"""""""""""""""""""""""""
-" Statusline
-"""""""""""""""""""""""""
+" remaps {{{
+" map leader key to space
+let mapleader = " "
+" map jk to esc
+inoremap jk <Esc>
+" save file in insert mode with §
+inoremap § <C-O>:w<CR>
+" edit vimrc
+nnoremap <leader>e :e $MYVIMRC<CR>
+" write & close current buffer, see custom command Wc below
+nnoremap <leader>wc :Wc<CR>
+" run current script
+nnoremap <leader>r :! clear && ./% <return>
+" run cursor blinking fix
+nnoremap <leader>b :! tput cvvis <return>
+" visual-block mode ctrl+v remap fix
+nnoremap <leader>v <c-v>
+" run prettier on
+nnoremap <Leader>p <Plug>(Prettier)
+" clear search highlight
+nnoremap <leader>c :nohlsearch <return>
+" surround word with quotes
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+" surround selection (in one line) with quotes
+vnoremap <leader>" :s/\%V\(.*\)\%V/"\1"/<CR>
+" clear prev search & set search to normal regex (very magic), :help magic
+nnoremap / :nohlsearch<return><esc>/\v
+nnoremap ? :nohlsearch<return><esc>?\v
+" Leader dd: Will open Netrw in the directory of the current file
+nnoremap <leader>dd :Lexplore %:p:h<CR>
+" Leader dw: Will open Netrw in the current working directory
+nnoremap <Leader>dw :Lexplore<CR>
+" ctrl + space to show completions
+inoremap <C-space> <C-x><C-o>
+" }}}
+
+" filetype specific settings {{{
+augroup filetype_settings
+  autocmd!
+  autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+  autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
+
+" Vim settings {{{
+
+" Cursor is on a character that has actual place in a buffer. After the last character there is no actual place to put cursor on. Unless you use virtual place, some external plugins might become break with this
+" set virtualedit+=onemore
+" enable vim-auto-popmenu
+let g:apc_enable_ft = {'text':1, 'markdown':1, 'javascript':1, 'html':1, 'css':1}
+" don't give |ins-completion-menu| messages
+set shortmess+=c
+" replace tabs with spaces
+set expandtab
+" 1 tab = 2 spaces
+set tabstop=2 shiftwidth=2 smarttab
+" when creating a new line, copy the indentation from the line above
+set autoindent
+" gutter numbers
+set number relativenumber
+" Show a few lines of context around the cursor
+set scrolloff=3
+" omnifunc
+set omnifunc=syntaxcomplete#Complete
+set completeopt=menuone,noinsert,popup
+" show the mathing brackets
+set showmatch
+" highlight current line
+set cursorline
+" Always display the status line, even if only one window is displayed
 set laststatus=2
 set statusline=
 set statusline+=[%n]\ " buffer number
 set statusline+=%<%f%h%m%r%=%-14.(%l/%L,%c%V%)\ %P
+" Enable use of the mouse for all modes
+if has('mouse')
+  set mouse=a
+endif
+" Set the command window height to 2 lines, to avoid many cases of having to "press <Enter> to continue"
+set cmdheight=2
+" Enable folding
+set foldenable foldmethod=indent foldcolumn=1
+" Location of swap files
+" // means that the directory information will be saved in the filename
+set directory=/tmp//
+set backupdir=/tmp//
+set undodir=/tmp//
+" Search
+set ignorecase smartcase hlsearch
+" search down into subdirectories. :find <tab>, use * for fuzzy search
+" **n, n = max subdirs to descent into, default 30
+set path+=**5
+" hide netrw banner, toggle with <shift-i>
+let g:netrw_banner = 0
 
-"""""""""""""""""""""""""""""
-" Open help in curwin with :H (:h help-curwin)
+" }}}
+
+" Theme {{{
+" To see a list of ready-to-use themes,
+" :colorscheme [space] [Ctrl+d]
+" colorscheme torte
+packadd! onedark.vim
+if has("termguicolors")
+  set termguicolors
+endif
+let g:onedark_color_overrides = {
+  \ "background": {"gui": "#131313", "cterm": "233", "cterm16": "0" },
+  \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
+  \}
+colorscheme onedark
+" }}}
+
+" Highlight echo, todo and trailing whitespace {{{ 
+highlight Sloppy guibg=darkred guifg=white
+syn keyword Sloppy echo
+match Sloppy /echo/
+highlight ExtraWhitespace guibg=lightred
+call matchadd("ExtraWhitespace",'\s\+$')
+highlight Todo guifg=black guibg=yellow
+call matchadd("Todo", '[Tt]odo')
+"}}}
+
+" WSL yank support {{{
+let s:clip = '/c/Windows/System32/clip.exe'
+if executable(s:clip)
+  augroup WSLYank
+    autocmd!
+    autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+  augroup END
+endif
+" }}}
+
+" custom commands {{{
+:command Vimrc :e $MYVIMRC
+:command -nargs=1 Log put ='console.log(\"<args>\", <args>)'
+:command -nargs=1 -complete=file -bar Vopen :rightbelow :vsplit <args> | :wincmd h
+:command Wc write | bdelete
+:command Bufonly write | %bdelete | edit#
+augroup blinkfix
+  autocmd!
+  autocmd VimEnter * :! tput cvvis
+augroup END
+" }}}
+
+" Open help in curwin with :H (:h help-curwin) {{{
 " By default, help is displayed in a split window.  If you prefer it opens in the current window, try this custom `:HelpCurwin` command:
-"""""""""""""""""""""""""
 	command -bar -nargs=? -complete=help H execute s:HelpCurwin(<q-args>)
 	let s:did_open_help = v:false
 
@@ -35,184 +173,9 @@ set statusline+=%<%f%h%m%r%=%-14.(%l/%L,%c%V%)\ %P
 	  endif
 	  return 'help ' .. a:subject
 	endfunction
+" }}}
 
-""""""""""""""""""""""""""""""
-" Theme
-""""""""""""""""""""""""""""""
-" To see a list of ready-to-use themes,
-" :colorscheme [space] [Ctrl+d]
-" colorscheme torte
-packadd! onedark.vim
-if has("termguicolors")
-  set termguicolors
-endif
-let g:onedark_color_overrides = {
-  \ "background": {"gui": "#131313", "cterm": "233", "cterm16": "0" },
-  \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
-  \}
-colorscheme onedark
-" loads all plugins?
-packloadall
-
-"""""""""""""""""""""""""""
-" Shortcuts
-"""""""""""""""""""""""""""
-" map leader key to space
-let mapleader = " "
-" map jk to esc
-inoremap jk <Esc>
-" save file in insert mode with §
-inoremap § <C-O>:w<CR>
-" edit vimrc
-nnoremap <leader>e :e $MYVIMRC<CR>
-" write & close current buffer, see custom command Wc below
-nnoremap <leader>wc :Wc<CR>
-" a shortcut for opening/closing folds
-nnoremap <leader>f za
-" run current script
-nnoremap <leader>r :! clear && ./% <return>
-" run cursor blinking fix
-nnoremap <leader>b :! tput cvvis <return>
-augroup blinkfix
-  autocmd!
-  autocmd VimEnter * :! tput cvvis
-augroup END
-" visual-block mode ctrl+v remap fix
-nnoremap <leader>v <c-v>
-" un/comment line with #
-nnoremap gc 0i#<Esc>
-nnoremap gu 0x
-" run prettier on
-nnoremap <Leader>p <Plug>(Prettier)
-" clear search highlight
-nnoremap <leader>c :nohlsearch <return>
-" surround word with quotes
-nnoremap " viw<esc>a"<esc>bi"<esc>lel
-" surround selection (in one line) with quotes
-vnoremap " :s/\%V\(.*\)\%V/"\1"/<CR>
-" clear prev search & set search to normal regex (very magic), :help magic
-nnoremap / :nohlsearch<return><esc>/\v
-nnoremap ? :nohlsearch<return><esc>?\v
-
-"""""""""""""""""""""""""""""""""""""
-" completions
-"""""""""""""""""""""""""""""""""""""
-" ctrl + space to show completions
-inoremap <C-space> <C-x><C-o>
-set omnifunc=syntaxcomplete#Complete
-set completeopt=menuone,noinsert,popup
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-" enable vim-auto-popmenu
-let g:apc_enable_ft = {'text':1, 'markdown':1, 'javascript':1, 'html':1, 'css':1}
-" suppress annoy messages.
-set shortmess+=c
-
-"""""""""""""""""""""""""""""""""""""
-" Indents
-"""""""""""""""""""""""""""""""""""""
-" replace tabs with spaces
-set expandtab
-" 1 tab = 2 spaces
-set tabstop=2 shiftwidth=2
-
-" when deleting whitespace at the beginning of a line, delete
-" 1 tab worth of spaces (for us this is 2 spaces)
-set smarttab
-
-" when creating a new line, copy the indentation from the line above
-set autoindent
-
-set relativenumber
-"""""""""""""""""""""""""""""""""""""
-" Search
-"""""""""""""""""""""""""""""""""""""
-" Ignore case when searching
-set ignorecase
-set smartcase
-
-" highlight search results (after pressing Enter)
-set hlsearch
-
-" search down into subdirectories. :find <tab>, use * for fuzzy search
-" **n, n = max subdirs to descent into, default 30
-set path+=**5
-
-"""""""""""""""""""""""""""""""""""""
-" Netrw
-"""""""""""""""""""""""""""""""""""""
-" hide netrw banner, toggle with <shift-i>
-let g:netrw_banner = 0
-" Leader dd: Will open Netrw in the directory of the current file
-nnoremap <leader>dd :Lexplore %:p:h<CR>
-" Leader dw: Will open Netrw in the current working directory
-nnoremap <Leader>dw :Lexplore<CR>
-
-"""""""""""""""""""""""""""""""""""""
-" Mix
-"""""""""""""""""""""""""""""""""""""
-" Show a few lines of context around the cursor
-set scrolloff=3
-
-" show line numbers
-set number
-" show the mathing brackets
-set showmatch
-" highlight current line
-set cursorline
-
-" Always display the status line, even if only one window is displayed
-set laststatus=2
-
-" Enable use of the mouse for all modes
-if has('mouse')
-  set mouse=a
-endif
-
-" Set the command window height to 2 lines, to avoid many cases of having to "press <Enter> to continue"
-set cmdheight=2
-
-" allows folding code blocks for easier navigation through the code.
-set foldenable
-
-" Location of swap files
-" // means that the directory information will be saved in the filename
-set directory=/tmp//
-set backupdir=/tmp//
-set undodir=/tmp//
-
-" Highlight echo in red to avoid using it
-highlight Sloppy guibg=darkred guifg=white
-syn keyword Sloppy echo
-match Sloppy /echo/
-" Show trailing whitespace:
-highlight ExtraWhitespace guibg=lightred
-call matchadd("ExtraWhitespace",'\s\+$')
-" Highlight Todos
-highlight Todo guifg=black guibg=yellow
-call matchadd("Todo", '[Tt]odo')
-
-" Cursor is on a character that has actual place in a buffer. After the last character there is no actual place to put cursor on. Unless you use virtual place, some external plugins might become break with this
-set virtualedit+=onemore
-
-" WSL yank support
-let s:clip = '/c/Windows/System32/clip.exe'
-if executable(s:clip)
-  augroup WSLYank
-    autocmd!
-    autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
-  augroup END
-endif
-
-" custom commands
-:command Vimrc :e $MYVIMRC
-:command -nargs=1 Log put ='console.log(\"<args>\", <args>)'
-:command -nargs=1 -complete=file -bar Vopen :rightbelow :vsplit <args> | :wincmd h
-:command Wc write | bdelete
-:command Bufonly write | %bdelete | edit#
-
-" codeium keymaps
+" codeium {{{
 "imap <script><silent><nowait><expr> <C-g> codeium#Accept()
 inoremap <C-o>   <Cmd>call codeium#CycleCompletions(1)<CR>
 inoremap <C-p>   <Cmd>call codeium#CycleCompletions(-1)<CR>
@@ -220,8 +183,9 @@ inoremap <C-l>   <Cmd>call codeium#Clear()<CR>
 "inoremap <Tab>   <Cmd>call codeium#Complete()<CR>
 "inoremap <C-a>   <Cmd>call codeium#Accept()<CR>
 inoremap <C-d> :CodeiumDisable<CR>
+" }}}
 
-" vim tip of the day on start
+" vim tip of the day {{{
 function Vtip()
   echomsg system('curl -s -m 3 https://vtip.43z.one')
 endfunction
@@ -234,4 +198,4 @@ else
     autocmd BufWinEnter * call Vtip()
   augroup END
 endif
-
+" }}}

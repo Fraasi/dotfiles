@@ -65,12 +65,21 @@ inoremap <C-space> <C-x><C-o>
 " }}}
 
 " filetype specific settings {{{
+" enable vim-auto-popmenu
+let g:apc_enable_ft = {'text':1, 'markdown':1, 'javascript':1, 'html':1, 'css':1}
+
 augroup filetype_settings
   autocmd!
   autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
   autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-  autocmd FileType vim setlocal foldmethod=marker
+  autocmd BufNewFile,BufRead vimrc setlocal foldmethod=marker
+  " highlight echo in shell
+  autocmd filetype sh {
+    highlight Sloppy guibg=darkred guifg=white
+    syn keyword Sloppy echo
+    match Sloppy /echo/
+  }
 augroup END
 " }}}
 
@@ -78,8 +87,6 @@ augroup END
 
 " Cursor is on a character that has actual place in a buffer. After the last character there is no actual place to put cursor on. Unless you use virtual place, some external plugins might become break with this
 " set virtualedit+=onemore
-" enable vim-auto-popmenu
-let g:apc_enable_ft = {'text':1, 'markdown':1, 'javascript':1, 'html':1, 'css':1}
 " don't give |ins-completion-menu| messages
 set shortmess+=c
 " replace tabs with spaces
@@ -131,21 +138,22 @@ let g:netrw_banner = 0
 " To see a list of ready-to-use themes,
 " :colorscheme [space] [Ctrl+d]
 " colorscheme torte
-packadd! onedark.vim
-if has("termguicolors")
-  set termguicolors
-endif
-let g:onedark_color_overrides = {
-  \ "background": {"gui": "#131313", "cterm": "233", "cterm16": "0" },
-  \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
-  \}
-colorscheme onedark
+try
+  packadd! onedark.vim
+  if has("termguicolors")
+    set termguicolors
+  endif
+  let g:onedark_color_overrides = {
+        \ "background": {"gui": "#131313", "cterm": "233", "cterm16": "0" },
+        \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
+        \}
+  colorscheme onedark
+catch
+  colorscheme default
+endtry
 " }}}
 
 " Highlight echo, todo and trailing whitespace {{{ 
-highlight Sloppy guibg=darkred guifg=white
-syn keyword Sloppy echo
-match Sloppy /echo/
 highlight ExtraWhitespace guibg=lightred
 call matchadd("ExtraWhitespace",'\s\+$')
 highlight Todo guifg=black guibg=yellow

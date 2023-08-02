@@ -62,6 +62,16 @@ nnoremap <leader>dd :Lexplore %:p:h<CR>
 nnoremap <Leader>dw :Lexplore<CR>
 " ctrl + space to show completions
 inoremap <C-space> <C-x><C-o>
+" move & indent selected line(s) up/down
+" ^] is a single character that represents the ALT key, use C+v, Esc in Vim (C+q, Esc on Windows)
+" https://stackoverflow.com/questions/741814/move-entire-line-up-and-down-in-vim/2439848#2439848
+nnoremap j :move .+1<CR>==
+nnoremap k :move .-2<CR>==
+inoremap j <Esc>:move .+1<CR>==gi
+inoremap k <Esc>:move .-2<CR>==gi
+vnoremap k :move '<-2<CR>gv='>my'<mzgv'yo'z
+vnoremap j :move '>+1<CR>gv='<my'>mzgv'yo'z
+
 " }}}
 
 " filetype specific settings {{{
@@ -73,7 +83,7 @@ augroup filetype_settings
   autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
   autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-  autocmd BufNewFile,BufRead vimrc setlocal foldmethod=marker
+  autocmd BufNewFile,BufRead .\=vimrc setlocal foldmethod=marker
   " highlight echo in shell
   autocmd filetype sh {
     highlight Sloppy guibg=darkred guifg=white
@@ -200,12 +210,12 @@ endif
 
 " codeium {{{
 "imap <script><silent><nowait><expr> <C-g> codeium#Accept()
-inoremap <C-o>   <Cmd>call codeium#CycleCompletions(1)<CR>
+inoremap <C-å>   <Cmd>call codeium#CycleCompletions(1)<CR>
 inoremap <C-p>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 inoremap <C-l>   <Cmd>call codeium#Clear()<CR>
 "inoremap <Tab>   <Cmd>call codeium#Complete()<CR>
 "inoremap <C-a>   <Cmd>call codeium#Accept()<CR>
-inoremap <C-d> :CodeiumDisable<CR>
+inoremap <C-d>  <Cmd>CodeiumDisable<CR>
 " }}}
 
 " vim tip of the day {{{
@@ -215,10 +225,10 @@ endfunction
 nnoremap <leader>t :call Vtip() <return>
 if v:vim_did_enter
   call Vtip()
-else
-  augroup vtip
-    autocmd!
-    autocmd BufWinEnter * call Vtip()
-  augroup END
+" else
+"   augroup vtip
+"     autocmd!
+"     autocmd BufWinEnter * call Vtip()
+"   augroup END
 endif
 " }}}

@@ -68,7 +68,9 @@ else:
         os.system('') # ANSI codes doesnt work without this hack, https://github.com/python/cpython/issues/84315
         currentDay = datetime.now().day
         if currentDay < 10:
-            splt = cal.split(str(currentDay), 1)
+            firstNewlineIndex = cal.index('\n') # jump over the year numbers
+            currentDayIndex = cal.index(str(currentDay), firstNewlineIndex + 1)
+            splt = [cal[:currentDayIndex]] + [cal[currentDayIndex + 1:]]
         else:
             splt = cal.rsplit(str(currentDay), 1)
         cal = f'\033[00;36m{currentDay}\033[0m'.join(splt)

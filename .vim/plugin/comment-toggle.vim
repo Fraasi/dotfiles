@@ -24,6 +24,6 @@ function! s:CommentToggle()
   endif
 endfunction
 
-noremap gc :call <SID>CommentToggle()<CR>
-
+noremap ' :call <SID>CommentToggle()<CR><LEFT>
+inoremap ' <ESC>:call <SID>CommentToggle()<CR>i
 

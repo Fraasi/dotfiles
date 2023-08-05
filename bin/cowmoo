@@ -16,7 +16,7 @@ RANDOM_COW=${COWS[$COWS_INDEX]}
 
 echo "${RANDOM_COW[@]}" -"${RANDOM_MODE[*]}" Fetching quote...
 
-URL="https://ms-rq-api.herokuapp.com/"
+URL="https:/f-rq.cyclic.app/"
 HTTP_RESPONSE=$( curl -sw "%{http_code}" $URL )
 HTTP_CODE=${HTTP_RESPONSE:${#HTTP_RESPONSE}-3}
 

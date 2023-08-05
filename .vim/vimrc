@@ -56,10 +56,10 @@ vnoremap <leader>" :s/\%V\(.*\)\%V/"\1"/<CR>
 " clear prev search & set search to normal regex (very magic), :help magic
 nnoremap / :nohlsearch<return><esc>/\v
 nnoremap ? :nohlsearch<return><esc>?\v
-" Leader dd: Will open Netrw in the directory of the current file
-nnoremap <leader>dd :Lexplore %:p:h<CR>
+" open Netrw in the directory of the current file
+nnoremap <leader>fd :Lexplore %:p:h<CR>
 " Leader dw: Will open Netrw in the current working directory
-nnoremap <Leader>dw :Lexplore<CR>
+nnoremap <Leader>fw :Lexplore<CR>
 " ctrl + space to show completions
 inoremap <C-space> <C-x><C-o>
 " move & indent selected line(s) up/down
@@ -84,6 +84,7 @@ augroup filetype_settings
   autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
   autocmd FileType css set omnifunc=csscomplete#CompleteCSS
   autocmd BufNewFile,BufRead .\=vimrc setlocal foldmethod=marker
+  autocmd Syntax javascript setlocal foldmethod=syntax
   " highlight echo in shell
   autocmd filetype sh {
     highlight Sloppy guibg=darkred guifg=white
@@ -128,7 +129,7 @@ endif
 " Set the command window height to 2 lines, to avoid many cases of having to "press <Enter> to continue"
 set cmdheight=2
 " Enable folding
-set foldenable foldmethod=indent foldcolumn=1
+set foldenable foldmethod=indent foldcolumn=1 foldlevelstart=5
 " Location of swap files
 " // means that the directory information will be saved in the filename
 set directory=/tmp//

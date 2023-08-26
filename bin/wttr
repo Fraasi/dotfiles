@@ -39,7 +39,7 @@ function wttr() {
         LANG=${OPTARG}
         ;;
       m)
-        curl -s "http://${LANG}.wttr.in/moon?F"
+        curl -s "https://${LANG}.wttr.in/moon?F"
         return 0
         ;;
       h)
@@ -47,7 +47,7 @@ function wttr() {
         return 0
         ;;
       w)
-        curl -s "http://wttr.in/:help"
+        curl -s "https://wttr.in/:help"
         return 0
         ;;
       r)
@@ -65,7 +65,7 @@ function wttr() {
     esac
   done
 
-  curl -s "http://${LANG}.wttr.in/${CITY}?${DAYS}${NARROW}FMq"
+  curl -s "https://${LANG}.wttr.in/${CITY}?${DAYS}${NARROW}FMq"
 }
 
 wttr "$@"

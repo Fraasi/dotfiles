@@ -62,6 +62,10 @@ nnoremap <leader>fd :Lexplore %:p:h<CR>
 nnoremap <Leader>fw :Lexplore<CR>
 " ctrl + space to show completions
 inoremap <C-space> <C-x><C-o>
+" close buffer wihout saving
+nnoremap <C-w>Q :bdelete!<CR>
+" open git diffs in new buffer, see custom commands below
+nnoremap <leader>gd :call Gitdiff()<CR>
 " move & indent selected line(s) up/down
 " ^] is a single character that represents the ALT key, use C+v, Esc in Vim (C+q, Esc on Windows)
 " https://stackoverflow.com/questions/741814/move-entire-line-up-and-down-in-vim/2439848#2439848
@@ -105,7 +109,10 @@ set expandtab
 " 1 tab = 2 spaces
 set tabstop=2 shiftwidth=2 smarttab
 " when creating a new line, copy the indentation from the line above
-set autoindent
+" set autoindent
+" copy indent from previous line: useful when using tabs for indentation and spaces for alignment
+set copyindent
+set list listchars=extends:>,precedes:<
 " gutter numbers
 set number relativenumber
 " Show a few lines of context around the cursor
@@ -118,10 +125,13 @@ set showmatch
 " highlight current line
 set cursorline
 " Always display the status line, even if only one window is displayed
+" statusline {{{
 set laststatus=2
 set statusline=
-set statusline+=[%n]\ " buffer number
+" current window|buffer number
+set statusline+=[%{winnr()},%n]\ 
 set statusline+=%<%f%h%m%r%=%-14.(%l/%L,%c%V%)\ %P
+" }}}
 " Enable use of the mouse for all modes
 if has('mouse')
   set mouse=a
@@ -142,6 +152,8 @@ set ignorecase smartcase hlsearch
 set path+=**5
 " hide netrw banner, toggle with <shift-i>
 let g:netrw_banner = 0
+" 3 = tree style listing
+let g:netrw_liststyle = 3
 
 " }}}
 
@@ -182,11 +194,23 @@ endif
 " }}}
 
 " custom commands {{{
-:command Vimrc :e $MYVIMRC
-:command -nargs=1 Log put ='console.log(\"<args>\", <args>)'
-:command -nargs=1 -complete=file -bar Vopen :rightbelow :vsplit <args> | :wincmd h
-:command Wc write | bdelete
-:command Bufonly write | %bdelete | edit#
+command Vimrc :e $MYVIMRC
+command -nargs=1 Log put ='console.log(\"<args>\", <args>)'
+command -nargs=1 -complete=file -bar Vopen :rightbelow :vsplit <args> | :wincmd h
+command Wc write | bdelete
+command Bufonly write | %bdelete | edit#
+command Windows echo map(range(1, winnr('$')), '[v:val, bufname(winbufnr(v:val))]')
+function! Gitdiff()
+  enew
+  " scratch file & filetype for colors
+  setlocal buftype=nofile
+  setlocal bufhidden=hide
+  setlocal noswapfile
+  setlocal filetype=diff
+  read !git diff --unified=1 #:p
+  normal gg
+  vsplit #
+endfunction
 " }}}
 
 " Open help in curwin with :H (:h help-curwin) {{{

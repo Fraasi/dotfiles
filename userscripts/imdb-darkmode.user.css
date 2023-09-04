@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         Imdb dark mode
-@version      1.1.1
+@version      1.1.2
 @author       fraasi
 @namespace    https://github.com/fraasi
 @description  Imdb darkmode stylings
@@ -18,12 +18,13 @@
 
     /* override imdb base colors */
     --ipt-base-bg: var(--bg-color);
+    --ipt-on-base-color: var(--bg-color);
     --ipc-pageSection-base-bg: var(--bg-color);
     --ipt-on-base-textPrimary-color: var(--font-white);
     --ipt-on-base-textSecondary-color: var(--font-grey);
     --ipt-base-border-color: var(--border-color);
     --ipc-listCard-base-bg: var(--bg-color);
-    --ipt-base-shade3-bg: var(--bg-color)
+    --ipt-base-shade3-bg: var(--bg-color);
   }
 
   html,
@@ -51,17 +52,17 @@
     color: var(--font-white);
   }
 
-  #wrapper .lister-widget .lister-item-header>a,
-  #wrapper .lister-widget .lister-item-credits>a {
+  #wrapper .lister-widget .lister-item-header > a,
+  #wrapper .lister-widget .lister-item-credits > a {
     color: var(--font-blue);
   }
 
   .lister-widget .star-rating-value,
-  .lister-widget .ratings-bar>div {
+  .lister-widget .ratings-bar > div {
     color: var(--font-grey);
   }
 
-  .lister-widget .lister-list.mode-detail>* {
+  .lister-widget .lister-list.mode-detail > * {
     border-bottom-color: var(--font-grey);
   }
 
@@ -138,7 +139,7 @@
   }
 
   /* reviews page */
-  .lister>.header {
+  .lister > .header {
     background: unset;
   }
 
@@ -163,11 +164,16 @@
   }
 
   /* Episode List page */
-  #episodes_content>div.seasonAndYearNav,
+  #episodes_content > div.seasonAndYearNav,
   select#byYear,
   select#bySeason {
     color: var(--font-grey);
     background: unset;
+  }
+
+  .ipc-tabs.ipc-tabs--base {
+    background-color: var(--bg-color);
+    color: var(--font-grey);
   }
 
   /* refine list block */
@@ -175,16 +181,40 @@
     color: var(--font-grey);
   }
 
-  .faceter>.faceter-content,
-  .faceter>.faceter-content>.faceter-facets {
-    background-color: var(--border-color);
+  .faceter > .faceter-header,
+  .faceter > .faceter-content,
+  .faceter > .faceter-content > .faceter-facets {
+    background-color: var(--bg-color);
   }
 
-  /* input field */
+  li.faceter-category.active,
+  li.faceter-category:hover {
+    background-color: var(--border-color) !important;
+  }
+
+
+  /* lister widget */
+  .lister-widget-sprite {
+    filter: invert(100%);
+  }
+
   .lister-widget .lister-control-group select,
   .lister-widget .header-actions select,
   .lister-widget .lister-controls .working {
     background: unset;
+  }
+
+  #wrapper .lister-widget .faceter-content,
+  #wrapper .lister-widget .faceter-fieldset {
+    background-color: var(--bg-color);
+  }
+
+  .lister-widget .faceter-categories .subTitle {
+    color: var(--font-blue);
+  }
+
+  .lister-widget fieldset.faceter-facet > legend {
+    color: var(--font-grey);
   }
 
   /* ratings page  */
@@ -200,14 +230,13 @@
   }
 
   p[data-testid="calculations-label"],
-  div[data-testid]>span {
+  div[data-testid] > span {
     color: var(--font-white);
   }
 
-  text>tspan {
+  text > tspan {
     fill: var(--font-white) !important;
     text-shadow: 0px 0px 4px black;
-
   }
 
   /* plotsummary page */

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  Add video links to imdb pages
 // @author       Fraasi
 // @match        https://www.imdb.com/title/tt*
@@ -20,7 +20,7 @@
   const isEpisodePage = window.location.pathname.includes('episodes')
   const year = docTitle.match(/\d{4}/)?.[0] || ''
   // const isSeries = /TV Series|Season/.test(docTitle)
-  let episodeCount = isEpisodePage ? document.querySelectorAll('.list_item').length : 0
+  let episodeCount = isEpisodePage ? document.querySelectorAll('.episode-item-wrapper').length : 0
   let selectedEpisode = 1
 
   function createLink(text, el = 'a') {
@@ -48,7 +48,7 @@
 
   function update() {
 
-    const season = isEpisodePage ? document.querySelector('#bySeason option[selected="selected"]').value : ''
+    const season = isEpisodePage ? document.querySelector('.ipc-tabs--display-chip .ipc-tab--active').innerText : ''
     const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
     vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
 
@@ -122,13 +122,16 @@
       for (const mutation of mutationsList) {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
           selectedEpisode = 1
-          episodeCount = isEpisodePage ? document.querySelectorAll('.list_item').length : 0
+          episodeCount = isEpisodePage ? document.querySelectorAll('.episode-item-wrapper').length : 0
           update()
         }
       }
     };
     const observer = new MutationObserver(getNewData)
-    observer.observe(document.querySelector('#episodes_content'), { childList: true })
+    observer.observe(
+        document.querySelector('.ipc-page-section.ipc-page-section--base.ipc-page-section--sp-pageMargin:nth-child(2)'),
+        { childList: true, subtree: true }
+    )
   }
 
 })();

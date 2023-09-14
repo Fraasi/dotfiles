@@ -33,6 +33,9 @@ endif
 let mapleader = " "
 " map jk to esc
 inoremap jk <Esc>
+" clear prev search & set search to normal regex (very magic), :help magic
+nnoremap / :nohlsearch<return><esc>/\v
+nnoremap ? :nohlsearch<return><esc>?\v
 " save file in insert mode with §
 inoremap § <C-O>:w<CR>
 " edit vimrc
@@ -53,29 +56,28 @@ nnoremap <leader>c :nohlsearch <return>
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 " surround selection (in one line) with quotes
 vnoremap <leader>" :s/\%V\(.*\)\%V/"\1"/<CR>
-" clear prev search & set search to normal regex (very magic), :help magic
-nnoremap / :nohlsearch<return><esc>/\v
-nnoremap ? :nohlsearch<return><esc>?\v
 " open Netrw in the directory of the current file
 nnoremap <leader>fd :Lexplore %:p:h<CR>
-" Leader dw: Will open Netrw in the current working directory
+" Leader fw: Will open Netrw in the current working directory
 nnoremap <Leader>fw :Lexplore<CR>
+" open current directory in new tab
+nnoremap <Leader>fn :tabedit %:h<CR>
 " ctrl + space to show completions
 inoremap <C-space> <C-x><C-o>
 " close buffer wihout saving
 nnoremap <C-w>Q :bdelete!<CR>
 " open git diffs in new buffer, see custom commands below
 nnoremap <leader>gd :call Gitdiff()<CR>
-" move & indent selected line(s) up/down
-" ^] is a single character that represents the ALT key, use C+v, Esc in Vim (C+q, Esc on Windows)
-" https://stackoverflow.com/questions/741814/move-entire-line-up-and-down-in-vim/2439848#2439848
-nnoremap j :move .+1<CR>==
-nnoremap k :move .-2<CR>==
-inoremap j <Esc>:move .+1<CR>==gi
-inoremap k <Esc>:move .-2<CR>==gi
-vnoremap k :move '<-2<CR>gv='>my'<mzgv'yo'z
-vnoremap j :move '>+1<CR>gv='<my'>mzgv'yo'z
-
+"{{{ move & indent selected line(s) up/down
+  " ^] is a single character that represents the ALT key, use C+v, Esc in Vim (C+q, Esc on Windows)
+  " https://stackoverflow.com/questions/741814/move-entire-line-up-and-down-in-vim/2439848#2439848
+  nnoremap j :move .+1<CR>==
+  nnoremap k :move .-2<CR>==
+  inoremap j <Esc>:move .+1<CR>==gi
+  inoremap k <Esc>:move .-2<CR>==gi
+  vnoremap k :move '<-2<CR>gv='>my'<mzgv'yo'z
+  vnoremap j :move '>+1<CR>gv='<my'>mzgv'yo'z
+" }}}
 " }}}
 
 " filetype specific settings {{{
@@ -89,71 +91,49 @@ augroup filetype_settings
   autocmd FileType css set omnifunc=csscomplete#CompleteCSS
   autocmd BufNewFile,BufRead .\=vimrc setlocal foldmethod=marker
   autocmd Syntax javascript setlocal foldmethod=syntax
-  " highlight echo in shell
   autocmd filetype sh {
-    highlight Sloppy guibg=darkred guifg=white
-    syn keyword Sloppy echo
-    match Sloppy /echo/
+    compiler shellcheck
+    highlight Echo guibg=darkred guifg=white
+    syn keyword Echo echo
+    match Echo /echo/
   }
 augroup END
 " }}}
 
 " Vim settings {{{
 
-" Cursor is on a character that has actual place in a buffer. After the last character there is no actual place to put cursor on. Unless you use virtual place, some external plugins might become break with this
-" set virtualedit+=onemore
-" don't give |ins-completion-menu| messages
-set shortmess+=c
-" replace tabs with spaces
-set expandtab
-" 1 tab = 2 spaces
-set tabstop=2 shiftwidth=2 smarttab
-" when creating a new line, copy the indentation from the line above
-" set autoindent
-" copy indent from previous line: useful when using tabs for indentation and spaces for alignment
-set copyindent
-set list listchars=extends:>,precedes:<
-" gutter numbers
-set number relativenumber
-" Show a few lines of context around the cursor
-set scrolloff=3
-" omnifunc
-set omnifunc=syntaxcomplete#Complete
-set completeopt=menuone,noinsert,popup
-" show the mathing brackets
-set showmatch
-" highlight current line
-set cursorline
-" Always display the status line, even if only one window is displayed
+set shortmess+=c                        " Don't pass messages to |ins-completion-menu|.
+set expandtab                           " Use the appropriate number of spaces to insert a <Tab>.
+set tabstop=2 shiftwidth=2 smarttab     " Number of spaces that a <Tab> in the file counts for.
+set autoindent                          " Copy indent from current line when starting a new line.
+set copyindent                          " Copy indent for new lines when auto-indenting.
+set shiftround                          " Round indent to multiple of shiftwidth when using < and >
+set list listchars=extends:>,precedes:< " Display tabs and trailing spaces visually
+set number relativenumber               " Show line numbers on the left
+set scrolloff=3                         " Show a few lines of context around the cursor, default 5
+set omnifunc=syntaxcomplete#Complete    " omni-completion
+set completeopt=menuone,noinsert,popup, noselect  " Insert mode completion:
+set showmatch                           " Show matching brackets when text indicator is over them
+set cursorline                          " Highlight the current line
 " statusline {{{
-set laststatus=2
-set statusline=
-" current window|buffer number
-set statusline+=[%{winnr()},%n]\ 
-set statusline+=%<%f%h%m%r%=%-14.(%l/%L,%c%V%)\ %P
+  set laststatus=2                      " Always show the status line
+  set statusline=
+  " current window|buffer number
+  set statusline+=[%{winnr()},%n]\ 
+  set statusline+=%<%f%h%m%r%=%-14.(%l/%L,%c%V%)\ %P
 " }}}
-" Enable use of the mouse for all modes
 if has('mouse')
-  set mouse=a
+  set mouse=a                           " Enable mouse usage (all modes)
 endif
-" Set the command window height to 2 lines, to avoid many cases of having to "press <Enter> to continue"
-set cmdheight=2
-" Enable folding
-set foldenable foldmethod=indent foldcolumn=1 foldlevelstart=5
-" Location of swap files
-" // means that the directory information will be saved in the filename
-set directory=/tmp//
-set backupdir=/tmp//
+set cmdheight=2                         " More space for displaying messages
+set foldenable foldmethod=indent foldcolumn=1 foldlevelstart=5    " Enable folding
+set directory=/tmp//                    " Location of swap files
+set backupdir=/tmp//                    " // means that the directory information will be saved in the filename
 set undodir=/tmp//
-" Search
-set ignorecase smartcase hlsearch
-" search down into subdirectories. :find <tab>, use * for fuzzy search
-" **n, n = max subdirs to descent into, default 30
-set path+=**5
-" hide netrw banner, toggle with <shift-i>
-let g:netrw_banner = 0
-" 3 = tree style listing
-let g:netrw_liststyle = 3
+set ignorecase smartcase hlsearch       " Ignore case when searching
+set path+=**5                           " Searches current directory recursively, max subdirs 5
+let g:netrw_banner = 0                  " 0 = no banner, toggle with <shiht-i>
+let g:netrw_liststyle = 3               " tree style listing
 
 " }}}
 
@@ -176,7 +156,7 @@ catch
 endtry
 " }}}
 
-" Highlight echo, todo and trailing whitespace {{{ 
+" Highlight todo and trailing whitespace {{{ 
 highlight ExtraWhitespace guibg=lightred
 call matchadd("ExtraWhitespace",'\s\+$')
 highlight Todo guifg=black guibg=yellow
@@ -235,25 +215,11 @@ endfunction
 
 " codeium {{{
 "imap <script><silent><nowait><expr> <C-g> codeium#Accept()
-inoremap <C-å>   <Cmd>call codeium#CycleCompletions(1)<CR>
-inoremap <C-p>   <Cmd>call codeium#CycleCompletions(-1)<CR>
+inoremap <C-ä>   <Cmd>call codeium#CycleCompletions(1)<CR>
+inoremap <C-ö>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 inoremap <C-l>   <Cmd>call codeium#Clear()<CR>
-"inoremap <Tab>   <Cmd>call codeium#Complete()<CR>
+inoremap <Tab>   <Cmd>call codeium#Complete()<CR>
 "inoremap <C-a>   <Cmd>call codeium#Accept()<CR>
 inoremap <C-d>  <Cmd>CodeiumDisable<CR>
 " }}}
 
-" vim tip of the day {{{
-function Vtip()
-  echomsg system('curl -s -m 3 https://vtip.43z.one')
-endfunction
-nnoremap <leader>t :call Vtip() <return>
-if v:vim_did_enter
-  call Vtip()
-" else
-"   augroup vtip
-"     autocmd!
-"     autocmd BufWinEnter * call Vtip()
-"   augroup END
-endif
-" }}}

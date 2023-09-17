@@ -112,7 +112,7 @@ set list listchars=extends:>,precedes:< " Display tabs and trailing spaces visua
 set number relativenumber               " Show line numbers on the left
 set scrolloff=3                         " Show a few lines of context around the cursor, default 5
 set omnifunc=syntaxcomplete#Complete    " omni-completion
-set completeopt=menuone,noinsert,popup, noselect  " Insert mode completion:
+set completeopt=menuone,noinsert,popup,noselect  " Insert mode completion:
 set showmatch                           " Show matching brackets when text indicator is over them
 set cursorline                          " Highlight the current line
 " statusline {{{

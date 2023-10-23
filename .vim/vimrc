@@ -33,6 +33,8 @@ endif
 let mapleader = " "
 " map jk to esc
 inoremap jk <Esc>
+" toggle netrw
+nnoremap <c-n> :15 Lexplore<CR>
 " clear prev search & set search to normal regex (very magic), :help magic
 nnoremap / :nohlsearch<return><esc>/\v
 nnoremap ? :nohlsearch<return><esc>?\v

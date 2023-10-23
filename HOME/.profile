@@ -67,3 +67,4 @@ for c in "$HOME"/bash_completion.d/*.bash; do
     test ! -f "$c" ||
         . "$c"
 done
+. "$HOME/.cargo/env"

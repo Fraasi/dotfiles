@@ -5,7 +5,7 @@ function! s:CommentToggle()
 
   if l:filetype == 'sh' || l:filetype == 'python' || l:filetype == 'conf'
     let l:comment_char = '#'
-  elseif l:filetype == 'javascript' || l:filetype == 'typescript'
+  elseif l:filetype == 'javascript' || l:filetype == 'typescript' || l:filetype == 'rust'
     let l:comment_char = '//'
   elseif l:filetype == 'vim'
     let l:comment_char = '"'

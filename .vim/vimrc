@@ -33,8 +33,8 @@ endif
 let mapleader = " "
 " map jk to esc
 inoremap jk <Esc>
-" toggle netrw
-nnoremap <c-n> :15 Lexplore<CR>
+" toggle netrw, alt + x
+nnoremap x :20 Lexplore<CR>
 " clear prev search & set search to normal regex (very magic), :help magic
 nnoremap / :nohlsearch<return><esc>/\v
 nnoremap ? :nohlsearch<return><esc>?\v
@@ -217,11 +217,13 @@ endfunction
 
 " codeium {{{
 "imap <script><silent><nowait><expr> <C-g> codeium#Accept()
-inoremap <C-ä>   <Cmd>call codeium#CycleCompletions(1)<CR>
-inoremap <C-ö>   <Cmd>call codeium#CycleCompletions(-1)<CR>
-inoremap <C-l>   <Cmd>call codeium#Clear()<CR>
-inoremap <Tab>   <Cmd>call codeium#Complete()<CR>
-"inoremap <C-a>   <Cmd>call codeium#Accept()<CR>
-inoremap <C-d>  <Cmd>CodeiumDisable<CR>
+inoremap Ä  <Cmd>call codeium#CycleCompletions(1)<CR>
+inoremap Ö  <Cmd>call codeium#CycleCompletions(-1)<CR>
+inoremap <C-l>  <Cmd>call codeium#Clear()<CR>
+" Manually trigger suggestion
+inoremap <C-Ä>  <Cmd>call codeium#Complete()<CR>
+"inoremap <C-a>  <Cmd>call codeium#Accept()<CR>
+nnoremap <leader>cd <Cmd>CodeiumDisable<CR>
+nnoremap <leader>ce <Cmd>CodeiumEnable<CR>
 " }}}
 

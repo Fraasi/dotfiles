@@ -4,3 +4,6 @@
 [submodule ".vim/pack/Exafunction/start/codeium.vim"]
 	path = .vim/pack/Exafunction/start/codeium.vim
 	url = https://github.com/Exafunction/codeium.vim.git
+[submodule ".vim/pack/plugins/opt/rust.vim"]
+	path = .vim/pack/plugins/opt/rust.vim
+	url = https://github.com/rust-lang/rust.vim.git

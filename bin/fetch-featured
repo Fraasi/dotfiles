@@ -7,7 +7,7 @@ import urllib
 from bs4 import BeautifulSoup
 
 
-url = 'https://movgotv.com' # /genre/featured/'
+url = 'https://upmovies.to/cinema-movies.html'
 
 try:
   html = requests.get(url).text
@@ -19,27 +19,32 @@ except:
   limit = 6
 
 # for troubleshooting
-# f = open('featured_test.html', 'w')
-# f.write(html)
-# f.close()
+#f = open('featured_test.html', 'w')
+#f.write(html)
+#f.close()
 
 soup = BeautifulSoup(html, 'html.parser')
 
-# movgotv
-for div in soup.find_all('div', class_='ml-item'):
+# skip first one
+for div in soup.select('div.shortItem.listItem')[1:]:
   if limit <= 0:
     break
-  quality = div.find(class_='jtip-quality').get_text()
+  quality = div.find('p', class_='film_hd').get_text()
   if quality == 'CAM':
     continue
 
-  title = div.find(class_='mli-info ntitl').get_text()
-  year = div.find(class_="jt-info").findNext('a').get_text()
-  rating = div.find(class_='jt-imdb').get_text()
-  genres = ''
-  for genre in div.findAll('a', attrs={"title": re.compile('Movies$')}):
-    genres +=  ''.join(genre.findAll(text=True)) + ' '
+  title = div.find(class_='title').get_text()
+  file_info = div.find('div', 'file-info').get_text()
+  info_cleaned = []
+  for info in file_info.split('\n'):
+    if re.search(r'Duration|Actors', info):
+      continue
+    else:
+      info_cleaned += info + '\n'
+  # strip first and last two newlines and join
+  info_cleaned = ''.join(info_cleaned[1:-2]).replace('\n', ' | ')
   link = f"https://www.imdb.com/find?q={urllib.parse.quote_plus(title)}"
-  parsed = '\n {0} ({1}) - {2}{3} - {4}\n {5}'.format(title, year, quality, rating, genres, link)
+  parsed = '\n({0}) {1} - {2}\n{3}'.format(quality, title, link, info_cleaned)
   print(parsed)
   limit -= 1
+

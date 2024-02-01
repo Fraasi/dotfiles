@@ -30,7 +30,7 @@ for div in soup.select('div.shortItem.listItem')[1:]:
   if limit <= 0:
     break
   quality = div.find('p', class_='film_hd').get_text()
-  if quality == 'CAM':
+  if quality != 'HD':
     continue
 
   title = div.find(class_='title').get_text()

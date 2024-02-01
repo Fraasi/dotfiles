@@ -133,7 +133,8 @@ set directory=/tmp//                    " Location of swap files
 set backupdir=/tmp//                    " // means that the directory information will be saved in the filename
 set undodir=/tmp//
 set ignorecase smartcase hlsearch       " Ignore case when searching
-set path+=**5                           " Searches current directory recursively, max subdirs 5
+set path+=**                            " Searches current directory recursively, Note that completion for :find, :sfind, and :tabfind commands do not currently work with 'path' items that contain a URL or use the double star with depth limiter (/usr/**2) or upward search (;) notations. (:h file-search)
+set wildignore+=node_modules/**         " Ignore in path
 let g:netrw_banner = 0                  " 0 = no banner, toggle with <shiht-i>
 let g:netrw_liststyle = 3               " tree style listing
 

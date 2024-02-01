@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+
+read -p "Press [Enter] key to start $0..."
+echo
+
+cp -iv "/c/Users/$USER/AppData/Local/Vivaldi/User Data/Default/Bookmarks" "/d/$USER/backups/vivaldi/Bookmarks"
+cp -iv "/c/Users/$USER/AppData/Local/Vivaldi/User Data/Default/Notes" "/d/$USER/backups/vivaldi/Notes"
+
+echo
+read -p "Done. Press [Enter] key to exit..."
+

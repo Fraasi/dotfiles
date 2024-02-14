@@ -150,6 +150,10 @@ function wacp() {
     command wac "$@" | column -t -s'|' | less -R
 }
 
+function wacs() {
+    command wac -s "$@"
+}
+
 function f-rq() {
     uri_encoded="$( jq -rn --arg uri "$*" '$uri | @uri' )"
     curl -s https:/f-rq.cyclic.app/"$uri_encoded"
@@ -157,5 +161,10 @@ function f-rq() {
 
 function dict() {
   curl -s dict://dict.org/d:"$1" | bat
+}
+
+function disk-status() {
+  # for all the fields: wmic diskdrive list full
+  wmic.exe diskdrive get model,status,partitions
 }
 

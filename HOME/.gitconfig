@@ -1,39 +1,44 @@
 [filter "lfs"]
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
 [user]
-	name = fraasi
-	email = fraasi.gh@gmail.com
+  name = fraasi
+  email = fraasi.gh@gmail.com
 [credential]
-	helper = /c/Program\\ Files/Git/mingw64/bin/git-credential-manager-core.exe
+  helper = /c/Program\\ Files/Git/mingw64/bin/git-credential-manager-core.exe
 [alias]
-	aa = add --all
-	acm = "!git add -A && git commit -m"
-	alias = "!git config --get-regexp ^alias"
-	b = branch
-	c = commit
-	ca = commit --amend
-    cg = config --global
-	co = checkout
-	cm = commit -m
-    d = diff --stat master origin/master # git fetch first
-    files-changed = show --pretty="" --name-status
-	ignored = status --ignored -s
-	ll = log --graph --format=\"%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)\" # for fzf_git_log function in .bashrc
-	ls = log --oneline --stat --graph
-	po = push origin
-	s = status -sb
-    staged-files = diff --name-only --cached
+  aa = add --all
+  acm = "!git add -A && git commit -m"
+  alias = "!git config --get-regexp ^alias"
+  b = branch
+  c = commit
+  ca = commit --amend
+  cg = config --global
+  co = checkout
+  cm = commit -m
+  d = diff --stat master origin/master # git fetch first
+  files-changed = show --pretty="" --name-status
+  ignored = status --ignored -s
+  ll = log --graph --format=\"%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)\" # for fzf_git_log function in .bashrc
+  ls = log --oneline --stat --graph
+  po = push origin
+  s = status -sb
+  staged-files = diff --name-only --cached
 [grep]
-	lineNumber = true
+  lineNumber = true
 [color]
-	ui = auto
+  ui = auto
 [core]
-	autocrlf = false
-[credential "https://git.heroku.com"]
-	provider = generic
+  autocrlf = false
 [diff]
-    tool = vimdiff
-    wsErrorHighlight = all
+  tool = vimdiff
+  wsErrorHighlight = all
+  submodule = log
+[branch]
+  sort = -committerdate
+[commit]
+  verbose = true # adds the whole commit diff in the text editor where you’re writing your commit message
+[status]
+  submoduleSummary = true

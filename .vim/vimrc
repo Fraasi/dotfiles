@@ -45,7 +45,7 @@ nnoremap <leader>e :e $MYVIMRC<CR>
 " write & close current buffer, see custom command Wc below
 nnoremap <leader>wc :Wc<CR>
 " run current script
-nnoremap <leader>r :! clear && ./% <return>
+nnoremap <leader>r :! clear && "%:p" <return>
 " run cursor blinking fix
 nnoremap <leader>b :! tput cvvis <return>
 " visual-block mode ctrl+v remap fix
@@ -92,6 +92,7 @@ augroup filetype_settings
   autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
   autocmd FileType css set omnifunc=csscomplete#CompleteCSS
   autocmd BufNewFile,BufRead .\=vimrc setlocal foldmethod=marker
+  autocmd BufWritePost vimrc source $MYVIMRC
   autocmd Syntax javascript setlocal foldmethod=syntax
   autocmd filetype sh {
     compiler shellcheck

@@ -17,5 +17,6 @@ alias mv="mv -iv"
 alias n="notes"
 alias np="node -p"
 alias np++="/c/Program\ Files/Notepad++/notepad++.exe"
+alias perp="explorer.exe https://www.perplexity.ai/"
 alias python="$(which python3)"
 

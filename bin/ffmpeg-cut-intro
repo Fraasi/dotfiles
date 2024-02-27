@@ -1,0 +1,21 @@
+#!/usr/bin/bash
+
+if [[ "$1" != *":"* ]]; then
+  printf "\nfirst argument must be min:secs (01:15)\nthe rest video files to cut\n"
+  exit 1
+fi
+
+timesecs=$1
+shift
+
+for vid in "$@"; do
+  printf "cutting: %\n" "$vid}"
+  # check if vid exist
+  if [[ ! -f "$vid" ]]; then
+    printf "File not found: %\n" "$vid"
+    exit 1
+  fi
+
+  ffmpeg -hide_banner -loglevel error -ss 00:"$timesecs" -i "$vid" -c:v copy -c:a copy "${vid%.*}-introless.${vid##*.}"
+done
+

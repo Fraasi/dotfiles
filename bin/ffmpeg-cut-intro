@@ -9,10 +9,10 @@ timesecs=$1
 shift
 
 for vid in "$@"; do
-  printf "cutting: %\n" "$vid}"
+  printf "cutting: %s\n" "$vid"
   # check if vid exist
   if [[ ! -f "$vid" ]]; then
-    printf "File not found: %\n" "$vid"
+    printf "File not found: %s\n" "$vid"
     exit 1
   fi
 

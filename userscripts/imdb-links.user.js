@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4.0
 // @description  Add video links to imdb pages
 // @author       Fraasi
-// @match        https://www.imdb.com/title/tt*
+// @match        https://www.imdb.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=imdb.com
 // @grant        none
 // @run-at       document-idle
@@ -13,126 +13,135 @@
 (function () {
   'use strict';
 
-  const docTitle = document.title
-  const imdb_id = window.location.pathname.match(/tt\d+/)[0]
-  const title = docTitle.split(/ \(| - /)[0].trim()
-  const isMainPage = Boolean(document.querySelector('.titlereference-section-overview'))
-  const isEpisodePage = window.location.pathname.includes('episodes')
-  const year = docTitle.match(/\d{4}/)?.[0] || ''
-  // const isSeries = /TV Series|Season/.test(docTitle)
-  let episodeCount = isEpisodePage ? document.querySelectorAll('.episode-item-wrapper').length : 0
-  let selectedEpisode = 1
+  function showLinks() {
+    const docTitle = document.title
+    const imdb_id = window.location.pathname.match(/tt\d+/)[0]
+    const title = docTitle.split(/ \(| - /)[0].trim()
+    const isMainPage = Boolean(document.querySelector('.titlereference-section-overview'))
+    const isEpisodePage = window.location.pathname.includes('episodes')
+    const year = docTitle.match(/\d{4}/)?.[0] || ''
+    // const isSeries = /TV Series|Season/.test(docTitle)
+    let episodeCount = isEpisodePage ? document.querySelectorAll('.episode-item-wrapper').length : 0
+    let selectedEpisode = 1
 
-  function createLink(text, el = 'a') {
-    const styles = `
-    z-index: 5;
-    position: sticky;
-    top: 5px;
-    margin-left: 5px;
-    padding: 0px 5px;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    color: #ddd;
-    border-radius: 4px;
-    border: 1px solid black;
-    box-shadow: #2080cb 0px 1px 2px 0px;
-    background-color: #121212;`
+    function createLink(text, el = 'a') {
+      const styles = `
+z-index: 5;
+position: sticky;
+top: 5px;
+margin-left: 5px;
+padding: 0px 5px;
+text-decoration: none;
+font-size: 16px;
+font-weight: bold;
+color: #ddd;
+border-radius: 4px;
+border: 1px solid black;
+box-shadow: #2080cb 0px 1px 2px 0px;
+background-color: #121212;`
 
-    const elem = document.createElement(el)
-    elem.setAttribute('target', '_blank')
-    elem.innerText = text
-    elem.style = styles
-    return elem
+        const elem = document.createElement(el)
+        elem.setAttribute('target', '_blank')
+      elem.innerText = text
+      elem.style = styles
+      return elem
+    }
+
+    function update() {
+
+      const season = isEpisodePage ? document.querySelector('.ipc-tabs--display-chip .ipc-tab--active').innerText : ''
+      const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
+      vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
+
+      const season_NUM = season ? Number(season) < 10 ? `0${season}` : season : ''
+      const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
+      const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
+      const movieOrSeries = isEpisodePage ? 'series' : 'movie'
+      filepursuitLink.setAttribute('href', `https://filepursuit.com/pursuit?q=${title}+${extras}&type=video`)
+      movieWebLink.setAttribute('href', `https://movieweb-static.vercel.app/#/search/${movieOrSeries}/${encodeURI(title)}`)
+      const upMoviesSearch = isEpisodePage ? `${title}+season+${season}` : `${title} ${year}`.replaceAll(' ', '+')
+      upMoviesLink.setAttribute('href', `https://upmovies.to/search-movies/${encodeURI(upMoviesSearch)}.html`)
+      soaperLink.setAttribute('href', `https://soaper.tv/search.html?keyword=${encodeURI(title)}`)
+      const ytOver20min = '&sp=EgIYAg%253D%253D'
+      ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
+      archiveLink.setAttribute('href', `https://archive.org/search?query=title%3A%28${encodeURI(title)}%29+AND+mediatype%3A%28movies%29`)
+      let epHTML = ''
+      if (isEpisodePage) {
+        let options = ''
+        for (let i = 0; i < episodeCount; i++) {
+          options += `<option value="${i + 1}" ${(i + 1) === selectedEpisode ? 'selected' : ''}>${i + 1}</option>`
   }
+        epHTML = `
+  <label for="episodes">${episodeCount} episodes</label>
+  <select name="episodes" id="select-episode">
+    ${options}
+  </select>`
 
-  function update() {
+  episodesSpan.innerHTML = epHTML
+        document.getElementById("select-episode").onchange = function (evt) {
+          selectedEpisode = Number(evt.target.value)
+          update()
+        }
+      } else {
+        episodesSpan.style = 'display: none;'
+      }
+    }
 
-    const season = isEpisodePage ? document.querySelector('.ipc-tabs--display-chip .ipc-tab--active').innerText : ''
-    const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
-    vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
+    const vidsrcLink = createLink('vidsrc')
+    const filepursuitLink = createLink('filepursuit')
+    const movieWebLink = createLink('movie-web')
+    const upMoviesLink = createLink('upMovies')
+    const soaperLink = createLink('soaper')
+    const ytLink = createLink('yt')
+    const archiveLink = createLink('archive')
+    const episodesSpan = createLink('', 'span')
+    const soundtrackLink = createLink('soundtracks')
+    soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
+    soundtrackLink.setAttribute('target', '')
+    const ratingslink = createLink('ratings')
+    ratingslink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/ratings`)
+    ratingslink.setAttribute('target', '')
 
-    const watchaSearchString = encodeURI(title)
-    watchaLink.setAttribute('href', `https://watcha.movie/search/${watchaSearchString}`)
+    const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
+    wrapper.style.background = 'rgb(18, 18, 18)'
 
-    const season_NUM = season ? Number(season) < 10 ? `0${season}` : season : ''
-    const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
-    const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
-    const movieOrSeries = isEpisodePage ? 'series' : 'movie'
-    filepursuitLink.setAttribute('href', `https://filepursuit.com/pursuit?q=${title}+${extras}&type=video`)
-    movieWebLink.setAttribute('href', `https://movie-web.app/search/${movieOrSeries}/${encodeURI(title)}`)
-    const putSearch = isEpisodePage ? `${title}+season+${season}` : title.replaceAll(' ', '+')
-    putLink.setAttribute('href', `https://putlockers.fm/search-movies/${encodeURI(putSearch)}.html`)
-    soaperLink.setAttribute('href', `https://soaper.tv/search.html?keyword=${encodeURI(title)}`)
-    const ytOver20min = '&sp=EgIYAg%253D%253D'
-    ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
+    if (isMainPage) {
+      const langs = [...document.querySelectorAll('[href^="/language"]')].map(el => el.href.split('/').pop()).join(' / ')
+      const langLink = createLink(`languages: ${langs}`)
+      wrapper.prepend(langLink)
+    }
 
-    let epHTML = ''
+    wrapper.prepend(vidsrcLink, filepursuitLink, movieWebLink, upMoviesLink, soaperLink, ytLink, archiveLink, episodesSpan, soundtrackLink, ratingslink)
+
+    update()
+
     if (isEpisodePage) {
-      let options = ''
-      for (let i = 0; i < episodeCount; i++) {
-        options += `<option value="${i + 1}" ${(i + 1) === selectedEpisode ? 'selected' : ''}>${i + 1}</option>`
-      }
-      epHTML = `
-      <label for="episodes">${episodeCount} episodes</label>
-      <select name="episodes" id="select-episode">
-        ${options}
-      </select>`
-
-      episodesSpan.innerHTML = epHTML
-      document.getElementById("select-episode").onchange = function (evt) {
-        selectedEpisode = Number(evt.target.value)
-        update()
-      }
-    } else {
-      episodesSpan.style = 'display: none;'
+      function getNewData(mutationsList, observer) {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            selectedEpisode = 1
+            episodeCount = isEpisodePage ? document.querySelectorAll('.episode-item-wrapper').length : 0
+            update()
+          }
+        }
+      };
+      const observer = new MutationObserver(getNewData)
+      observer.observe(
+        document.querySelector('.ipc-page-section.ipc-page-section--base.ipc-page-section--sp-pageMargin:nth-child(2)'),
+        { childList: true, subtree: true }
+      )
     }
   }
 
-  const vidsrcLink = createLink('vidsrc')
-  const watchaLink = createLink('watcha')
-  const filepursuitLink = createLink('filepursuit')
-  const movieWebLink = createLink('movie-web')
-  const putLink = createLink('putlockers')
-  const soaperLink = createLink('soaper')
-  const ytLink = createLink('yt')
-  const episodesSpan = createLink('', 'span')
-  const soundtrackLink = createLink('soundtracks')
-  soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
-  soundtrackLink.setAttribute('target', '')
-  const ratingslink = createLink('ratings')
-  ratingslink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/ratings`)
-  ratingslink.setAttribute('target', '')
-
-  const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
-  wrapper.style.background = 'rgb(18, 18, 18)'
-
-  if (isMainPage) {
-    const langs = [...document.querySelectorAll('[href^="/language"]')].map(el => el.href.split('/').pop()).join(' / ')
-    const langLink = createLink(`languages: ${langs}`)
-    wrapper.prepend(langLink)
+  function hidePodcasts() {
+    const findSummarys = document.querySelectorAll('.ipc-metadata-list-summary-item.ipc-metadata-list-summary-item--click.find-result-item.find-title-result')
+    findSummarys.forEach(s => {
+      if (s.innerText.includes('Podcast')) s.style.display = 'none'
+    })
   }
 
-  wrapper.prepend(vidsrcLink, watchaLink, filepursuitLink, movieWebLink, putLink, soaperLink, ytLink, episodesSpan, soundtrackLink, ratingslink)
-
-  update()
-
-  if (isEpisodePage) {
-    function getNewData(mutationsList, observer) {
-      for (const mutation of mutationsList) {
-        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-          selectedEpisode = 1
-          episodeCount = isEpisodePage ? document.querySelectorAll('.episode-item-wrapper').length : 0
-          update()
-        }
-      }
-    };
-    const observer = new MutationObserver(getNewData)
-    observer.observe(
-        document.querySelector('.ipc-page-section.ipc-page-section--base.ipc-page-section--sp-pageMargin:nth-child(2)'),
-        { childList: true, subtree: true }
-    )
-  }
+  const url = document.URL
+  if (url.includes('/title/')) showLinks()
+  if (url.includes('/find/')) hidePodcasts()
 
 })();
-

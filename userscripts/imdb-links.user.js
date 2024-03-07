@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.4.0
-// @description  Add video links to imdb pages
+// @version      1.5.0
+// @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=imdb.com
@@ -60,7 +60,7 @@ background-color: #121212;`
       filepursuitLink.setAttribute('href', `https://filepursuit.com/pursuit?q=${title}+${extras}&type=video`)
       movieWebLink.setAttribute('href', `https://movieweb-static.vercel.app/#/search/${movieOrSeries}/${encodeURI(title)}`)
       const upMoviesSearch = isEpisodePage ? `${title}+season+${season}` : `${title} ${year}`.replaceAll(' ', '+')
-      upMoviesLink.setAttribute('href', `https://upmovies.to/search-movies/${encodeURI(upMoviesSearch)}.html`)
+      upMoviesLink.setAttribute('href', `https://upmovies.net/search-movies/${encodeURI(upMoviesSearch)}.html`)
       soaperLink.setAttribute('href', `https://soaper.tv/search.html?keyword=${encodeURI(title)}`)
       const ytOver20min = '&sp=EgIYAg%253D%253D'
       ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
@@ -140,8 +140,27 @@ background-color: #121212;`
     })
   }
 
+  /**
+   * Iterates through all job links and adds event listeners to scroll to corresponding section on click.
+   */
+  function linkJobs() {
+    document.querySelectorAll('h1+ul.ipc-inline-list > li').forEach(el => {
+      el.classList.add('ipc-chip', 'ipc-chip--on-base-accent2')
+      el.addEventListener('click', (e) => {
+        const job = e.target.innerText.toLowerCase()
+        const targetEl = document.getElementsByClassName(`filmo-section-${job}`)[0]
+        if (!targetEl) {
+          console.log(targetEl)
+          return
+        }
+        targetEl.scrollIntoView()
+      })
+    })
+  }
+
   const url = document.URL
   if (url.includes('/title/')) showLinks()
   if (url.includes('/find/')) hidePodcasts()
+  if (url.includes('/name/')) linkJobs()
 
 })();

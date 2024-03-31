@@ -168,3 +168,7 @@ function disk-status() {
   wmic.exe diskdrive get model,status,partitions
 }
 
+function soap() {
+  fname="$(sed 's/ /_/g' <<< $*).mp4"
+  yt-dlp -f- -o "$fname" $(soaper-dl -l -n "$@")
+}

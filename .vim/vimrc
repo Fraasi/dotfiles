@@ -100,6 +100,10 @@ augroup filetype_settings
     syn keyword Echo echo
     match Echo /echo/
   }
+  autocmd FileType text {
+    setlocal linebreak
+    setlocal breakindent
+  }
 augroup END
 " }}}
 
@@ -122,7 +126,7 @@ set cursorline                          " Highlight the current line
   set laststatus=2                      " Always show the status line
   set statusline=
   " current window|buffer number
-  set statusline+=[%{winnr()},%n]\ 
+  set statusline+=[%{winnr()},%n]\
   set statusline+=%<%f%h%m%r%=%-14.(%l/%L,%c%V%)\ %P
 " }}}
 if has('mouse')
@@ -160,7 +164,7 @@ catch
 endtry
 " }}}
 
-" Highlight todo and trailing whitespace {{{ 
+" Highlight todo and trailing whitespace {{{
 highlight ExtraWhitespace guibg=lightred
 call matchadd("ExtraWhitespace",'\s\+$')
 highlight Todo guifg=black guibg=yellow

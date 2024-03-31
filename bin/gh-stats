@@ -11,7 +11,15 @@ https.get(URI, { headers: {'user-agent': userName} }, (response) => {
   response.on('data', (chunk) => { data += chunk })
 
   response.on('end', () => {
+    let forks = 0
+    let stargazers = 0
+    let watchers = 0
+    let issues = 0
 		const jayson = JSON.parse(data)
+    if (jayson.message) { // api rate limit check
+      console.log(jayson)
+      return
+    }
 		const result = jayson.reduce((res, repo) => {
 			if (
 				!repo.fork
@@ -28,10 +36,21 @@ https.get(URI, { headers: {'user-agent': userName} }, (response) => {
 					forks: repo.forks,
 					open_issues: repo.open_issues
 				})
+
+        if (repo.stargazers_count > 0) stargazers += repo.stargazers_count
+        if (repo.watchers_count > 0) watchers += repo.watchers_count
+        if (repo.forks > 0) forks += repo.forks
+        if (repo.open_issues > 0) issues += repo.open_issues
 			}
 			return res
 		}, [])
-		console.log('result:', result)
+		result.push({
+      forks,
+      stargazers,
+      watchers,
+      issues
+    })
+		console.log(JSON.stringify(result, null, 2))
   })
 
 }).on("error", (err) => {

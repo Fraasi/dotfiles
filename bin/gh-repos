@@ -14,6 +14,10 @@ https.get(URI, { headers: {'user-agent': userName} }, (response) => {
 
   response.on('end', () => {
 		const jayson = JSON.parse(data)
+    if (jayson.message) { // api rate limit check
+      console.log(jayson)
+      return
+    }
 		const result = jayson.reduce((res, repo) => {
 			if ( !repo.fork ) {
 				res.push({
@@ -23,7 +27,7 @@ https.get(URI, { headers: {'user-agent': userName} }, (response) => {
 			}
 			return res
 		}, [])
-		console.log('repos:', result)
+		console.log(JSON.stringify(result, null, 2))
   })
 
 }).on("error", (err) => {

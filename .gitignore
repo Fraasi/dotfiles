@@ -7,3 +7,4 @@ userscripts/youtube-fixes.user.js
 featured_test.html
 .vim/.netrwhist
 */node_modules/*
+.env

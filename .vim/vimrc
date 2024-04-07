@@ -93,8 +93,12 @@ augroup filetype_settings
   autocmd FileType css set omnifunc=csscomplete#CompleteCSS
   autocmd BufNewFile,BufRead .\=vimrc setlocal foldmethod=marker
   autocmd BufWritePost vimrc source $MYVIMRC
-  autocmd Syntax javascript setlocal foldmethod=syntax
-  autocmd filetype sh {
+  autocmd Syntax javascript,typescript setlocal foldmethod=syntax
+  autocmd FileType typescript {
+    compiler tsc
+    setlocal makeprg=npx\ tsc\ --noEmit\ --pretty\ false
+  }
+  autocmd Filetype sh {
     compiler shellcheck
     highlight Echo guibg=darkred guifg=white
     syn keyword Echo echo

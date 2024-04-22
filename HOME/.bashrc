@@ -9,8 +9,7 @@ case $- in
 *) return ;;
 esac
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+# check the window size after each command and, if necessary, update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
@@ -21,9 +20,13 @@ shopt -s nocaseglob
 shopt -s cdspell
 # When running commands like cat dirname/test, have the shell fix minor typos
 shopt -s dirspell
-# Allow us to use Ctrl+S to perform forward search, by disabling the start and
+# Allow us to use Ctrl+S[ito perform forward search, by disabling the start and
 # stop output control signals, which are not needed on modern systems.
 stty -ixon
+
+bind '"\e[6~": menu-complete' # Pg Dn to select the first completion or change to the next one.
+bind '"\e[5~": menu-complete-backward' # Pg Up to select the last completion or change to the previous one.
+bind '"\eh": history-expand-line' # change M-^ to M-h to expand history line
 
 # cd lookup paths, in case of trouble unset: https://bosker.wordpress.com/2012/02/12/bash-scripters-beware-of-the-cdpath/
 # CDPATH=".:$HOME:$HOME/Desktop:/g/Code/"
@@ -125,3 +128,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 . "$HOME/.cargo/env"
+

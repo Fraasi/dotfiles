@@ -11,19 +11,25 @@
 [alias]
   aa = add --all
   acm = "!git add -A && git commit -m"
-  alias = "!git config --get-regexp ^alias"
+  aliases = config --get-regexp alias
   b = branch
+  bv = branch -v
   c = commit
   ca = commit --amend
+  cm = commit -m
   cg = config --global
   co = checkout
-  cm = commit -m
-  d = diff --stat master origin/master # git fetch first
+  d = diff
+  dc = diff --cached
+  ds = diff --staged
+  dstat= diff --stat
   files-changed = show --pretty="" --name-status
   ignored = status --ignored -s
-  ll = log --graph --format=\"%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)\" # for fzf_git_log function in .bashrc
+  ll = log --color --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  lll = log --graph --format=\"%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)\" # for fzf_git_log function in .bashrc
   ls = log --oneline --stat --graph
   po = push origin
+  rm = remote -v
   s = status -sb
   staged-files = diff --name-only --cached
 [grep]
@@ -32,6 +38,7 @@
   ui = auto
 [core]
   autocrlf = false
+  excludesfile = ~/.gitignore
 [diff]
   tool = vimdiff
   wsErrorHighlight = all

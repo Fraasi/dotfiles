@@ -1,0 +1,38 @@
+# https://www.topbug.net/blog/2017/07/31/inputrc-for-humans/
+$include /etc/inputrc
+
+# https://www.masteringemacs.org/article/keyboard-shortcuts-every-command-line-hacker-should-know-about-gnu-readline#:~:text=Basic%20Navigation%20and%20Editing
+
+
+set bell-style none
+set bell-style visible
+set mark-symlinked-directories On
+set show-all-if-ambiguous On
+set show-all-if-unmodified On
+set visible-stats On
+
+# Change the timeout for key sequences as 500ms is too fast.
+set keyseq-timeout 1200
+
+# By default, completions are not highlighted in color.
+set colored-stats on
+set colored-completion-prefix on
+set completion-ignore-case On
+#set completion-prefix-display-length 3
+
+# complete commands from history with up/down arrows. For example, enter cd, press up and it gets autocompleted
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# M-C-f and M-C-v dump functions and variables.
+"\e\C-f": dump-functions
+"\e\C-v": dump-variables
+
+# Wrap a command in $( ... )
+"\C-xq": "\C-a\$(\C-e)"
+# Wrap a command in $( .... | fzf )
+"\C-xF": "\C-e | fzf )\C-a(\C-a$\C-b\C-a"
+
+# "\C-m": accept-line, so C-m is enter
+"\C-xu": "uptime\C-m"
+

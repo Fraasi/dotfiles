@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.5.0
+// @version      1.6.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -57,7 +57,6 @@ background-color: #121212;`
       const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
       const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
       const movieOrSeries = isEpisodePage ? 'series' : 'movie'
-      filepursuitLink.setAttribute('href', `https://filepursuit.com/pursuit?q=${title}+${extras}&type=video`)
       movieWebLink.setAttribute('href', `https://movieweb-static.vercel.app/#/search/${movieOrSeries}/${encodeURI(title)}`)
       const upMoviesSearch = isEpisodePage ? `${title}+season+${season}` : `${title} ${year}`.replaceAll(' ', '+')
       upMoviesLink.setAttribute('href', `https://upmovies.net/search-movies/${encodeURI(upMoviesSearch)}.html`)
@@ -88,19 +87,21 @@ background-color: #121212;`
     }
 
     const vidsrcLink = createLink('vidsrc')
-    const filepursuitLink = createLink('filepursuit')
     const movieWebLink = createLink('movie-web')
     const upMoviesLink = createLink('upMovies')
     const soaperLink = createLink('soaper')
     const ytLink = createLink('yt')
     const archiveLink = createLink('archive')
     const episodesSpan = createLink('', 'span')
-    const soundtrackLink = createLink('soundtracks')
-    soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
-    soundtrackLink.setAttribute('target', '')
+    const reviewsLink = createLink('reviews')
+    reviewsLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/reviews`)
+    ratingslink.setAttribute('target', '')
     const ratingslink = createLink('ratings')
     ratingslink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/ratings`)
     ratingslink.setAttribute('target', '')
+    const soundtrackLink = createLink('soundtracks')
+    soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
+    soundtrackLink.setAttribute('target', '')
 
     const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
     wrapper.style.background = 'rgb(18, 18, 18)'
@@ -111,7 +112,7 @@ background-color: #121212;`
       wrapper.prepend(langLink)
     }
 
-    wrapper.prepend(vidsrcLink, filepursuitLink, movieWebLink, upMoviesLink, soaperLink, ytLink, archiveLink, episodesSpan, soundtrackLink, ratingslink)
+    wrapper.prepend(vidsrcLink, movieWebLink, upMoviesLink, soaperLink, ytLink, archiveLink, episodesSpan, reviewsLink, ratingslink, soundtrackLink)
 
     update()
 

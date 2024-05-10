@@ -43,7 +43,10 @@ inoremap § <C-O>:w<CR>
 " edit vimrc
 nnoremap <leader>e :e $MYVIMRC<CR>
 " write & close current buffer, see custom command Wc below
-nnoremap <leader>wc :Wc<CR>
+nnoremap <leader>bc :Wc<CR>
+" change buffer hotkeys
+nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>bp :bprevious<CR>
 " run current script
 nnoremap <leader>r :! clear && "%:p" <return>
 " run cursor blinking fix

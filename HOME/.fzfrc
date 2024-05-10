@@ -6,6 +6,10 @@ export FZF_DEFAULT_OPTS="
   --bind 'ctrl-j:preview-page-down,ctrl-k:preview-page-up'
   --no-mouse
 "
+# respect .gitignore, follow symbolic links and don't want it to exclude hidden files, use the following command:
+export FZF_DEFAULT_COMMAND=export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+# To apply the command to CTRL-T as well
+# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # https://bluz71.github.io/2018/11/26/fuzzy-finding-in-bash-with-fzf.html
 fzf_find_edit() {
@@ -33,7 +37,17 @@ fzf_git_log() {
     fi
 }
 
+fzf_find_dir() {
+    local dir=$(
+    find ${1:-.} -maxdepth 3 \( -path '*/\.git/*' -o -path '*/node_modules/*' \) -prune -o -type d -print 2>/dev/null | fzf +m
+    )
+    if [[ -n $dir ]]; then
+        cd "$dir"
+    fi
+}
+
 alias f="fzf"
+alias ffd="fzf_find_dir"
 alias fp="fzf \
 	--color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899' \
 	--preview 'bat --style=numbers --color=always --line-range :300 {}'

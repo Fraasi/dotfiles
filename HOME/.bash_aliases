@@ -4,6 +4,8 @@ alias ..="cd .."
 alias df="df -h /d /c"
 alias dot='ls .[a-zA-Z0-9_]*'
 alias e="echo"
+alias ffmpeg="ffmpeg -hide_banner"
+alias ffprobe="ffprobe -hide_banner"
 alias g="goto"
 alias grep="grep --color=auto"
 alias la="ls -FA"

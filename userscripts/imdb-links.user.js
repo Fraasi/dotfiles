@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.6.0
+// @version      1.7.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -95,13 +95,14 @@ background-color: #121212;`
     const episodesSpan = createLink('', 'span')
     const reviewsLink = createLink('reviews')
     reviewsLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/reviews`)
-    ratingslink.setAttribute('target', '')
     const ratingslink = createLink('ratings')
     ratingslink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/ratings`)
     ratingslink.setAttribute('target', '')
     const soundtrackLink = createLink('soundtracks')
     soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
     soundtrackLink.setAttribute('target', '')
+    const separator = createLink('', 'span')
+    separator.innerText = ' - '
 
     const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
     wrapper.style.background = 'rgb(18, 18, 18)'
@@ -112,7 +113,7 @@ background-color: #121212;`
       wrapper.prepend(langLink)
     }
 
-    wrapper.prepend(vidsrcLink, movieWebLink, upMoviesLink, soaperLink, ytLink, archiveLink, episodesSpan, reviewsLink, ratingslink, soundtrackLink)
+    wrapper.prepend(vidsrcLink, movieWebLink, upMoviesLink, soaperLink, ytLink, archiveLink, episodesSpan, separator, reviewsLink, ratingslink, soundtrackLink)
 
     update()
 
@@ -145,7 +146,7 @@ background-color: #121212;`
    * Iterates through all job links and adds event listeners to scroll to corresponding section on click.
    */
   function linkJobs() {
-    document.querySelectorAll('h1+ul.ipc-inline-list > li').forEach(el => {
+    document.querySelectorAll('h1+ul.ipc-inline-list > li').forEach( (el, i) => {
       el.classList.add('ipc-chip', 'ipc-chip--on-base-accent2')
       el.addEventListener('click', (e) => {
         const job = e.target.innerText.toLowerCase()
@@ -155,6 +156,13 @@ background-color: #121212;`
           return
         }
         targetEl.scrollIntoView()
+        const targetUpcoming = document.querySelector(`#${job}-upcoming-projects`)
+        const targetPrevious = document.querySelector(`#${job}-previous-projects`)
+        if ( targetUpcoming && targetUpcoming.classList.contains('ipc-accordion__item--collapsed') ) targetUpcoming.classList.replace('ipc-accordion__item--collapsed', 'ipc-accordion__item--expanded')
+        if ( targetPrevious && targetPrevious.classList.contains('ipc-accordion__item--collapsed') ) targetPrevious.classList.replace('ipc-accordion__item--collapsed', 'ipc-accordion__item--expanded')
+
+
+
       })
     })
   }
@@ -165,3 +173,4 @@ background-color: #121212;`
   if (url.includes('/name/')) linkJobs()
 
 })();
+

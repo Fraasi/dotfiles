@@ -13,7 +13,7 @@ source $VIMRUNTIME/defaults.vim
 " set cursor, fixes terminal bug {{{
 if &term =~ '^xterm'
   " insert mode
-  let &t_SI .= "\<Esc>[3 q"
+  let &t_SI .= "\<Esc>[0 q"
   " normal, visual mode
   let &t_EI .= "\<Esc>[1 q"
   " 0  -> blinking block.
@@ -24,7 +24,7 @@ if &term =~ '^xterm'
   " 5  -> blinking bar (xterm).
   " 6  -> steady bar (xterm).
   " reset cursor when vim exits
-  autocmd VimLeave * silent !printf '\033[3 q'
+  autocmd VimLeave * silent !printf '\033[0 q'
 endif
 " }}}
 
@@ -91,12 +91,18 @@ let g:apc_enable_ft = {'text':1, 'markdown':1, 'javascript':1, 'html':1, 'css':1
 
 augroup filetype_settings
   autocmd!
-  autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType javascript {
+    set omnifunc=javascriptcomplete#CompleteJS
+    compiler eslint
+  }
   autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
   autocmd FileType css set omnifunc=csscomplete#CompleteCSS
   autocmd BufNewFile,BufRead .\=vimrc setlocal foldmethod=marker
   autocmd BufWritePost vimrc source $MYVIMRC
-  autocmd Syntax javascript,typescript setlocal foldmethod=syntax
+  autocmd Syntax javascript,typescript {
+    setlocal foldmethod=indent
+    nnoremap <Leader>l "lyiwoconsole.log('<C-R>l:', <C-R>l)<Esc>
+  }
   autocmd FileType typescript {
     compiler tsc
     setlocal makeprg=npx\ tsc\ --noEmit\ --pretty\ false
@@ -150,25 +156,6 @@ set wildignore+=node_modules/**         " Ignore in path
 let g:netrw_banner = 0                  " 0 = no banner, toggle with <shiht-i>
 let g:netrw_liststyle = 3               " tree style listing
 
-" }}}
-
-" Theme {{{
-" To see a list of ready-to-use themes,
-" :colorscheme [space] [Ctrl+d]
-" colorscheme torte
-try
-  packadd! onedark.vim
-  if has("termguicolors")
-    set termguicolors
-  endif
-  let g:onedark_color_overrides = {
-        \ "background": {"gui": "#131313", "cterm": "233", "cterm16": "0" },
-        \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
-        \}
-  colorscheme onedark
-catch
-  colorscheme default
-endtry
 " }}}
 
 " Highlight todo and trailing whitespace {{{
@@ -228,20 +215,12 @@ endfunction
 	endfunction
 " }}}
 
-" codeium {{{
-"imap <script><silent><nowait><expr> <C-g> codeium#Accept()
-inoremap Ä  <Cmd>call codeium#CycleCompletions(1)<CR>
-inoremap Ö  <Cmd>call codeium#CycleCompletions(-1)<CR>
-inoremap <C-l>  <Cmd>call codeium#Clear()<CR>
-" Manually trigger suggestion
-inoremap <C-Ä>  <Cmd>call codeium#Complete()<CR>
-"inoremap <C-a>  <Cmd>call codeium#Accept()<CR>
-nnoremap <leader>cd <Cmd>CodeiumDisable<CR>
-nnoremap <leader>ce <Cmd>CodeiumEnable<CR>
-" }}}
-
-" coc.nvim {{{
-" https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-cr-to-confirm-completion
-let g:coc_global_extensions = ['coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-pyright']
-inoremap <expr> <S-tab> coc#pum#visible() ? coc#pum#confirm() : "\<S-tab>"
-" }}}
+" load other *rc files
+try
+  " let vimrc_dir = fnamemodify(expand($MYVIMRC), ':p:h')
+  " string doesnt work with source
+  source ~/.vim/pluginsrc.vim
+  source ~/.vim/testrc.vim
+catch
+" silent fail
+endtry

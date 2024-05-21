@@ -22,6 +22,7 @@
   dc = diff --cached
   ds = diff --staged
   dstat= diff --stat
+  dwd = diff --word-diff=color --word-diff-regex=.
   files-changed = show --pretty="" --name-status
   ignored = status --ignored -s
   lc = "!git log --color --graph --pretty=format:'%C(yellow)%h%C(reset)§%C(yellow)%d%C(reset)§%s§%C(blue)<%an>%C(reset)§%C(green)(%cr)' --abbrev-commit | column -s'§' -o' ' -t | less -FXRS"

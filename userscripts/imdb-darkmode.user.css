@@ -254,4 +254,9 @@
   #article_content ul {
     color: var(--font-white);
   }
+
+   /* trivia page */
+  .ipc-list-card--base {
+    background-color: var(--bg-color);
+  }
 }

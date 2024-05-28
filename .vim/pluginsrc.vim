@@ -3,10 +3,10 @@
 " :colorscheme [space] [Ctrl+d]
 " colorscheme torte
 try
-  packadd! onedark.vim
   if has("termguicolors")
     set termguicolors
   endif
+  packadd! onedark.vim
   let g:onedark_color_overrides = {
         \ "background": {"gui": "#131313", "cterm": "233", "cterm16": "0" },
         \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
@@ -35,8 +35,10 @@ let g:coc_global_extensions = ['coc-tsserver', 'coc-css', 'coc-html', 'coc-json'
 inoremap <expr> <S-tab> coc#pum#visible() ? coc#pum#confirm() : "\<S-tab>"
 " }}}
 
-" disable on start
+" disable on start {{{
+" For a command defined by a plugin, a solution like the following usually works (since VimEnter is triggered at the end of :help startup)
 augroup disable_on_start
   autocmd!
   autocmd VimEnter * CodeiumDisable
 augroup end
+" }}}

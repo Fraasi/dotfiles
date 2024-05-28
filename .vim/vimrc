@@ -7,9 +7,6 @@ source $VIMRUNTIME/defaults.vim
 " fixes the annoying termresponse on start, https://stackoverflow.com/questions/21618614/vim-shows-garbage-characters?rq=3
 :set t_RV=
 
-" load all plugins
-" packloadall
-
 " set cursor, fixes terminal bug {{{
 if &term =~ '^xterm'
   " insert mode
@@ -35,11 +32,13 @@ let mapleader = " "
 inoremap jk <Esc>
 " toggle netrw, alt + x
 nnoremap x :20 Lexplore<CR>
+" clear search highlight
+nnoremap c :nohlsearch<CR>
 " clear prev search & set search to normal regex (very magic), :help magic
 nnoremap / :nohlsearch<return><esc>/\v
 nnoremap ? :nohlsearch<return><esc>?\v
 " save file in insert mode with §
-inoremap § <C-O>:w<CR>
+inoremap § <ESC>:w<CR>
 " edit vimrc
 nnoremap <leader>e :e $MYVIMRC<CR>
 " write & close current buffer, see custom command Wc below
@@ -55,16 +54,12 @@ nnoremap <leader>b :! tput cvvis <return>
 nnoremap <leader>v <c-v>
 " run prettier on
 nnoremap <Leader>p <Plug>(Prettier)
-" clear search highlight
-nnoremap <leader>c :nohlsearch <return>
 " surround word with quotes
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 " surround selection (in one line) with quotes
 vnoremap <leader>" :s/\%V\(.*\)\%V/"\1"/<CR>
 " open Netrw in the directory of the current file
-nnoremap <leader>fd :Lexplore %:p:h<CR>
-" Leader fw: Will open Netrw in the current working directory
-nnoremap <Leader>fw :Lexplore<CR>
+nnoremap <leader>fd :20 Lexplore %:p:h<CR>
 " open current directory in new tab
 nnoremap <Leader>fn :tabedit %:h<CR>
 " ctrl + space to show completions
@@ -215,12 +210,13 @@ endfunction
 	endfunction
 " }}}
 
-" load other *rc files
+" load other *rc files {{{
 try
   " let vimrc_dir = fnamemodify(expand($MYVIMRC), ':p:h')
   " string doesnt work with source
   source ~/.vim/pluginsrc.vim
   source ~/.vim/testrc.vim
 catch
-" silent fail
+  " silent fail
 endtry
+" }}}

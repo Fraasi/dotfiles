@@ -123,7 +123,7 @@ set tabstop=2 shiftwidth=2 smarttab     " Number of spaces that a <Tab> in the f
 set autoindent                          " Copy indent from current line when starting a new line.
 set copyindent                          " Copy indent for new lines when auto-indenting.
 set shiftround                          " Round indent to multiple of shiftwidth when using < and >
-set list listchars=extends:>,precedes:< " Display tabs and trailing spaces visually
+set list listchars=trail:+,extends:>,precedes:< " Display tabs and trailing spaces visually
 set number relativenumber               " Show line numbers on the left
 set scrolloff=3                         " Show a few lines of context around the cursor, default 5
 set omnifunc=syntaxcomplete#Complete    " omni-completion
@@ -153,11 +153,20 @@ let g:netrw_liststyle = 3               " tree style listing
 
 " }}}
 
-" Highlight todo and trailing whitespace {{{
-highlight ExtraWhitespace guibg=lightred
-call matchadd("ExtraWhitespace",'\s\+$')
-highlight Todo guifg=black guibg=yellow
-call matchadd("Todo", '[Tt]odo')
+" Highlight todo and trailing whitespace {{{ 
+augroup highlights
+  autocmd!
+  autocmd BufWinEnter * {
+    highlight ExtraWhitespace ctermbg=lightred guibg=lightred
+    highlight Todo guifg=black guibg=yellow
+    call matchadd("ExtraWhitespace", '\s\+$')
+    call matchadd("Todo", '[Tt]odo')
+  }
+  autocmd InsertLeave * {
+    highlight ExtraWhitespace ctermbg=lightred guibg=lightred
+  }
+"   autocmd BufWinLeave * call clearmatches()V
+augroup END
 "}}}
 
 " WSL yank support {{{
@@ -219,4 +228,8 @@ try
 catch
   " silent fail
 endtry
+" }}}
+
+" add native packs {{{
+packadd! comment " vim 9.1
 " }}}

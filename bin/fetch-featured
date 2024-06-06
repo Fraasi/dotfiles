@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from datetime import datetime
+import argparse
 import sys
 import re
 import requests
@@ -7,47 +9,37 @@ import urllib
 from bs4 import BeautifulSoup
 
 
-up_url = 'https://upmovies.net/cinema-movies.html'
-rot_url = ' https://www.rottentomatoes.com/browse/movies_at_home/sort:newest'
+parser = argparse.ArgumentParser(description='Fetch new movie release lists')
+group = parser.add_mutually_exclusive_group()
+group.add_argument('-u', help='fetch list from upmovies (default)', action='store_true')
+group.add_argument('-r', help='fetch list from rotten tomatoes', action='store_true')
+group.add_argument('-s', help='fetch list from soaper', action='store_true')
+args = parser.parse_args()
 
-if len(sys.argv) > 1 and sys.argv[1] == '-r':
+CURRENT_YEAR = datetime.now().year
+IMDB_LINK = 'https://www.imdb.com/find?q='
+UP_URL = 'https://upmovies.net/cinema-movies.html'
+ROT_URL = 'https://www.rottentomatoes.com/browse/movies_at_home/sort:newest'
+SOAP_URL = f'https://soaper.tv/movielist/year/{CURRENT_YEAR}/sort/release'
+
+def get_soup(url):
     try:
-        html = requests.get(rot_url).text
+        html = requests.get(url).text
+        # for troubleshooting
+        #f = open('featured_test.html', 'w')
+        #f.write(html)
+        #f.close()
     except requests.exceptions.RequestException as err:
         raise SystemExit(err)
-    soup = BeautifulSoup(html, 'html.parser')
-    for div in soup.select('[data-qa="discovery-media-list-item-caption"]'):
-        # print(div)
-        c_score = div.find(attrs={'slot': 'criticScore'}).get_text() if div.find(attrs={'slot': 'criticScore'}) else 'N/A'
-        a_score = div.find(attrs={'slot': 'audienceScore'}).get_text() if div.find(attrs={'slot': 'audienceScore'}) else 'N/A'
-        # scores = div.find('div', class_='wrap').get_text() if div.find('div', class_='wrap') else 'N/A'
-        title = div.find(attrs={'data-qa': 'discovery-media-list-item-title'}).get_text().strip()
-        date = div.find(attrs={'data-qa': 'discovery-media-list-item-start-date'}).get_text().strip()
-        # print('{0} / {1} | {2} '.format(scores, title, date))
-#         output += '{:<4} / {:<4} | {:<20} | {:<5} | {}'.format(c_score, a_score, title, date, f'https://www.imdb.com/find/?q={urllib.parse.quote_plus(title)}\n')
-        print('{:<4}   {:<20}   {:<5}   {}'.format(a_score, title, date, f'https://www.imdb.com/find/?q={urllib.parse.quote_plus(title)}'))
+    print(f'fetching list from: {url}\n')
+    return BeautifulSoup(html, 'html.parser')
 
-else:
-    try:
-        html = requests.get(up_url).text
-    except requests.exceptions.RequestException as err:
-        raise SystemExit(err)
-    try:
-        limit = int(sys.argv[1])
-    except:
-        limit = 6
-
-    # for troubleshooting
-    #f = open('featured_test.html', 'w')
-    #f.write(html)
-    #f.close()
-
-    soup = BeautifulSoup(html, 'html.parser')
+# default option
+if len(sys.argv) == 1 or args.u:
+    soup = get_soup(UP_URL)
 
     # skip first one
     for div in soup.select('div.shortItem.listItem')[1:]:
-        if limit <= 0:
-            break
         quality = div.find('p', class_='film_hd').get_text()
         if quality != 'HD':
             continue
@@ -62,8 +54,29 @@ else:
                 info_cleaned += info + '\n'
         # strip first and last two newlines and join
         info_cleaned = ''.join(info_cleaned[1:-2]).replace('\n', ' | ')
-        link = f"https://www.imdb.com/find?q={urllib.parse.quote_plus(title)}"
-        parsed = '\n({0}) {1} - {2}\n{3}'.format(quality, title, link, info_cleaned)
-        print(parsed)
-        limit -= 1
+        link = f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'
+        print('\n({0}) {1} - {2}\n{3}'.format(quality, title, link, info_cleaned))
+
+
+elif args.r:
+    soup = get_soup(ROT_URL)
+    for div in soup.select('[data-qa="discovery-media-list-item-caption"]'):
+        # c_score = div.find(attrs={'slot': 'criticScore'}).get_text() if div.find(attrs={'slot': 'criticScore'}) else 'N/A'
+        a_score = div.find(attrs={'slot': 'audienceScore'}).get_text() if div.find(attrs={'slot': 'audienceScore'}) else 'N/A'
+        title = div.find(attrs={'data-qa': 'discovery-media-list-item-title'}).get_text().strip()
+        date = div.find(attrs={'data-qa': 'discovery-media-list-item-start-date'}).get_text().strip()
+        print('{:<4}   {:<20}   {:<5}   {}'.format(a_score, title, date, f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'))
+
+
+elif args.s:
+    soup = get_soup(SOAP_URL)
+    for div in soup.select('div.thumbnail.text-center'):
+        title = div.find('h5').find('a').get_text()
+        date = div.find('div', class_='img-right-bottom-tip').get_text()
+        year = div.find('div', class_='img-tip label label-info').get_text()
+        if int(year) != CURRENT_YEAR:
+            continue
+        date_obj = datetime.strptime(f'{date}-{year}', '%m-%d-%Y')
+        date_str = date_obj.strftime('%d-%m-%Y')
+        print('{:<30}   {:<10}   {}'.format(title, date_str, f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'))
 

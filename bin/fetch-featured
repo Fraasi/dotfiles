@@ -55,17 +55,19 @@ if len(sys.argv) == 1 or args.u:
         # strip first and last two newlines and join
         info_cleaned = ''.join(info_cleaned[1:-2]).replace('\n', ' | ')
         link = f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'
-        print('\n({0}) {1} - {2}\n{3}'.format(quality, title, link, info_cleaned))
+        print('\n{0} ({1}) - {2}\n{3}'.format(title, quality, link, info_cleaned))
 
 
 elif args.r:
     soup = get_soup(ROT_URL)
     for div in soup.select('[data-qa="discovery-media-list-item-caption"]'):
-        # c_score = div.find(attrs={'slot': 'criticScore'}).get_text() if div.find(attrs={'slot': 'criticScore'}) else 'N/A'
-        a_score = div.find(attrs={'slot': 'audienceScore'}).get_text() if div.find(attrs={'slot': 'audienceScore'}) else 'N/A'
+        a_score = div.find(attrs={'slot': 'audienceScore'}).get_text().strip() if div.find(attrs={'slot': 'audienceScore'}) else 'N/A'
         title = div.find(attrs={'data-qa': 'discovery-media-list-item-title'}).get_text().strip()
         date = div.find(attrs={'data-qa': 'discovery-media-list-item-start-date'}).get_text().strip()
-        print('{:<4}   {:<20}   {:<5}   {}'.format(a_score, title, date, f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'))
+        date = date.replace('Streaming ', '')
+        date_obj = datetime.strptime(date, '%b %d, %Y')
+        date_str = date_obj.strftime('%d-%m-%Y')
+        print('{:<4}  {:<20}  [{:<5}]  {}'.format(a_score, title, date_str, f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'))
 
 
 elif args.s:
@@ -78,5 +80,5 @@ elif args.s:
             continue
         date_obj = datetime.strptime(f'{date}-{year}', '%m-%d-%Y')
         date_str = date_obj.strftime('%d-%m-%Y')
-        print('{:<30}   {:<10}   {}'.format(title, date_str, f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'))
+        print('{:<30}  [{:<10}]  {}'.format(title, date_str, f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'))
 

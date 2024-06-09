@@ -156,7 +156,7 @@ function wacs() {
 
 function f-rq() {
     uri_encoded="$( jq -rn --arg uri "$*" '$uri | @uri' )"
-    curl -s https:/f-rq.cyclic.app/"$uri_encoded"
+    curl -s https://f-rq.zeabur.app/"$uri_encoded"
 }
 
 function dict() {
@@ -172,3 +172,21 @@ function disk-status() {
 #   fname="$(sed 's/ /_/g' <<< $*).mp4"
 #   yt-dlp -f- -o "$fname" $(soaper-dl -l -n "$@")
 # }
+
+function set-title-prefix() {
+  TITLEPREFIX="$*"
+}
+
+function random-pic() {
+  local dir="/d/Pics"
+  while [[ -d "$dir" ]]; do
+    local files=("$dir"/*)
+    local num_files=${#files[@]}
+    local random_index=$((RANDOM % num_files))
+    local random_file=${files[$random_index]}
+    dir=$random_file
+  done
+
+  printf "Random file selected: %s" "$dir"
+  feh --geometry 450x560+0+420 --auto-zoom --scale-down --start-at "$dir" &
+}

@@ -4,6 +4,7 @@ $include /etc/inputrc
 # https://www.masteringemacs.org/article/keyboard-shortcuts-every-command-line-hacker-should-know-about-gnu-readline#:~:text=Basic%20Navigation%20and%20Editing
 
 
+# settings
 set bell-style none
 set bell-style visible
 set mark-symlinked-directories On

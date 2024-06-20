@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.7.0
+// @version      1.8.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -20,7 +20,7 @@
     const isMainPage = Boolean(document.querySelector('.titlereference-section-overview'))
     const isEpisodePage = window.location.pathname.includes('episodes')
     const year = docTitle.match(/\d{4}/)?.[0] || ''
-    // const isSeries = /TV Series|Season/.test(docTitle)
+    const isSeries = /TV( Mini)? Series|Season/.test(docTitle)
     let episodeCount = isEpisodePage ? document.querySelectorAll('.episode-item-wrapper').length : 0
     let selectedEpisode = 1
 
@@ -40,8 +40,8 @@ border: 1px solid black;
 box-shadow: #2080cb 0px 1px 2px 0px;
 background-color: #121212;`
 
-        const elem = document.createElement(el)
-        elem.setAttribute('target', '_blank')
+      const elem = document.createElement(el)
+      elem.setAttribute('target', '_blank')
       elem.innerText = text
       elem.style = styles
       return elem
@@ -95,14 +95,25 @@ background-color: #121212;`
     const episodesSpan = createLink('', 'span')
     const reviewsLink = createLink('reviews')
     reviewsLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/reviews`)
+    reviewsLink.setAttribute('target', '')
     const ratingslink = createLink('ratings')
     ratingslink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/ratings`)
     ratingslink.setAttribute('target', '')
     const soundtrackLink = createLink('soundtracks')
     soundtrackLink.setAttribute('href', `https://www.imdb.com/title/${imdb_id}/soundtrack`)
     soundtrackLink.setAttribute('target', '')
-    const separator = createLink('', 'span')
-    separator.innerText = ' - '
+    const separator = createLink(' - ', 'span')
+
+    if (isSeries) {
+      const nextEpLink = createLink('next-episode')
+      nextEpLink.setAttribute('href', `https://next-episode.net/search/?name=${title}`)
+      nextEpLink.style.display = 'block'
+      nextEpLink.style.position = 'fixed'
+      nextEpLink.style.top = `${window.innerHeight - 40}px`
+      nextEpLink.style.right = '6px'
+      nextEpLink.style.height = '20px'
+      document.body.prepend(nextEpLink)
+    }
 
     const wrapper = document.querySelector('main.ipc-page-wrapper') || document.querySelector('#wrapper')
     wrapper.style.background = 'rgb(18, 18, 18)'
@@ -160,8 +171,6 @@ background-color: #121212;`
         const targetPrevious = document.querySelector(`#${job}-previous-projects`)
         if ( targetUpcoming && targetUpcoming.classList.contains('ipc-accordion__item--collapsed') ) targetUpcoming.classList.replace('ipc-accordion__item--collapsed', 'ipc-accordion__item--expanded')
         if ( targetPrevious && targetPrevious.classList.contains('ipc-accordion__item--collapsed') ) targetPrevious.classList.replace('ipc-accordion__item--collapsed', 'ipc-accordion__item--expanded')
-
-
 
       })
     })

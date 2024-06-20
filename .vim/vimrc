@@ -230,6 +230,9 @@ catch
 endtry
 " }}}
 
-" add native packs {{{
-packadd! comment " vim 9.1
+" add vim 9.1 native packs {{{
+if v:version > 900
+  packadd! comment
+  packadd! editorconfig
+endif
 " }}}

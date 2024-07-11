@@ -112,6 +112,8 @@ augroup filetype_settings
     setlocal linebreak
     setlocal breakindent
   }
+  " open the quickfix window whenever a quickfix command is executed (like :make) AND there are errors
+  autocmd QuickFixCmdPost [^l]* cwindow
 augroup END
 " }}}
 
@@ -236,3 +238,4 @@ if v:version > 900
   packadd! editorconfig
 endif
 " }}}
+

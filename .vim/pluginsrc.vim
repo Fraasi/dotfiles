@@ -13,7 +13,7 @@ try
         \}
   colorscheme onedark
 catch
-  colorscheme default
+  colorscheme slate
 endtry
 " }}}
 
@@ -42,3 +42,8 @@ augroup disable_on_start
   autocmd VimEnter * CodeiumDisable
 augroup end
 " }}}
+
+" fzf integration
+set runtimepath+=~/.fzf
+packadd! fzf.vim
+nnoremap f :Files<CR>

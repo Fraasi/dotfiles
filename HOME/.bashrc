@@ -5,8 +5,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-*i*) ;;
-*) return ;;
+  *i*) ;;
+  *) return ;;
 esac
 
 # check the window size after each command and, if necessary, update the values of LINES and COLUMNS.
@@ -45,7 +45,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # set EDITOR to vim
 export EDITOR=vim
 
-export SOAPER_DOWNLOAD_PATH=/d/videos
+export SOAPER_DOWNLOAD_PATH=/d/video
 
 # run cowsay with random quote at start
 # cowmoo

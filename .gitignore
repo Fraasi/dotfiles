@@ -8,4 +8,5 @@ featured_test.html
 .vim/.netrwhist
 */node_modules/*
 .env
-.vim/pack/coc/
+.vim/pack/
+tmux-*

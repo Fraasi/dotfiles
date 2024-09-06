@@ -45,7 +45,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # set EDITOR to vim
 export EDITOR=vim
 
-export SOAPER_DOWNLOAD_PATH=/d/video
+export SOAPER_DOWNLOAD_PATH=/d/videos
 
 # run cowsay with random quote at start
 # cowmoo

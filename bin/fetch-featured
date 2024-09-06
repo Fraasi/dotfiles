@@ -1,41 +1,64 @@
 #!/usr/bin/env python3
+"""Fetch new movie release lists"""
 
 from datetime import datetime
+import urllib
 import argparse
 import sys
 import re
 import requests
-import urllib
 from bs4 import BeautifulSoup
 
 
 parser = argparse.ArgumentParser(description='Fetch new movie release lists')
 group = parser.add_mutually_exclusive_group()
-group.add_argument('-u', help='fetch list from upmovies (default)', action='store_true')
+group.add_argument('NUM', help='number of months to fetch from movies countdown (default 1)',
+                   nargs='?', default=1, type=int, choices=range(1, 7))
+group.add_argument('-u', help='fetch list from upmovies', action='store_true')
 group.add_argument('-r', help='fetch list from rotten tomatoes', action='store_true')
 group.add_argument('-s', help='fetch list from soaper', action='store_true')
 args = parser.parse_args()
 
+# print(args, sys.argv)
+
 CURRENT_YEAR = datetime.now().year
+MONTH_IN_SECONDS = 60 * 60 * 24 * 30
 IMDB_LINK = 'https://www.imdb.com/find?q='
 UP_URL = 'https://upmovies.net/cinema-movies.html'
 ROT_URL = 'https://www.rottentomatoes.com/browse/movies_at_home/sort:newest'
 SOAP_URL = f'https://soaper.tv/movielist/year/{CURRENT_YEAR}/sort/release'
+COUNTDOWN_URL = 'https://moviescountdown.com/recently-released-dvd'
+
+def format_time(seconds):
+    """format seconds to 'N days ago'"""
+    days = abs(seconds) // 86400
+    return f"{days} days ago"
 
 def get_soup(url):
+    """returns bs4 from url"""
+    print(f'fetching list from: {url}\n')
     try:
         html = requests.get(url).text
         # for troubleshooting
-        #f = open('featured_test.html', 'w')
-        #f.write(html)
-        #f.close()
+        # f = open('featured_test.html', 'w')
+        # f.write(html)
+        # f.close()
     except requests.exceptions.RequestException as err:
-        raise SystemExit(err)
-    print(f'fetching list from: {url}\n')
+        raise SystemExit(err) from err
     return BeautifulSoup(html, 'html.parser')
 
 # default option
-if len(sys.argv) == 1 or args.u:
+if len(sys.argv) == 1 or args.NUM != 1:
+    soup = get_soup(COUNTDOWN_URL)
+    for a in soup.select('countdown-content-trending-items > a'):
+        time = a.find('countdown-content-trending-item-countdown').get('data-time')
+        time = int(time)
+        if abs(time) < (MONTH_IN_SECONDS * int(args.NUM)):
+            time = format_time(time)
+            title = a.get_text().strip()
+            print(f'{title:<30} [{time}] {IMDB_LINK}{urllib.parse.quote_plus(title)}')
+
+elif args.u:
     soup = get_soup(UP_URL)
 
     # skip first one
@@ -43,32 +66,32 @@ if len(sys.argv) == 1 or args.u:
         quality = div.find('p', class_='film_hd').get_text()
         if quality != 'HD':
             continue
-
         title = div.find(class_='title').get_text()
         file_info = div.find('div', 'file-info').get_text()
         info_cleaned = []
         for info in file_info.split('\n'):
             if re.search(r'Duration|Actors', info):
                 continue
-            else:
-                info_cleaned += info + '\n'
+            info_cleaned += info + '\n'
         # strip first and last two newlines and join
-        info_cleaned = ''.join(info_cleaned[1:-2]).replace('\n', ' | ')
+        INFO_CLEANED = ''.join(info_cleaned[1:-2]).replace('\n', ' | ')
         link = f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'
-        print('\n{0} ({1}) - {2}\n{3}'.format(title, quality, link, info_cleaned))
-
+        print(f'\n{title} ({quality}) - {link}\n{INFO_CLEANED}')
 
 elif args.r:
     soup = get_soup(ROT_URL)
     for div in soup.select('[data-qa="discovery-media-list-item-caption"]'):
-        a_score = div.find(attrs={'slot': 'audienceScore'}).get_text().strip() if div.find(attrs={'slot': 'audienceScore'}) else 'N/A'
+        a_score = div.find(attrs={'slot': 'audienceScore'}).get_text().strip() \
+                if div.find(attrs={'slot': 'audienceScore'}) else 'N/A'
         title = div.find(attrs={'data-qa': 'discovery-media-list-item-title'}).get_text().strip()
         date = div.find(attrs={'data-qa': 'discovery-media-list-item-start-date'}).get_text().strip()
         date = date.replace('Streaming ', '')
         date_obj = datetime.strptime(date, '%b %d, %Y')
         date_str = date_obj.strftime('%d-%m-%Y')
-        print('{:<4}  {:<20}  [{:<5}]  {}'.format(a_score, title, date_str, f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'))
-
+        print((
+            f'{a_score:<4}  {title:<20}  [{date_str:<5}]  '
+            f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'
+            ))
 
 elif args.s:
     soup = get_soup(SOAP_URL)
@@ -80,5 +103,4 @@ elif args.s:
             continue
         date_obj = datetime.strptime(f'{date}-{year}', '%m-%d-%Y')
         date_str = date_obj.strftime('%d-%m-%Y')
-        print('{:<30}  [{:<10}]  {}'.format(title, date_str, f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'))
-
+        print(f'{title:<30}  [{date_str:<10}]  {IMDB_LINK}{urllib.parse.quote_plus(title)}')

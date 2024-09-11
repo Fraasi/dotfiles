@@ -10,10 +10,11 @@ import requests
 from bs4 import BeautifulSoup
 
 
-parser = argparse.ArgumentParser(description='Fetch new movie release lists')
+parser = argparse.ArgumentParser(description='Fetch new movie release lists (default: moviescountdown)')
 group = parser.add_mutually_exclusive_group()
-group.add_argument('NUM', help='number of months to fetch from movies countdown (default 1)',
-                   nargs='?', default=1, type=int, choices=range(1, 7))
+group.add_argument('NUM',
+                   help='number of months to fetch from moviescountdown (default: 1) (weeks if negative number)',
+                   nargs='?', default=1, type=int, choices=list(range(-4, 7)))
 group.add_argument('-u', help='fetch list from upmovies', action='store_true')
 group.add_argument('-r', help='fetch list from rotten tomatoes', action='store_true')
 group.add_argument('-s', help='fetch list from soaper', action='store_true')
@@ -22,17 +23,23 @@ args = parser.parse_args()
 # print(args, sys.argv)
 
 CURRENT_YEAR = datetime.now().year
-MONTH_IN_SECONDS = 60 * 60 * 24 * 30
+SECONDS_IN_A_DAY = 24 * 60 * 60
+WEEK_IN_SECONDS = SECONDS_IN_A_DAY * 7
+MONTH_IN_SECONDS = SECONDS_IN_A_DAY * 30
 IMDB_LINK = 'https://www.imdb.com/find?q='
 UP_URL = 'https://upmovies.net/cinema-movies.html'
 ROT_URL = 'https://www.rottentomatoes.com/browse/movies_at_home/sort:newest'
 SOAP_URL = f'https://soaper.tv/movielist/year/{CURRENT_YEAR}/sort/release'
 COUNTDOWN_URL = 'https://moviescountdown.com/recently-released-dvd'
+COUNTDOWN_URL_UPCOMING = 'https://moviescountdown.com/upcoming-dvd/all'
 
 def format_time(seconds):
     """format seconds to 'N days ago'"""
     days = abs(seconds) // 86400
-    return f"{days} days ago"
+    ago_togo = 'ago' if seconds < 0 else 'to go'
+    if seconds == 0:
+        return "today"
+    return f"{days} days {ago_togo}"
 
 def get_soup(url):
     """returns bs4 from url"""
@@ -49,14 +56,18 @@ def get_soup(url):
 
 # default option
 if len(sys.argv) == 1 or args.NUM != 1:
+    if args.NUM < 0:
+        COUNTDOWN_URL=COUNTDOWN_URL_UPCOMING
+        MONTH_IN_SECONDS=WEEK_IN_SECONDS
+
     soup = get_soup(COUNTDOWN_URL)
     for a in soup.select('countdown-content-trending-items > a'):
         time = a.find('countdown-content-trending-item-countdown').get('data-time')
         time = int(time)
-        if abs(time) < (MONTH_IN_SECONDS * int(args.NUM)):
+        if abs(time) < (MONTH_IN_SECONDS * abs(int(args.NUM))):
             time = format_time(time)
-            title = a.get_text().strip()
-            print(f'{title:<30} [{time}] {IMDB_LINK}{urllib.parse.quote_plus(title)}')
+            title = re.sub(r'\n.*', '', a.get_text().strip())
+            print(f'{title:<30} [{time}]  {IMDB_LINK}{urllib.parse.quote_plus(title)}')
 
 elif args.u:
     soup = get_soup(UP_URL)

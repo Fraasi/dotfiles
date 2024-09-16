@@ -190,3 +190,24 @@ function random-pic() {
   printf "Random file selected: %s" "$dir"
   feh --geometry 450x560+0+420 --auto-zoom --scale-down --start-at "$dir" &
 }
+
+function pps() {
+  tgpt --quiet "$@" | edge-tts --file /dev/stdin 2> /dev/null | mpv -
+}
+
+function timer() {
+  local arg1 args min sec msg
+  arg1=$1
+  shift
+  args="$*"
+
+  min=${arg1:?Example: timer 15 Take a break}
+  sec=$((min * 60))
+  msg="${args:?Example: timer 15 Take a break}"
+
+  printf 'timer set to alert at: %s\n' $(date -d "$(date) $min minutes" +'%T')
+  ( sleep "${sec:?}" \
+    && notify-send -u critical -t 0 --appId timer "${msg:?}" \
+    && printf "%s\n" "TIMER DONE [$(date +'%T')]: $msg" ) &
+}
+

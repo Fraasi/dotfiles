@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.8.0
+// @version      1.9.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -26,19 +26,19 @@
 
     function createLink(text, el = 'a') {
       const styles = `
-z-index: 5;
-position: sticky;
-top: 5px;
-margin-left: 5px;
-padding: 0px 5px;
-text-decoration: none;
-font-size: 16px;
-font-weight: bold;
-color: #ddd;
-border-radius: 4px;
-border: 1px solid black;
-box-shadow: #2080cb 0px 1px 2px 0px;
-background-color: #121212;`
+        z-index: 5;
+        position: sticky;
+        top: 5px;
+        margin-left: 5px;
+        padding: 0px 5px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ddd;
+        border-radius: 4px;
+        border: 1px solid black;
+        box-shadow: #2080cb 0px 1px 2px 0px;
+        background-color: #121212;`
 
       const elem = document.createElement(el)
       elem.setAttribute('target', '_blank')
@@ -46,7 +46,6 @@ background-color: #121212;`
       elem.style = styles
       return elem
     }
-
     function update() {
 
       const season = isEpisodePage ? document.querySelector('.ipc-tabs--display-chip .ipc-tab--active').innerText : ''
@@ -58,7 +57,9 @@ background-color: #121212;`
       const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
       const movieOrSeries = isEpisodePage ? 'series' : 'movie'
       movieWebLink.setAttribute('href', `https://movieweb-static.vercel.app/#/search/${movieOrSeries}/${encodeURI(title)}`)
-      const upMoviesSearch = isEpisodePage ? `${title}+season+${season}` : `${title} ${year}`.replaceAll(' ', '+')
+      // upmovies server breaks if search starts with 'the '
+      const upTitle = title.replace(/^The\s/, '')
+      const upMoviesSearch = isEpisodePage ? `${upTitle}+season+${season}` : `${upTitle} ${year}`.replaceAll(' ', '+')
       upMoviesLink.setAttribute('href', `https://upmovies.net/search-movies/${encodeURI(upMoviesSearch)}.html`)
       soaperLink.setAttribute('href', `https://soaper.tv/search.html?keyword=${encodeURI(title)}`)
       const ytOver20min = '&sp=EgIYAg%253D%253D'
@@ -176,10 +177,26 @@ background-color: #121212;`
     })
   }
 
+  function hideElsButton() {
+    const hideButton = document.createElement('button')
+    hideButton.innerText = 'Hide tv-series | shorts | music vids'
+    hideButton.style.fontSize = '13px'
+
+    hideButton.addEventListener('click', () => {
+      document.querySelectorAll('div.ipc-metadata-list-summary-item__c').forEach(e => {
+        if (/TV Series|Music Video|Short/.test(e.innerText)) e.parentNode.style.display = 'none'
+      })
+    })
+    const dirEl = document.querySelector('div.filmo-section-director')
+    dirEl.append(hideButton)
+  }
+
   const url = document.URL
   if (url.includes('/title/')) showLinks()
   if (url.includes('/find/')) hidePodcasts()
-  if (url.includes('/name/')) linkJobs()
+  if (url.includes('/name/')) {
+    linkJobs()
+    hideElsButton()
+  }
 
 })();
-

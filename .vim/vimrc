@@ -46,6 +46,8 @@ nnoremap <leader>bc :Wc<CR>
 " change buffer hotkeys
 nnoremap <leader>bn :bnext<CR>
 nnoremap <leader>bp :bprevious<CR>
+nnoremap < :bprevious<CR>
+nnoremap > :bnext<CR>
 " run current script
 nnoremap <leader>r :! clear && "%:p" <return>
 " run cursor blinking fix
@@ -86,7 +88,8 @@ let g:apc_enable_ft = {'text':1, 'markdown':1, 'javascript':1, 'html':1, 'css':1
 
 augroup filetype_settings
   autocmd!
-  autocmd FileType javascript {
+  autocmd FileType javascript,typescript {
+    nnoremap <Leader>l "lyiwoconsole.log('<C-R>l:', <C-R>l)<Esc>
     set omnifunc=javascriptcomplete#CompleteJS
     compiler eslint
   }
@@ -96,7 +99,6 @@ augroup filetype_settings
   autocmd BufWritePost vimrc source $MYVIMRC
   autocmd Syntax javascript,typescript {
     setlocal foldmethod=indent
-    nnoremap <Leader>l "lyiwoconsole.log('<C-R>l:', <C-R>l)<Esc>
   }
   autocmd FileType typescript {
     compiler tsc

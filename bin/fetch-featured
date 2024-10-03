@@ -106,12 +106,22 @@ elif args.r:
 
 elif args.s:
     soup = get_soup(SOAP_URL)
+    movs = []
     for div in soup.select('div.thumbnail.text-center'):
-        title = div.find('h5').find('a').get_text()
-        date = div.find('div', class_='img-right-bottom-tip').get_text()
         year = div.find('div', class_='img-tip label label-info').get_text()
         if int(year) != CURRENT_YEAR:
             continue
+        title = div.find('h5').find('a').get_text()
+        date = div.find('div', class_='img-right-bottom-tip').get_text()
         date_obj = datetime.strptime(f'{date}-{year}', '%m-%d-%Y')
         date_str = date_obj.strftime('%d-%m-%Y')
+        movs.append({
+            'title': title,
+            'date_str': date_str
+            })
+
+    sorted_by_date = sorted(movs, key=lambda x: datetime.strptime(x['date_str'], '%d-%m-%Y'), reverse=True)
+    for mov in sorted_by_date:
+        title, date_str = mov.values()
         print(f'{title:<30}  [{date_str:<10}]  {IMDB_LINK}{urllib.parse.quote_plus(title)}')
+

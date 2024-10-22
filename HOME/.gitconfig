@@ -50,3 +50,5 @@
   verbose = true # adds the whole commit diff in the text editor where you’re writing your commit message
 [status]
   submoduleSummary = true
+[init]
+  defaultBranch = main

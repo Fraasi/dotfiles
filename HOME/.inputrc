@@ -37,3 +37,6 @@ set completion-ignore-case On
 # "\C-m": accept-line, so C-m is enter
 "\C-xu": "uptime\C-m"
 
+# Note that these commands take a numerical argument, so to skip e.g. to the fifth next occurrence of the letter o, type M-5 C-] o, or ESC 5 C-] o.
+"\C-xs": character-search
+"\C-xS": character-search-backward

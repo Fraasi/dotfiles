@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# export LANG=fi_FI.UTF-8
+export LANGUAGE=en_UKB # fixes vims C$C6 problem, kind of...
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # shellcheck disable=SC1091,SC1090,SC2155
 

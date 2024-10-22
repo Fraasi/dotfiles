@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+folder="$1"
+files=$(ls -l "$folder"* | wc -l)
+secs=$(
+  for file in "$folder"*; do
+    ffprobe -v quiet -of csv=p=0 -show_entries format=duration "$file"
+  done | awk '{sum += $1}; END{print sum}'
+)
+
+du -hd 1 "$folder"
+printf "%s files in folder\ntotal length: %s" "$files" $(date -d@$secs -u +%H:%M:%S)
+

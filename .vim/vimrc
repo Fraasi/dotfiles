@@ -111,17 +111,19 @@ augroup filetype_settings
     match Echo /echo/
   }
   autocmd FileType text {
-    setlocal linebreak
     setlocal breakindent
   }
   autocmd FileType python compiler pylint
+
+  " }
   " open the quickfix window whenever a quickfix command is executed (like :make) AND there are errors
   autocmd QuickFixCmdPost [^l]* cwindow
 augroup END
 " }}}
 
 " Vim settings {{{
-
+" set colorcolumn=100                   " Columns to highlight
+" set breakindent                         " Leaves some margin to right side
 set shortmess+=c                        " Don't pass messages to |ins-completion-menu|.
 set expandtab                           " Use the appropriate number of spaces to insert a <Tab>.
 set tabstop=2 shiftwidth=2 smarttab     " Number of spaces that a <Tab> in the file counts for.
@@ -228,8 +230,8 @@ endfunction
 try
   " let vimrc_dir = fnamemodify(expand($MYVIMRC), ':p:h')
   " string doesnt work with source
-  source ~/.vim/pluginsrc.vim
-  source ~/.vim/testrc.vim
+  source ~/.vim/pluginsrc.vim " all plugin related
+  source ~/.vim/testrc.vim    " testing things
 catch
   " silent fail
 endtry

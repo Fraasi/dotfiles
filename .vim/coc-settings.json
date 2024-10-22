@@ -6,9 +6,5 @@
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
   "typescript.format.semicolons": "remove",
-  "typescript.preferences.quoteStyle": "single",
-  "coc.preferences.formatOnSaveFiletypes": [
-    "json",
-    "markdown"
-  ]
+  "typescript.preferences.quoteStyle": "single"
 }

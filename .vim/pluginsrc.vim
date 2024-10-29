@@ -30,12 +30,11 @@
 " }}}
 
 " coc.nvim {{{
-  packadd! coc.nvim
+  " packadd! coc.nvim
   " https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-cr-to-confirm-completion
   let g:coc_global_extensions = ['coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-pyright']
-  inoremap <expr> <S-tab> coc#pum#visible() ? coc#pum#confirm() : "\<S-tab>"
-  " Having longer updatetime (default is 4000 ms = 4s) leads to noticeable delays and poor user experience
-  set updatetime=1000
+  " inoremap <expr> <S-tab> coc#pum#visible() ? coc#pum#confirm() : "\<S-tab>"
+  source ~/.vim/cocrc.vim
 " }}}
 
 " disable on start {{{

@@ -1,4 +1,4 @@
-" for changes to take effect, run ':so %'
+"t for changes to take effect, run ':so %'
 
 " If you create your own .vimrc, it is recommended to add these lines somewhere near the top. Then Vim works like before you had a .vimrc.
 unlet! skip_defaults_vim
@@ -27,7 +27,7 @@ endif
 
 " remaps {{{
 " map leader key to space
-let mapleader = " "
+let mapleader = "."
 " map jk to esc
 inoremap jk <Esc>
 " toggle netrw, alt + x
@@ -38,7 +38,7 @@ nnoremap c :nohlsearch<CR>
 nnoremap / :nohlsearch<return><esc>/\v
 nnoremap ? :nohlsearch<return><esc>?\v
 " save file in insert mode with §
-inoremap § <ESC>:w<CR>
+inoremap Å <ESC>:w<CR>
 " edit vimrc
 nnoremap <leader>e :e $MYVIMRC<CR>
 " write & close current buffer, see custom command Wc below
@@ -46,8 +46,11 @@ nnoremap <leader>bc :Wc<CR>
 " change buffer hotkeys
 nnoremap <leader>bn :bnext<CR>
 nnoremap <leader>bp :bprevious<CR>
-nnoremap < :bprevious<CR>
-nnoremap > :bnext<CR>
+nnoremap Å :bprevious<CR>
+" nnoremap > :bnext<CR>
+" location list jumps
+nnoremap [l :lnext<CR>
+nnoremap ]l :lprevious<CR>
 " run current script
 nnoremap <leader>r :! clear && "%:p" <return>
 " run cursor blinking fix
@@ -157,6 +160,7 @@ set path+=**                            " Searches current directory recursively
 set wildignore+=node_modules/**         " Ignore in path
 let g:netrw_banner = 0                  " 0 = no banner, toggle with <shiht-i>
 let g:netrw_liststyle = 3               " tree style listing
+set shortmess-=S                        " enable a count of [x/y] showing in the bottom right corner every time you do a / or ? search.
 
 " }}}
 
@@ -233,7 +237,8 @@ try
   source ~/.vim/pluginsrc.vim " all plugin related
   source ~/.vim/testrc.vim    " testing things
 catch
-  " silent fail
+  echo 'Error loading pluginsrrc or testrc'
+  echo v:exception
 endtry
 " }}}
 

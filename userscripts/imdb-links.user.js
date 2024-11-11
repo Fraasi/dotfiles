@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.9.0
+// @version      1.10.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -56,7 +56,7 @@
       const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
       const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
       const movieOrSeries = isEpisodePage ? 'series' : 'movie'
-      movieWebLink.setAttribute('href', `https://movieweb-static.vercel.app/#/search/${movieOrSeries}/${encodeURI(title)}`)
+      movieWebLink.setAttribute('href', `https://vidbinge.com/browse/${encodeURI(title)}`)
       // upmovies server breaks if search starts with 'the '
       const upTitle = title.replace(/^The\s/, '')
       const upMoviesSearch = isEpisodePage ? `${upTitle}+season+${season}` : `${upTitle} ${year}`.replaceAll(' ', '+')
@@ -88,7 +88,7 @@
     }
 
     const vidsrcLink = createLink('vidsrc')
-    const movieWebLink = createLink('movie-web')
+    const movieWebLink = createLink('vidbinge')
     const upMoviesLink = createLink('upMovies')
     const soaperLink = createLink('soaper')
     const ytLink = createLink('yt')

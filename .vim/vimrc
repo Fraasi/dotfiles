@@ -28,8 +28,12 @@ endif
 " remaps {{{
 " map leader key to space
 let mapleader = "."
-" map jk to esc
-inoremap jk <Esc>
+" tgpt
+nnoremap <leader>c :!vim-tgpt 
+" get filename and linenumber to register, use gf to goto
+" nnoremap <F2> O<c-r>%:<c-r>=line('.')<CR><Esc>dd
+" map jk to esc & put cursor where it was
+inoremap jk <Esc>l
 " toggle netrw, alt + x
 nnoremap x :20 Lexplore<CR>
 " clear search highlight
@@ -37,8 +41,9 @@ nnoremap c :nohlsearch<CR>
 " clear prev search & set search to normal regex (very magic), :help magic
 nnoremap / :nohlsearch<return><esc>/\v
 nnoremap ? :nohlsearch<return><esc>?\v
-" save file in insert mode with §
-inoremap Å <ESC>:w<CR>
+" save file with Å
+inoremap Å <ESC>:w<CR>i
+nnoremap Å :write<CR>
 " edit vimrc
 nnoremap <leader>e :e $MYVIMRC<CR>
 " write & close current buffer, see custom command Wc below
@@ -46,7 +51,7 @@ nnoremap <leader>bc :Wc<CR>
 " change buffer hotkeys
 nnoremap <leader>bn :bnext<CR>
 nnoremap <leader>bp :bprevious<CR>
-nnoremap Å :bprevious<CR>
+nnoremap <leader>-  :bprevious<CR>
 " nnoremap > :bnext<CR>
 " location list jumps
 nnoremap [l :lnext<CR>
@@ -127,6 +132,7 @@ augroup END
 " Vim settings {{{
 " set colorcolumn=100                   " Columns to highlight
 " set breakindent                         " Leaves some margin to right side
+set hidden
 set shortmess+=c                        " Don't pass messages to |ins-completion-menu|.
 set expandtab                           " Use the appropriate number of spaces to insert a <Tab>.
 set tabstop=2 shiftwidth=2 smarttab     " Number of spaces that a <Tab> in the file counts for.

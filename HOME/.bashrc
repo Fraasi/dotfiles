@@ -47,7 +47,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # set EDITOR to vim
 export EDITOR=vim
 
-export SOAPER_DOWNLOAD_PATH=/d/videos
+export SOAPER_DOWNLOAD_PATH=/d/Videos
 
 # run cowsay with random quote at start
 # cowmoo
@@ -98,6 +98,6 @@ export NVM_DIR="$HOME/.nvm"
 
 
 # fzf
-[ -f ~/.fzfrc ] && source /.fzfrc
+[ -f ~/.fzfrc ] && source ~/.fzfrc
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 

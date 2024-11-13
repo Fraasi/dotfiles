@@ -29,7 +29,7 @@ MONTH_IN_SECONDS = SECONDS_IN_A_DAY * 30
 IMDB_LINK = 'https://www.imdb.com/find?q='
 UP_URL = 'https://upmovies.net/cinema-movies.html'
 ROT_URL = 'https://www.rottentomatoes.com/browse/movies_at_home/sort:newest'
-SOAP_URL = f'https://soaper.tv/movielist/year/{CURRENT_YEAR}/sort/release'
+SOAP_URL = f'https://soaper.live/movielist/year/{CURRENT_YEAR}/sort/release'
 COUNTDOWN_URL = 'https://moviescountdown.com/recently-released-dvd'
 COUNTDOWN_URL_UPCOMING = 'https://moviescountdown.com/upcoming-dvd/all'
 

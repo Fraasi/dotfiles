@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.10.0
+// @version      1.10.1
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -61,7 +61,7 @@
       const upTitle = title.replace(/^The\s/, '')
       const upMoviesSearch = isEpisodePage ? `${upTitle}+season+${season}` : `${upTitle} ${year}`.replaceAll(' ', '+')
       upMoviesLink.setAttribute('href', `https://upmovies.net/search-movies/${encodeURI(upMoviesSearch)}.html`)
-      soaperLink.setAttribute('href', `https://soaper.tv/search.html?keyword=${encodeURI(title)}`)
+      soaperLink.setAttribute('href', `https://soaper.live/search.html?keyword=${encodeURI(title)}`)
       const ytOver20min = '&sp=EgIYAg%253D%253D'
       ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
       archiveLink.setAttribute('href', `https://archive.org/search?query=title%3A%28${encodeURI(title)}%29+AND+mediatype%3A%28movies%29`)

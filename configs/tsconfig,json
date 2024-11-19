@@ -1,15 +1,33 @@
-// https://gils-blog.tayar.org/posts/jsdoc-typings-all-the-benefits-none-of-the-drawbacks/
+// https://tduyng.com/blog/tsconfig-options-you-should-use/
+
 {
   "compilerOptions": {
-    "lib": ["es2020", "DOM"],
+    "strict": true, // Enables all strict type-checking options (best practice)
+    "lib": ["ESNext", "DOM", "DOM.Iterable], // Specifies the library files to be included in the compilation.
+    "rootDir": "src", // Root directory of input files
+    "outDir": "./build", // Output directory for compiled files
+    "incremental": true, // Enables incremental compilation, build only the changed code
+    "allowJs": true, // Allows JavaScript files to be compiled alongside TypeScript files.
+    "target": "es2022", // Specifies the ECMAScript target version
+    "module": "esnext", // Sets the module system to use (commonjs, nodenext, esnext)
+    "sourceMap": true, // Generates source maps for debugging
+    "skipLibCheck": true, // Skips type checking of declaration files
+    "noUnusedParameters": false, // Do not allow unused parameters in functions.
+    "noUnusedLocals": false, // Similar to noUnusedParameters, but for local variables.
+    "noUncheckedIndexedAccess": true, // it ensures that indexed access types are checked for undefined values,
+    /* "esModuleInterop": true, // Enables compatibility with CommonJS modules, allowing default imports from modules with no default export. */
+    "resolveJsonModule": true, // Allows importing JSON files as modules
+    "forceConsistentCasingInFileNames": true, // Ensures that file names are treated with consistent casing, which is important for cross-platform compatibility.,
+    "noImplicitOverride": true, // This option requires that any method in a subclass that overrides a method in a superclass must explicitly use the override keyword.
+    "noPropertyAccessFromIndexSignature": true, // This setting enforces that properties accessed via dot notation must be explicitly defined in the type.
+    "allowUnreachableCode": false, // When set to false, this option raises errors for code that is unreachable, meaning it cannot be executed.
+    "noFallthroughCasesInSwitch": true, // This option reports errors for switch statement cases that fall through without a break, return, or throw statement.
+    "noErrorTruncation": true, // When enabled, this option prevents TypeScript from truncating error messages, providing full details about the error.
+    "declaration": true // Generates corresponding .d.ts file
     "moduleResolution": "node",
-    "module": "esnext",
-    "resolveJsonModule": true,
-    "allowJs": true,
     "checkJs": true,
     "noEmit": true,
-    "strict": true
   },
-  "include": ["src/**/*.js", "src/**/*.d.ts"],
-  "exclude": ["node_modules"]
+    "include": ["src/**/*.js", "src/**/*.d.ts"],
+    "exclude": ["node_modules"]
 }

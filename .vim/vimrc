@@ -149,8 +149,8 @@ set cursorline                          " Highlight the current line
 " statusline {{{
   set laststatus=2                      " Always show the status line
   set statusline=
-  " current window|buffer number
-  set statusline+=[%{winnr()},%n]\
+  " current window|buffer number/buffer count]
+  set statusline+=[%{winnr()},%n:%{%len(getbufinfo({'buflisted':1}))%}]\ 
   set statusline+=%<%f%h%m%r%=%-14.(%l/%L,%c%V%)\ %P
 " }}}
 if has('mouse')

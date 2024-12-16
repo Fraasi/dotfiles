@@ -26,10 +26,10 @@ endif
 " }}}
 
 " remaps {{{
-" map leader key to space
-let mapleader = "."
+" map leader key
+let mapleader = ","
 " tgpt
-nnoremap <leader>c :!vim-tgpt 
+nnoremap <leader>pp :!vim-tgpt 
 " get filename and linenumber to register, use gf to goto
 " nnoremap <F2> O<c-r>%:<c-r>=line('.')<CR><Esc>dd
 " map jk to esc & put cursor where it was
@@ -42,7 +42,7 @@ nnoremap c :nohlsearch<CR>
 nnoremap / :nohlsearch<return><esc>/\v
 nnoremap ? :nohlsearch<return><esc>?\v
 " save file with Å
-inoremap Å <ESC>:w<CR>i
+inoremap Å <ESC>:w<CR>
 nnoremap Å :write<CR>
 " edit vimrc
 nnoremap <leader>e :e $MYVIMRC<CR>
@@ -134,6 +134,8 @@ augroup END
 " set breakindent                         " Leaves some margin to right side
 set hidden
 set shortmess+=c                        " Don't pass messages to |ins-completion-menu|.
+set shortmess-=S                        " enable a count of [x/y] showing in the bottom right corner every time you do a / or ? search.
+set linebreak                           " break on words
 set expandtab                           " Use the appropriate number of spaces to insert a <Tab>.
 set tabstop=2 shiftwidth=2 smarttab     " Number of spaces that a <Tab> in the file counts for.
 set autoindent                          " Copy indent from current line when starting a new line.
@@ -166,7 +168,8 @@ set path+=**                            " Searches current directory recursively
 set wildignore+=node_modules/**         " Ignore in path
 let g:netrw_banner = 0                  " 0 = no banner, toggle with <shiht-i>
 let g:netrw_liststyle = 3               " tree style listing
-set shortmess-=S                        " enable a count of [x/y] showing in the bottom right corner every time you do a / or ? search.
+let g:netrw_list_hide = 'node_modules,.git/'        " hidelist
+let g:netrw_hide = 1                   " hide by default
 
 " }}}
 

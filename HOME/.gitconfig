@@ -32,6 +32,7 @@
   po = push origin
   rm = remote -v
   s = status -sb
+  st = status
   staged-files = diff --name-only --cached
 [grep]
   lineNumber = true

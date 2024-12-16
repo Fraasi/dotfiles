@@ -23,8 +23,8 @@
   inoremap Ö  <Cmd>call codeium#CycleCompletions(-1)<CR>
   inoremap <C-l>  <Cmd>call codeium#Clear()<CR>
   " Manually trigger suggestion
-  inoremap <C-Ä>  <Cmd>call codeium#Complete()<CR>
-  "inoremap <C-a>  <Cmd>call codeium#Accept()<CR>
+  inoremap <S-Tab> <Cmd>call codeium#Complete()<CR>
+  inoremap <C-a>  <Cmd>call codeium#Accept()<CR>
   nnoremap <leader>cd <Cmd>CodeiumDisable<CR>
   nnoremap <leader>ce <Cmd>CodeiumEnable<CR>
 " }}}

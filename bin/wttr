@@ -20,7 +20,7 @@ function wttr() {
   # default values
   CITY="Tampere"
   LANG="fi"
-  DAYS=1
+  DAYS=2
   NARROW='n'
    # If width > 125 cols, automatic wide mode
   (( $(tput cols) > 125 )) && NARROW=''

@@ -30,6 +30,8 @@ endif
 let mapleader = ","
 " tgpt
 nnoremap <leader>pp :!vim-tgpt 
+" markdown preview
+nnoremap <leader>md :!mdcat % \| bat<CR>
 " get filename and linenumber to register, use gf to goto
 " nnoremap <F2> O<c-r>%:<c-r>=line('.')<CR><Esc>dd
 " map jk to esc & put cursor where it was
@@ -148,6 +150,9 @@ set omnifunc=syntaxcomplete#Complete    " omni-completion
 set completeopt=menuone,noinsert,popup,noselect  " Insert mode completion:
 set showmatch                           " Show matching brackets when text indicator is over them
 set cursorline                          " Highlight the current line
+" change the direction of new splits
+set splitbelow
+set splitright
 " statusline {{{
   set laststatus=2                      " Always show the status line
   set statusline=
@@ -166,11 +171,11 @@ set undodir=/tmp//
 set ignorecase smartcase hlsearch       " Ignore case when searching
 set path+=**                            " Searches current directory recursively, Note that completion for :find, :sfind, and :tabfind commands do not currently work with 'path' items that contain a URL or use the double star with depth limiter (/usr/**2) or upward search (;) notations. (:h file-search)
 set wildignore+=node_modules/**         " Ignore in path
+" set virtualedit+=onemore                " end of line cursor onemore
 let g:netrw_banner = 0                  " 0 = no banner, toggle with <shiht-i>
 let g:netrw_liststyle = 3               " tree style listing
 let g:netrw_list_hide = 'node_modules,.git/'        " hidelist
 let g:netrw_hide = 1                   " hide by default
-
 " }}}
 
 " Highlight todo and trailing whitespace {{{ 

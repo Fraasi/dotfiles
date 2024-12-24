@@ -49,4 +49,6 @@
   set runtimepath+=~/.fzf
   packadd! fzf.vim
   nnoremap f :Files<CR>
+  nnoremap b :Buffers<CR>
+  nnoremap <leader>fc :Commands<CR>
 " }}}

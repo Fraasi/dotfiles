@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.10.1
+// @version      1.11.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -57,10 +57,7 @@
       const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
       const movieOrSeries = isEpisodePage ? 'series' : 'movie'
       movieWebLink.setAttribute('href', `https://vidbinge.com/browse/${encodeURI(title)}`)
-      // upmovies server breaks if search starts with 'the '
-      const upTitle = title.replace(/^The\s/, '')
-      const upMoviesSearch = isEpisodePage ? `${upTitle}+season+${season}` : `${upTitle} ${year}`.replaceAll(' ', '+')
-      upMoviesLink.setAttribute('href', `https://upmovies.net/search-movies/${encodeURI(upMoviesSearch)}.html`)
+      upmoviesLink.setAttribute('href', `https://upmovies.co/?s=${title.replace(' ', '+')}`)
       soaperLink.setAttribute('href', `https://soaper.live/search.html?keyword=${encodeURI(title)}`)
       const ytOver20min = '&sp=EgIYAg%253D%253D'
       ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
@@ -89,7 +86,7 @@
 
     const vidsrcLink = createLink('vidsrc')
     const movieWebLink = createLink('vidbinge')
-    const upMoviesLink = createLink('upMovies')
+    const upmoviesLink = createLink('upmovies')
     const soaperLink = createLink('soaper')
     const ytLink = createLink('yt')
     const archiveLink = createLink('archive')
@@ -125,7 +122,7 @@
       wrapper.prepend(langLink)
     }
 
-    wrapper.prepend(vidsrcLink, movieWebLink, upMoviesLink, soaperLink, ytLink, archiveLink, episodesSpan, separator, reviewsLink, ratingslink, soundtrackLink)
+    wrapper.prepend(vidsrcLink, movieWebLink, upmoviesLink, soaperLink, ytLink, archiveLink, episodesSpan, separator, reviewsLink, ratingslink, soundtrackLink)
 
     update()
 

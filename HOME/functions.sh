@@ -211,3 +211,7 @@ function timer() {
     && printf "%s\n" "TIMER DONE [$(date +'%T')]: $msg" ) &
 }
 
+function mapscii() {
+  telnet mapscii.me
+}
+

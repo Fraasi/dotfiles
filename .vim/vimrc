@@ -80,6 +80,8 @@ inoremap <C-space> <C-x><C-o>
 nnoremap <C-w>Q :bdelete!<CR>
 " open git diffs in new buffer, see custom commands below
 nnoremap <leader>gd :call Gitdiff()<CR>
+" change pwd to current file directory
+nnoremap <Leader>cd <Cmd>cd %:h<CR>:pwd<CR>
 "{{{ move & indent selected line(s) up/down
   " ^] is a single character that represents the ALT key, use C+v, Esc in Vim (C+q, Esc on Windows)
   " https://stackoverflow.com/questions/741814/move-entire-line-up-and-down-in-vim/2439848#2439848

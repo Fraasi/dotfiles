@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dest="/home/fraasi/dotfiles/configs/mpv/"
+dest="/home/fraasi/dotfiles/config/mpv/"
 
 cp -uv /c/Users/fraasi/AppData/Roaming/mpv/input.conf "$dest"
 cp -uv /c/Users/fraasi/AppData/Roaming/mpv/mpv.conf "$dest"

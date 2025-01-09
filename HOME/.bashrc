@@ -52,15 +52,15 @@ export SOAPER_DOWNLOAD_PATH=/d/Videos
 # run cowsay with random quote at start
 # cowmoo
 
-# aliases
+# .bash_{aliases,functions}
 if [ -f ~/.bash_aliases ]; then
     source  ~/.bash_aliases
 fi
+if [ -f ~/.bash_functions ]; then
+    source ~/.bash_functions
+fi
 
-# put functions to environment
-source ~/functions.sh
-
-# put goto to environment
+# goto
 if [[ -f /usr/local/bin/goto.sh ]]; then
     source /usr/local/bin/goto.sh
 else

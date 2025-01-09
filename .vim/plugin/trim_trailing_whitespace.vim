@@ -1,4 +1,4 @@
-function StripTrailingWhitespace()
+function TrimTrailingWhitespace()
   if !&binary && &filetype != 'diff'
     normal mz
     normal Hmy
@@ -10,4 +10,4 @@ endfunction
 " nnoremap <Plug>StripTrailingWhitespace
 "   \ :<C-U>call <SID>StripTrailingWhitespace()<CR>
 " trim trailing whitespace
-nnoremap <Leader>tws <Plug>StripTrailingWhitespace
+nnoremap <Leader>tws <Plug>TrimTrailingWhitespace

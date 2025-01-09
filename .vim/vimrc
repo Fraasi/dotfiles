@@ -82,6 +82,8 @@ nnoremap <C-w>Q :bdelete!<CR>
 nnoremap <leader>gd :call Gitdiff()<CR>
 " change pwd to current file directory
 nnoremap <Leader>cd <Cmd>cd %:h<CR>:pwd<CR>
+" break line at cursor ctrl-j
+nnoremap <NL> i<CR><ESC>
 "{{{ move & indent selected line(s) up/down
   " ^] is a single character that represents the ALT key, use C+v, Esc in Vim (C+q, Esc on Windows)
   " https://stackoverflow.com/questions/741814/move-entire-line-up-and-down-in-vim/2439848#2439848
@@ -92,6 +94,10 @@ nnoremap <Leader>cd <Cmd>cd %:h<CR>:pwd<CR>
   vnoremap k :move '<-2<CR>gv='>my'<mzgv'yo'z
   vnoremap j :move '>+1<CR>gv='<my'>mzgv'yo'z
 " }}}
+
+" vim-powered terminal in new tab
+noremap <Leader>T :tab term <cr>
+tnoremap <Leader>T <c-w>:tab term <cr>
 " }}}
 
 " filetype specific settings {{{
@@ -180,7 +186,7 @@ let g:netrw_list_hide = 'node_modules,.git/'        " hidelist
 let g:netrw_hide = 1                   " hide by default
 " }}}
 
-" Highlight todo and trailing whitespace {{{ 
+" Highlight todo and trailing whitespace {{{
 augroup highlights
   autocmd!
   autocmd BufWinEnter * {

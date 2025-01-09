@@ -1,5 +1,7 @@
 " another way to search
 nnoremap <leader>s :g//#<Left><Left>
+" show partial Normal mode command on Command-line and character/line/block-selection for Visual mode
+set showcmd
 
 " Universal opposite of J
 function! BreakHere()

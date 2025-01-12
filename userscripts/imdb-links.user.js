@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.12.0
+// @version      1.13.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -52,10 +52,10 @@
       const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
       vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
 
-      const season_NUM = season ? Number(season) < 10 ? `0${season}` : season : ''
-      const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
-      const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
-      const movieOrSeries = isEpisodePage ? 'series' : 'movie'
+      // const season_NUM = season ? Number(season) < 10 ? `0${season}` : season : ''
+      // const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
+      // const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
+      // const movieOrSeries = isEpisodePage ? 'series' : 'movie'
       movieWebLink.setAttribute('href', `https://vidbinge.com/browse/${encodeURI(title)}`)
       upmoviesLink.setAttribute('href', `https://upmovies.co/?s=${title.replace(' ', '+')}`)
       soaperLink.setAttribute('href', `https://soaper.live/search.html?keyword=${encodeURI(title)}`)
@@ -125,13 +125,12 @@
     wrapper.prepend(vidsrcLink, movieWebLink, upmoviesLink, soaperLink, ytLink, archiveLink, episodesSpan, separator, reviewsLink, ratingslink, soundtrackLink)
 
     document.addEventListener('keyup', (e) => {
-      console.log(e)
-      if (e.key === 's') soaperLink.click()
-      if (e.key === 'v') vidsrcLink.click()
-      if (e.key === 'b') movieWebLink.click()
-      if (e.key === 'u') upmoviesLink.click()
-      if (e.key === 'y') ytLink.click()
-      if (e.key === 'a') archiveLink.click()
+      if (e.shiftKey && e.key === 'S') soaperLink.click()
+      if (e.shiftKey && e.key === 'V') vidsrcLink.click()
+      if (e.shiftKey && e.key === 'B') movieWebLink.click()
+      if (e.shiftKey && e.key === 'U') upmoviesLink.click()
+      if (e.shiftKey && e.key === 'Y') ytLink.click()
+      if (e.shiftKey && e.key === 'A') archiveLink.click()
     })
 
     update()

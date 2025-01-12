@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.11.0
+// @version      1.12.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -124,6 +124,16 @@
 
     wrapper.prepend(vidsrcLink, movieWebLink, upmoviesLink, soaperLink, ytLink, archiveLink, episodesSpan, separator, reviewsLink, ratingslink, soundtrackLink)
 
+    document.addEventListener('keyup', (e) => {
+      console.log(e)
+      if (e.key === 's') soaperLink.click()
+      if (e.key === 'v') vidsrcLink.click()
+      if (e.key === 'b') movieWebLink.click()
+      if (e.key === 'u') upmoviesLink.click()
+      if (e.key === 'y') ytLink.click()
+      if (e.key === 'a') archiveLink.click()
+    })
+
     update()
 
     if (isEpisodePage) {
@@ -197,3 +207,4 @@
   }
 
 })();
+

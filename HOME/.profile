@@ -29,6 +29,10 @@ if [ -d "$HOME/.local/bin" ]; then
 fi
 
 #git bash prompt env variables to show
+# needs completion
+# curl -o ~/.git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+# echo 'source ~/.git-prompt.sh' >> ~/.bashrc
+
 export GIT_PS1_SHOWCOLORHINTS=1
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
@@ -52,7 +56,7 @@ PS1="$PS1"'\w'           # current working directory
 
 # git completions
 if test -f /usr/share/bash-completion/completions/git; then
-    . /usr/share/bash-completion/completions/git
+    source /usr/share/bash-completion/completions/git
 fi
 PS1="$PS1"'\[\033[36m\]' # change color to cyan
 PS1="$PS1"'`__git_ps1`'  # add git repo info
@@ -67,4 +71,7 @@ for c in "$HOME"/bash_completion.d/*.bash; do
     test ! -f "$c" ||
         . "$c"
 done
-. "$HOME/.cargo/env"
+if test -f "$HOME/.cargo/env"; then
+    source "$HOME/.cargo/env"
+fi
+

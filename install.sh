@@ -7,6 +7,7 @@ echo ''
 home_files=$(find ./HOME -type f)
 bin_files=$(find ./bin -type f)
 hook_files=$(find ./hooks -type f)
+config_files=$(find ./config -type -f)
 
 backup_old_dotfiles() {
     local olddir=~/backup/dotfiles
@@ -37,7 +38,7 @@ make_symlinks() {
     # make sure ~/bin & ~/hooks exists
     mkdir ~/bin ~/hooks >/dev/null 2>&1
 
-    for file in $bin_files $home_files $hook_files; do
+    for file in $bin_files $home_files $hook_files $config_files; do
         local filename=$(basename "$file")
         local link_exists=$(find ~/ ~/bin/ ~/hooks -maxdepth 1 -type l -name "$filename")
         if [[ -z $link_exists ]]; then # no link, make it
@@ -52,6 +53,9 @@ make_symlinks() {
             *hooks*)
                 ln -siv "$real_path" ~/hooks/"$filename"
                 ;;
+	    *config*)
+		ln -siv "$real_path" ~/config/"$filename"
+		;;
             esac
         fi
     done

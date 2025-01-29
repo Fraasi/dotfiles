@@ -60,9 +60,9 @@ if [ -f ~/.bash_functions ]; then
     source ~/.bash_functions
 fi
 
-# goto
-if [[ -f /usr/local/bin/goto.sh ]]; then
-    source /usr/local/bin/goto.sh
+# source goto, debian bin -> share
+if [[ -f /usr/local/share/goto.sh ]]; then
+    source /usr/local/share/goto.sh
 else
     echo 'goto.sh not found'
     echo 'https://github.com/iridakos/goto'
@@ -105,3 +105,5 @@ export NVM_DIR="$HOME/.nvm"
 # completion for n alias, _notes is the completion function name
 # for some reason, needs to run notes <completion> before working with alias n
 complete -F _notes n
+
+source ~/.git-prompt.sh

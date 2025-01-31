@@ -63,9 +63,11 @@ fi
 # source goto, debian bin -> share
 if [[ -f /usr/local/share/goto.sh ]]; then
     source /usr/local/share/goto.sh
+    source ~/.git-prompt.sh
+elif [[ $(uname -r) =~ WSL ]]; then
+    source /usr/local/bin/goto.sh
 else
-    echo 'goto.sh not found'
-    echo 'https://github.com/iridakos/goto'
+    printf 'goto.sh not found\https://github.com/iridakos/goto'
 fi
 
 
@@ -106,4 +108,3 @@ export NVM_DIR="$HOME/.nvm"
 # for some reason, needs to run notes <completion> before working with alias n
 complete -F _notes n
 
-source ~/.git-prompt.sh

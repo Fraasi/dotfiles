@@ -20,7 +20,7 @@ alias mv="mv -iv"
 alias n="notes"
 alias np="node -p"
 alias np++="/c/Program\ Files/Notepad++/notepad++.exe"
-alias pp="tgpt"
+alias pp="tgpt --preprompt 'answer shortly'"
 alias pd="tgpt --provider duckduckgo"
 alias python="$(which python3)"
 # -b[rief], -d[ictionary]

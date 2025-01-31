@@ -30,9 +30,9 @@ fi
 
 #git bash prompt env variables to show
 # needs completion
+# find right dir for debian
 # curl -o ~/.git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 # echo 'source ~/.git-prompt.sh' >> ~/.bashrc
-
 export GIT_PS1_SHOWCOLORHINTS=1
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
@@ -40,6 +40,10 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUPSTREAM="auto verbose"
 # https://git-scm.com/book/en/v2/Appendix-A:-Git-in-Other-Environments-Git-in-Bash
 # export PS1='\w$(__git_ps1 " (%s)")\$ '
+if [[ ! $(uname -r) =~ WSL ]]; then
+    # debian
+    source ~/.git-prompt.sh
+fi
 
 TITLEPREFIX=''
 PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]' # set window title

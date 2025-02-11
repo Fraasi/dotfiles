@@ -10,6 +10,7 @@
   helper = /c/Program\\ Files/Git/mingw64/bin/git-credential-manager-core.exe
 [alias]
   aa = add --all
+  ahead = "!git for-each-ref --format='%(refname:short) %(upstream:track) %(upstream:remotename)' refs/heads"
   aliases = config --get-regexp alias
   b = branch
   bv = branch -v

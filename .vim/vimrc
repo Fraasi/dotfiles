@@ -173,7 +173,7 @@ if has('mouse')
   set mouse=a                           " Enable mouse usage (all modes)
 endif
 set cmdheight=2                         " More space for displaying messages
-set foldenable foldmethod=indent foldcolumn=1 foldlevelstart=5    " Enable folding
+set foldenable foldmethod=indent foldcolumn=1 foldlevelstart=10    " Enable folding
 set directory=/tmp//                    " Location of swap files
 set backupdir=/tmp//                    " // means that the directory information will be saved in the filename
 set undodir=/tmp//

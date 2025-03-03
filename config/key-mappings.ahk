@@ -36,8 +36,7 @@
 	}
 }
 
-
-; altGr+m focus or start mpv.exe, if focused move focus back to previous window
+; altGr+, focus or start terminal, if focused move focus back to previous window
 !^,::{
 	activeWin := WinGetProcessName("A")
 	static active_id := WinGetID("A") ; needed in else, activeWin not workin there
@@ -47,6 +46,23 @@
 			WinActivate 'ahk_exe WindowsTerminal.exe'
 		} else {
 			Run 'WindowsTerminal.exe'
+		}
+	} else {
+		WinActivate 'ahk_id ' active_id 
+	}
+}
+
+
+; altGr+. focus or start vivaldi, if focused move focus back to previous window
+!^.::{
+	activeWin := WinGetProcessName("A")
+	static active_id := WinGetID("A") ; needed in else, activeWin not workin there
+	if not (activeWin = 'vivaldi.exe') {
+		active_id := WinGetID("A")
+		if WinExist("ahk_exe vivaldi.exe") {
+			WinActivate 'ahk_exe vivaldi.exe'
+		} else {
+			Run 'vivaldi.exe'
 		}
 	} else {
 		WinActivate 'ahk_id ' active_id 

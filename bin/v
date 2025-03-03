@@ -1,0 +1,3 @@
+#!/bin/sh
+export VIMRUNTIME=$HOME/Code/clones/vim/runtime
+exec $HOME/Code/clones/vim/src/vim "$@"

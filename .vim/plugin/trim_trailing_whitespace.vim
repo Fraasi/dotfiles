@@ -10,4 +10,4 @@ endfunction
 " nnoremap <Plug>StripTrailingWhitespace
 "   \ :<C-U>call <SID>StripTrailingWhitespace()<CR>
 " trim trailing whitespace
-nnoremap <Leader>tws <Plug>TrimTrailingWhitespace
+nnoremap <Leader>ws :call TrimTrailingWhitespace()<cr>

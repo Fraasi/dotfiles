@@ -260,7 +260,7 @@ try
   source ~/.vim/pluginsrc.vim " all plugin related
   source ~/.vim/testrc.vim    " testing things
 catch
-  echo 'Error loading pluginsrrc or testrc'
+  echo 'Error loading pluginsrc or testrc'
   echo v:exception
 endtry
 " }}}

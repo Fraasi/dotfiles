@@ -52,3 +52,19 @@
   nnoremap b :Buffers<CR>
   nnoremap <leader>fc :Commands<CR>
 " }}}
+
+" iron.vim {{{
+    let g:iron_keymaps = {
+  \ "toggle_repl": "<leader>rr",
+  \ "toggle_vertical": "<leader>rv",
+  \ "repl_restart": "<leader>rR",
+  \ "repl_kill": "<leader>rk",
+  \ "send_line": "<leader>sl",
+  \ "send_visual": "<leader>sp",
+  \ "send_paragraph": "<leader>sp",
+  \ "send_until_cursor": "<leader>su",
+  \ "send_file": "<leader>sf",
+  \ "send_cancel": "<leader>sc",
+  \ "send_blank_line": "<leader>s<CR>",
+  \ }
+" }}}

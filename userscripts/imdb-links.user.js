@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.13.0
+// @version      1.15.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -56,11 +56,10 @@
       // const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
       // const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
       // const movieOrSeries = isEpisodePage ? 'series' : 'movie'
-      movieWebLink.setAttribute('href', `https://vidbinge.com/browse/${encodeURI(title)}`)
-      upmoviesLink.setAttribute('href', `https://upmovies.co/?s=${title.replace(' ', '+')}`)
       soaperLink.setAttribute('href', `https://soaper.live/search.html?keyword=${encodeURI(title)}`)
       const ytOver20min = '&sp=EgIYAg%253D%253D'
       ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
+      okLink.setAttribute('href', 'https://ok.ru/video/showcase')
       archiveLink.setAttribute('href', `https://archive.org/search?query=title%3A%28${encodeURI(title)}%29+AND+mediatype%3A%28movies%29`)
       let epHTML = ''
       if (isEpisodePage) {
@@ -85,10 +84,9 @@
     }
 
     const vidsrcLink = createLink('vidsrc')
-    const movieWebLink = createLink('vidbinge')
-    const upmoviesLink = createLink('upmovies')
     const soaperLink = createLink('soaper')
     const ytLink = createLink('yt')
+    const okLink = createLink('ok')
     const archiveLink = createLink('archive')
     const episodesSpan = createLink('', 'span')
     const reviewsLink = createLink('reviews')
@@ -122,14 +120,16 @@
       wrapper.prepend(langLink)
     }
 
-    wrapper.prepend(vidsrcLink, movieWebLink, upmoviesLink, soaperLink, ytLink, archiveLink, episodesSpan, separator, reviewsLink, ratingslink, soundtrackLink)
+    wrapper.prepend(vidsrcLink, soaperLink, ytLink, okLink, archiveLink, episodesSpan, separator, reviewsLink, ratingslink, soundtrackLink)
 
     document.addEventListener('keyup', (e) => {
       if (e.shiftKey && e.key === 'S') soaperLink.click()
       if (e.shiftKey && e.key === 'V') vidsrcLink.click()
-      if (e.shiftKey && e.key === 'B') movieWebLink.click()
-      if (e.shiftKey && e.key === 'U') upmoviesLink.click()
       if (e.shiftKey && e.key === 'Y') ytLink.click()
+      if (e.shiftKey && e.key === 'O') {
+        navigator.clipboard.writeText(`${title} ${year}`)
+        okLink.click()
+      }
       if (e.shiftKey && e.key === 'A') archiveLink.click()
     })
 

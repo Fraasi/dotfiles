@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.15.0
+// @version      1.16.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -51,7 +51,7 @@
       const season = isEpisodePage ? document.querySelector('.ipc-tabs--display-chip .ipc-tab--active').innerText : ''
       const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
       vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
-
+      pstreamLink.setAttribute('href', `https://pstream.org/browse/${encodeURI(title)}`)
       // const season_NUM = season ? Number(season) < 10 ? `0${season}` : season : ''
       // const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
       // const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
@@ -84,6 +84,7 @@
     }
 
     const vidsrcLink = createLink('vidsrc')
+    const pstreamLink = createLink('pstream')
     const soaperLink = createLink('soaper')
     const ytLink = createLink('yt')
     const okLink = createLink('ok')
@@ -120,11 +121,12 @@
       wrapper.prepend(langLink)
     }
 
-    wrapper.prepend(vidsrcLink, soaperLink, ytLink, okLink, archiveLink, episodesSpan, separator, reviewsLink, ratingslink, soundtrackLink)
+    wrapper.prepend(vidsrcLink, pstreamLink, soaperLink, ytLink, okLink, archiveLink, episodesSpan, separator, reviewsLink, ratingslink, soundtrackLink)
 
     document.addEventListener('keyup', (e) => {
       if (e.shiftKey && e.key === 'S') soaperLink.click()
       if (e.shiftKey && e.key === 'V') vidsrcLink.click()
+      if (e.shiftKey && e.key === 'P') pstreamLink.click()
       if (e.shiftKey && e.key === 'Y') ytLink.click()
       if (e.shiftKey && e.key === 'O') {
         navigator.clipboard.writeText(`${title} ${year}`)
@@ -206,4 +208,5 @@
   }
 
 })();
+
 

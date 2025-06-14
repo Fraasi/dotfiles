@@ -17,6 +17,9 @@
 ; altGR+p Play/Pause
 !^p::ControlSend '{Space}', , 'ahk_class mpv'
 
+; alt+o = shift+o in mpv
+!^o::ControlSend '+{o}', , 'ahk_class mpv'
+
 ; delete-file-next, Shift+DEL
 +Del::ControlSend '+{Del}', , 'ahk_class mpv'
 

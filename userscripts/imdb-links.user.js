@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.17.0
+// @version      1.17.1
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -116,8 +116,11 @@
     wrapper.style.background = 'rgb(18, 18, 18)'
 
     if (isMainPage) {
-      const langs = [...document.querySelectorAll('[data-testid="title-details-languages"] > div')].map(el => el.innerText)
-      const langLink = createLink(`languages: ${langs}`)
+      const langs = [...document.querySelectorAll('[data-testid="title-details-languages"] > div > ul > li')].map(el => el.innerText)
+      const langLink = createLink(`languages: ${langs.join(', ')}`)
+      langLink.addEventListener('click', () => {
+        document.querySelector('section[data-testid="Details"]').scrollIntoView()
+      })
       wrapper.prepend(langLink)
     }
 

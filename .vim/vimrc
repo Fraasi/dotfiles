@@ -53,7 +53,7 @@ nnoremap <leader>bc :Wc<CR>
 " change buffer hotkeys
 nnoremap <leader>bn :bnext<CR>
 nnoremap <leader>bp :bprevious<CR>
-nnoremap <leader>-  :bprevious<CR>
+nnoremap <leader>bb  :bprevious<CR>
 " nnoremap > :bnext<CR>
 " location list jumps
 nnoremap [l :lnext<CR>
@@ -272,3 +272,13 @@ if v:version > 900
 endif
 " }}}
 
+" from docs, :h last-position-jump
+augroup RestoreCursor
+  autocmd!
+  autocmd BufReadPost *
+        \ let line = line("'\"")
+        \ | if line >= 1 && line <= line("$") && &filetype !~# 'commit'
+        \      && index(['xxd', 'gitrebase'], &filetype) == -1
+        \ |   execute "normal! g`\""
+        \ | endif
+augroup END

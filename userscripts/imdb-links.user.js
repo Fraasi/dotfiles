@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.16.0
+// @version      1.17.0
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -17,7 +17,7 @@
     const docTitle = document.title
     const imdb_id = window.location.pathname.match(/tt\d+/)[0]
     const title = docTitle.split(/ \(| - /)[0].trim()
-    const isMainPage = Boolean(document.querySelector('.titlereference-section-overview'))
+    const isMainPage = Boolean(document.querySelector('[data-testid="hero__pageTitle"]'))
     const isEpisodePage = window.location.pathname.includes('episodes')
     const year = docTitle.match(/\d{4}/)?.[0] || ''
     const isSeries = /TV( Mini)? Series|Season/.test(docTitle)
@@ -116,7 +116,7 @@
     wrapper.style.background = 'rgb(18, 18, 18)'
 
     if (isMainPage) {
-      const langs = [...document.querySelectorAll('[href^="/language"]')].map(el => el.href.split('/').pop()).join(' / ')
+      const langs = [...document.querySelectorAll('[data-testid="title-details-languages"] > div')].map(el => el.innerText)
       const langLink = createLink(`languages: ${langs}`)
       wrapper.prepend(langLink)
     }
@@ -208,5 +208,4 @@
   }
 
 })();
-
 

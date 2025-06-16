@@ -25,6 +25,7 @@
     --ipt-base-border-color: var(--border-color);
     --ipc-listCard-base-bg: var(--bg-color);
     --ipt-base-shade3-bg: var(--bg-color);
+    --ipt-on-base-color: var(--font-grey);
   }
 
   html,
@@ -47,7 +48,8 @@
   #pagecontent,
   div.pagecontent,
   .lister-widget .lister-header .nav,
-  .lister-widget .lister-controls .nav {
+  .lister-widget .lister-controls .nav,
+  .ipc-html-content.ipc-html-content--base.ipc-bq.ipc-bq__b-base.ipc-bq__bg-accent1.ipc-bq__b-base {
     background-color: var(--bg-color);
     color: var(--font-white);
   }
@@ -87,6 +89,10 @@
     background-color: var(--bg-color) !important;
     color: var(--font-white);
     border-color: var(--border-color);
+  }
+
+  .full-credits-page-list-item:nth-child(2n+1) {
+    background-color: var(--bg-color);
   }
 
   .cast_list .character {
@@ -255,8 +261,14 @@
     color: var(--font-white);
   }
 
-   /* trivia page */
+  /* search page */
+  h1 {
+    color: var(--font-white);
+  }
+
+  /* trivia page */
   .ipc-list-card--base {
     background-color: var(--bg-color);
   }
+
 }

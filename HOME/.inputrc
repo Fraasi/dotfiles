@@ -40,3 +40,20 @@ set completion-ignore-case On
 # Note that these commands take a numerical argument, so to skip e.g. to the fifth next occurrence of the letter o, type M-5 C-] o, or ESC 5 C-] o.
 "\C-xs": character-search
 "\C-xS": character-search-backward
+
+# vi emacs mode
+set show-mode-in-prompt on
+set keymap emacs
+"\C-xv": vi-editing-mode
+
+set keymap vi-command
+"k": history-search-backward
+"j": history-search-forward
+"\C-xe": emacs-editing-mode
+
+set keymap vi-insert
+"\C-xe": emacs-editing-mode
+"\C-l": clear-screen
+"\C-k": kill-line
+
+set editing-mode emacs

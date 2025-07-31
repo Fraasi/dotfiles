@@ -15,9 +15,9 @@ group = parser.add_mutually_exclusive_group()
 group.add_argument('NUM',
                    help='number of months to fetch from moviescountdown (default: 1) (weeks if negative number)',
                    nargs='?', default=1, type=int, choices=list(range(-4, 7)))
-group.add_argument('-u', help='fetch list from upmovies', action='store_true')
 group.add_argument('-r', help='fetch list from rotten tomatoes', action='store_true')
 group.add_argument('-s', help='fetch list from soaper', action='store_true')
+group.add_argument('-v', help='fetch list from vidscr', action='store_true')
 args = parser.parse_args()
 
 # print(args, sys.argv)
@@ -27,11 +27,11 @@ SECONDS_IN_A_DAY = 24 * 60 * 60
 WEEK_IN_SECONDS = SECONDS_IN_A_DAY * 7
 MONTH_IN_SECONDS = SECONDS_IN_A_DAY * 30
 IMDB_LINK = 'https://www.imdb.com/find?q='
-UP_URL = 'https://upmovies.net/cinema-movies.html'
 ROT_URL = 'https://www.rottentomatoes.com/browse/movies_at_home/sort:newest'
 SOAP_URL = f'https://soaper.live/movielist/year/{CURRENT_YEAR}/sort/release'
 COUNTDOWN_URL = 'https://moviescountdown.com/recently-released-dvd'
 COUNTDOWN_URL_UPCOMING = 'https://moviescountdown.com/upcoming-dvd/all'
+VIDSRC_PAGES = 2
 
 def format_time(seconds):
     """format seconds to 'N days ago'"""
@@ -69,26 +69,6 @@ if len(sys.argv) == 1 or args.NUM != 1:
             title = re.sub(r'\n.*', '', a.get_text().strip())
             print(f'{title:<30} [{time}]  {IMDB_LINK}{urllib.parse.quote_plus(title)}')
 
-elif args.u:
-    soup = get_soup(UP_URL)
-
-    # skip first one
-    for div in soup.select('div.shortItem.listItem')[1:]:
-        quality = div.find('p', class_='film_hd').get_text()
-        if quality != 'HD':
-            continue
-        title = div.find(class_='title').get_text()
-        file_info = div.find('div', 'file-info').get_text()
-        info_cleaned = []
-        for info in file_info.split('\n'):
-            if re.search(r'Duration|Actors', info):
-                continue
-            info_cleaned += info + '\n'
-        # strip first and last two newlines and join
-        INFO_CLEANED = ''.join(info_cleaned[1:-2]).replace('\n', ' | ')
-        link = f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'
-        print(f'\n{title} ({quality}) - {link}\n{INFO_CLEANED}')
-
 elif args.r:
     soup = get_soup(ROT_URL)
     for div in soup.select('[data-qa="discovery-media-list-item-caption"]'):
@@ -124,4 +104,23 @@ elif args.s:
     for mov in sorted_by_date:
         title, date_str = mov.values()
         print(f'{title:<30}  [{date_str:<10}]  {IMDB_LINK}{urllib.parse.quote_plus(title)}')
+
+elif args.v:
+
+    def green(text: str) -> str:
+        return f"\033[92m{text}\033[0m"
+
+    for i in range(1, VIDSRC_PAGES + 1):
+        uri = f"https://vidsrc.me/movies/latest/page-{i}.json"
+        print(f"\nfetching list from: {uri}\n")
+        response = requests.get(uri)
+        json_data = response.json()
+
+        for movie in json_data["result"]:
+            if str(CURRENT_YEAR) in movie["title"]:
+                print(
+                        f"{movie['title']}\n ",
+                        green(f"{movie['embed_url']} -"),
+                        green(f"https://www.imdb.com/title/{movie['imdb_id']}")
+                        )
 

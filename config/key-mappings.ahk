@@ -10,9 +10,12 @@
 #p::return
 
 ; AltGr + - = emdash
-!^-::Send "—"
+;^-::Send "—"
 
 ;----mpv global keybindings----
+
+; altGR+m adjust mpv volume = shift+m
+!^m::ControlSend '+{m}', , 'ahk_class mpv'
 
 ; altGR+p Play/Pause
 !^p::ControlSend '{Space}', , 'ahk_class mpv'
@@ -23,8 +26,25 @@
 ; delete-file-next, Shift+DEL
 +Del::ControlSend '+{Del}', , 'ahk_class mpv'
 
-; altGr+m focus or start mpv.exe, if focused move focus back to previous window
-!^m::{
+; altGr+f focus mpv.exe & put in fullscreen, if focused move focus back to previous window
+;!^f::ControlSend '{f}', , 'ahk_class mpv'
+!^f::{
+	activeWin := WinGetProcessName("A")
+	static active_id := WinGetID("A") ; needed in else, activeWin not workin there
+	if not (activeWin = 'mpv.exe') {
+		active_id := WinGetID("A")
+		if WinExist("ahk_class mpv") {
+			WinActivate 'ahk_class mpv'
+      ControlSend '{f}', , 'ahk_class mpv'
+		}
+	} else {
+    ControlSend '{f}', , 'ahk_class mpv'
+		WinActivate 'ahk_id ' active_id
+	}
+}
+
+; altGr+- focus or start mpv.exe, if focused move focus back to previous window
+!^-::{
 	activeWin := WinGetProcessName("A")
 	static active_id := WinGetID("A") ; needed in else, activeWin not workin there
 	if not (activeWin = 'mpv.exe') {
@@ -35,7 +55,7 @@
 			Run 'mpv.exe'
 		}
 	} else {
-		WinActivate 'ahk_id ' active_id 
+		WinActivate 'ahk_id ' active_id
 	}
 }
 
@@ -51,7 +71,7 @@
 			Run 'WindowsTerminal.exe'
 		}
 	} else {
-		WinActivate 'ahk_id ' active_id 
+		WinActivate 'ahk_id ' active_id
 	}
 }
 
@@ -68,6 +88,6 @@
 			Run 'vivaldi.exe'
 		}
 	} else {
-		WinActivate 'ahk_id ' active_id 
+		WinActivate 'ahk_id ' active_id
 	}
 }

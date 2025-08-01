@@ -74,8 +74,14 @@ vnoremap <leader>" :s/\%V\(.*\)\%V/"\1"/<CR>
 nnoremap <leader>fd :20 Lexplore %:p:h<CR>
 " open current directory in new tab
 nnoremap <Leader>fn :tabedit %:h<CR>
+
+" check coc completions first
 " ctrl + space to show completions
-inoremap <C-space> <C-x><C-o>
+" https://vim.fandom.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
+" open omni completion menu closing previous if open and opening new menu without changing the text
+" inoremap <expr> <C-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
+        " \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
+
 " close buffer wihout saving
 nnoremap <C-w>Q :bdelete!<CR>
 " open git diffs in new buffer, see custom commands below
@@ -282,3 +288,4 @@ augroup RestoreCursor
         \ |   execute "normal! g`\""
         \ | endif
 augroup END
+

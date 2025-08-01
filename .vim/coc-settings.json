@@ -8,12 +8,6 @@
   "typescript.format.semicolons": "remove",
   "typescript.preferences.quoteStyle": "single",
   "suggest.autoTrigger": "trigger",
-  "languageserver": {
-    "bash": {
-      "command": "bash-language-server",
-      "args": ["start"],
-      "filetypes": ["sh"],
-      "ignoredRootPaths": ["~"]
-    }
-  }
+  "coc.preferences.jumpCommand": "vsplit",
+  "languageserver": { }
 }

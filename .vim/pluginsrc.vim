@@ -19,6 +19,7 @@
 
 " codeium {{{
 "imap <script><silent><nowait><expr> <C-g> codeium#Accept()
+  let g:codeium_enabled = v:false
   inoremap Ä  <Cmd>call codeium#CycleCompletions(1)<CR>
   inoremap Ö  <Cmd>call codeium#CycleCompletions(-1)<CR>
   inoremap <C-l>  <Cmd>call codeium#Clear()<CR>
@@ -39,10 +40,10 @@
 
 " disable on start {{{
   " For a command defined by a plugin, a solution like the following usually works (since VimEnter is triggered at the end of :help startup)
-  augroup disable_on_start
-   autocmd!
-   autocmd VimEnter * CodeiumDisable
-  augroup end
+  " augroup disable_on_start
+  "  autocmd!
+  "  autocmd VimEnter * CodeiumDisable
+  " augroup end
 " }}}
 
 " fzf.vim {{{
@@ -50,6 +51,7 @@
   packadd! fzf.vim
   nnoremap f :Files<CR>
   nnoremap b :Buffers<CR>
+  nnoremap l :Lines<CR>
   nnoremap <leader>fc :Commands<CR>
 " }}}
 

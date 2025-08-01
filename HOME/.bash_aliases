@@ -22,7 +22,7 @@ alias np="node -p"
 alias np++="/c/Program\ Files/Notepad++/notepad++.exe"
 alias pp="tgpt --preprompt 'answer shortly'"
 alias pd="tgpt --provider duckduckgo"
-alias python="$(which python3)"
+alias python='$(which python3)'
 # -b[rief], -d[ictionary]
 alias trans="trans -t fi -b -j -no-pager"
 # trans -t fi or :fi target lang, -v[iew] use pager, -j[oin-sentence]  Treat all arguments as one single sentence, -no-ansi fixes pager

@@ -25,5 +25,12 @@ local function copy_filename()
   print(string.format('%s - filename copied to clipboard', filename))
 end
 
+local function show_date_time()
+  local date_time = os.date("%Y-%m-%d %H:%M:%S")
+  mp.osd_message(date_time)
+  print(date_time)
+end
+
 mp.add_key_binding("ctrl+t", "copy_timestamp", copy_timestamp)
 mp.add_key_binding("ctrl+f", "copy_filename", copy_filename)
+mp.add_key_binding("ctrl+d", "show_date_time", show_date_time)

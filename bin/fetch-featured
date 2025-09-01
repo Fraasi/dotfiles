@@ -112,13 +112,14 @@ elif args.v:
 
     for i in range(1, VIDSRC_PAGES + 1):
         uri = f"https://vidsrc.me/movies/latest/page-{i}.json"
-        print(f"\nfetching list from: {uri}\n")
+        print(f"fetching list from: {uri}\n")
         response = requests.get(uri)
         json_data = response.json()
 
         for movie in json_data["result"]:
             if str(CURRENT_YEAR) in movie["title"]:
                 print(
+                        f"{CURRENT_YEAR}",
                         f"{movie['title']}\n ",
                         green(f"{movie['embed_url']} -"),
                         green(f"https://www.imdb.com/title/{movie['imdb_id']}")

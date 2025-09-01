@@ -43,7 +43,7 @@
   autocrlf = false
 	excludesfile = /home/fraasi/.gitignore_global
 [diff]
-  tool = vimdiff
+  tool = vimdiff # git difftool --tool-help
   wsErrorHighlight = all
   submodule = log
 [branch]

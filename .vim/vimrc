@@ -272,9 +272,12 @@ endtry
 " }}}
 
 " add vim 9.1 native packs {{{
+" :h local-additions & ls vim/runtime/pack/dist/opt/
 if v:version > 900
   packadd! comment
   packadd! editorconfig
+  runtime! ftplugin/man.vim " :Man command in vim
+  packadd! helptoc
 endif
 " }}}
 

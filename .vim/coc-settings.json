@@ -1,4 +1,6 @@
 {
+  "suggest.autoTrigger": "trigger",
+  "coc.preferences.jumpCommand": "vsplit",
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
   "javascript.format.semicolons": "remove",
   "javascript.preferences.quoteStyle": "single",
@@ -7,7 +9,9 @@
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
   "typescript.format.semicolons": "remove",
   "typescript.preferences.quoteStyle": "single",
-  "suggest.autoTrigger": "trigger",
-  "coc.preferences.jumpCommand": "vsplit",
-  "languageserver": { }
+  "pyright.enable": true,
+  "pyright.inlayHints.variableTypes": true,
+  "pyright.inlayHints.parameterTypes": false,
+  "pyright.inlayHints.functionReturnTypes": false,
+  "languageserver": {}
 }

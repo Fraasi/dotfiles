@@ -104,7 +104,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # notes
-# completion for n alias, _notes is the completion function name
-# for some reason, needs to run notes <completion> before working with alias n
-complete -F _notes n
+# completion for n alias
+# source first to get _notes completion function
+source /usr/share/bash-completion/completions/notes.bash
+complete -o filenames -o nospace -F _notes n
 

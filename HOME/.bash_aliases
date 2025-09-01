@@ -20,6 +20,7 @@ alias mv="mv -iv"
 alias n="notes"
 alias np="node -p"
 alias np++="/c/Program\ Files/Notepad++/notepad++.exe"
+alias mcphost="/home/fraasi/go/bin/mcphost -m ollama:llama3.2"
 alias pp="tgpt --preprompt 'answer shortly'"
 alias pd="tgpt --provider duckduckgo"
 alias python='$(which python3)'

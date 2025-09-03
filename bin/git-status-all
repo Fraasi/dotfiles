@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
-# modified from http://www.bashoneliners.com/oneliners/225/
+# shellcheck disable=SC2164
 
-find ~/Code/github/ -maxdepth 2 -name ".git" 2> /dev/null | sed 's/.git$//g' | awk '{print "-------------------------\n\033[1;32mGit Repo:\033[0m " $1; system("git --git-dir="$1".git --work-tree="$1" status -sb")}'
+for d in $(find ~/Code/github/ -maxdepth 2 -name ".git" 2>/dev/null | sed 's/.git$//g'); do
+  (
+    cd "$d"
+    if [[ ! -z $(git status --porcelain) ]]; then
+      printf "\n%s\n" "$d"
+      git status -sb
+    fi
+  )
+done

@@ -1,11 +1,22 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2164
 
-for d in $(find ~/Code/github/ -maxdepth 2 -name ".git" 2>/dev/null | sed 's/.git$//g'); do
+DIR="$HOME/Code/github/"
+if [[ -n $1 ]]; then
+  DIR="$1"
+fi
+
+for d in $(find $DIR -maxdepth 2 -name ".git" 2>/dev/null | sed 's/.git$//g'); do
   (
     cd "$d"
-    if [[ ! -z $(git status --porcelain) ]]; then
+    curr_branch=$(git rev-parse --abbrev-ref HEAD)
+    curr_remote=$(git config branch."$curr_branch".remote)
+    curr_merge_branch=$(git config branch."$curr_branch".merge | cut -d / -f 3)
+    ahead_behind=$(git rev-list --left-right --count "$curr_branch"..."$curr_remote"/"$curr_merge_branch"| tr -s '\t' '|')
+
+    if [[ -n $(git status --porcelain) || ! $ahead_behind == '0|0' ]]; then
       printf "\n%s\n" "$d"
+      printf "ahead/behind:  %s\n" "$ahead_behind"
       git status -sb
     fi
   )

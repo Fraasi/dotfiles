@@ -30,14 +30,6 @@
   nnoremap <leader>ce <Cmd>CodeiumEnable<CR>
 " }}}
 
-" coc.nvim {{{
-  " packadd! coc.nvim
-  " https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-cr-to-confirm-completion
-  let g:coc_global_extensions = ['coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-pyright', 'coc-sh']
-  " inoremap <expr> <S-tab> coc#pum#visible() ? coc#pum#confirm() : "\<S-tab>"
-  source ~/.vim/cocrc.vim
-" }}}
-
 " disable on start {{{
   " For a command defined by a plugin, a solution like the following usually works (since VimEnter is triggered at the end of :help startup)
   " augroup disable_on_start

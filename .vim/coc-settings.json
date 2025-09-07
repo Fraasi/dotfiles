@@ -1,6 +1,5 @@
 {
   "suggest.autoTrigger": "trigger",
-  "coc.preferences.jumpCommand": "vsplit",
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
   "javascript.format.semicolons": "remove",
   "javascript.preferences.quoteStyle": "single",

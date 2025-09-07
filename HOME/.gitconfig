@@ -20,6 +20,7 @@
   cg = config --global
   co = checkout
   d = diff
+  dv = difftool --tool=vimdiff
   dc = diff --cached
   ds = diff --staged
   dstat= diff --stat

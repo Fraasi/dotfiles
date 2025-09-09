@@ -51,7 +51,9 @@
       const season = isEpisodePage ? document.querySelector('.ipc-tabs--display-chip .ipc-tab--active').innerText : ''
       const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
       vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
-      primeSrcLink.setAttribute('href', `https://primesrc.me/embed/movie?imdb=${imdb_id}&fallback=false&server_order=Vidmoly,PrimeVid`)
+      const movie_or_tv = isSeries ? 'tv' : 'movie'
+      const primeEpisode = season ? `&season=${season}&episode=${selectedEpisode}` : ''
+      primeSrcLink.setAttribute('href', `https://primesrc.me/embed/${movie_or_tv}?imdb=${imdb_id}&fallback=false&server_order=Vidmoly,PrimeVid,Mixdrop${primeEpisode}`)
       pstreamLink.setAttribute('href', `https://pstream.org/browse/${encodeURI(title)}`)
       // const season_NUM = season ? Number(season) < 10 ? `0${season}` : season : ''
       // const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode

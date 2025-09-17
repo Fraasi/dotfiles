@@ -133,7 +133,8 @@ elif args.p:
     # print(json_data['results'][0])
     for mov in json_data['results']:
         # print(mov)
-        if datetime.strptime(mov['release_date'], '%Y-%m-%d').year == CURRENT_YEAR:
+        if mov['release_date'] is not None \
+                and datetime.strptime(mov['release_date'], '%Y-%m-%d').year == CURRENT_YEAR:
             print(
                     f"[{mov['release_date']}]",
                     f"{mov['title']}\n ",

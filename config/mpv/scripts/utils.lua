@@ -33,4 +33,4 @@ end
 
 mp.add_key_binding("ctrl+t", "copy_timestamp", copy_timestamp)
 mp.add_key_binding("ctrl+f", "copy_filename", copy_filename)
-mp.add_key_binding("ctrl+d", "show_date_time", show_date_time)
+mp.add_key_binding("d", "show_date_time", show_date_time)

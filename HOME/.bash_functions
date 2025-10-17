@@ -215,3 +215,11 @@ function mapscii() {
   telnet mapscii.me
 }
 
+# fman() {
+#   man -k . | fzf --prompt='Man> ' | awk '{print $1}' | xargs -r man
+# }
+
+# Same as above, but with previews and works correctly with man pages in different sections.
+function fman() {
+  man -k . | fzf -q "$1" --prompt='man> '  --preview $'echo {} | tr -d \'()\' | awk \'{printf "%s ", $2} {print $1}\' | xargs -r man' | tr -d '()' | awk '{printf "%s ", $2} {print $1}' | xargs -r man
+}

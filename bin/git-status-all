@@ -12,7 +12,7 @@ for d in $(find $DIR -maxdepth 2 -name ".git" 2>/dev/null | sed 's/.git$//g'); d
     curr_branch=$(git rev-parse --abbrev-ref HEAD)
     curr_remote=$(git config branch."$curr_branch".remote)
     curr_merge_branch=$(git config branch."$curr_branch".merge | cut -d / -f 3)
-    ahead_behind=$(git rev-list --left-right --count "$curr_branch"..."$curr_remote"/"$curr_merge_branch"| tr -s '\t' '|')
+    ahead_behind=$(git rev-list --left-right --count "$curr_branch"..."$curr_remote"/"$curr_merge_branch" | tr -s '\t' '|')
 
     if [[ -n $(git status --porcelain) || ! $ahead_behind == '0|0' ]]; then
       printf "\n%s\n" "$d"

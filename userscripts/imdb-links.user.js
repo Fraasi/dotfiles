@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.17.2
+// @version      1.18.3
 // @description  Reverse some enshittification from imdb & add some useful links
 // @author       Fraasi
 // @match        https://www.imdb.com/*
@@ -50,16 +50,15 @@
 
       const season = isEpisodePage ? document.querySelector('.ipc-tabs--display-chip .ipc-tab--active').innerText : ''
       const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
-      vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${imdb_id}/${vidsrcEpisode}`)
+      vidsrcLink.setAttribute('href', `https://vsrc.su/embed/${imdb_id}/${vidsrcEpisode}`)
       const movie_or_tv = isSeries ? 'tv' : 'movie'
       const primeEpisode = season ? `&season=${season}&episode=${selectedEpisode}` : ''
       primeSrcLink.setAttribute('href', `https://primesrc.me/embed/${movie_or_tv}?imdb=${imdb_id}&fallback=false&server_order=Vidmoly,PrimeVid,Mixdrop${primeEpisode}`)
-      pstreamLink.setAttribute('href', `https://pstream.org/browse/${encodeURI(title)}`)
       // const season_NUM = season ? Number(season) < 10 ? `0${season}` : season : ''
       // const episode_NUM = Number(selectedEpisode) < 10 ? `0${selectedEpisode}` : selectedEpisode
       // const extras = isEpisodePage ? `S${season_NUM}E${episode_NUM}` : year
       // const movieOrSeries = isEpisodePage ? 'series' : 'movie'
-      soaperLink.setAttribute('href', `https://soaper.live/search.html?keyword=${encodeURI(title)}`)
+      // soaperLink.setAttribute('href', `https://soaper.live/search.html?keyword=${encodeURI(title)}`)
       const ytOver20min = '&sp=EgIYAg%253D%253D'
       ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
       okLink.setAttribute('href', 'https://ok.ru/video/showcase')
@@ -88,8 +87,6 @@
 
     const vidsrcLink = createLink('vidsrc')
     const primeSrcLink = createLink('primeSrc')
-    const pstreamLink = createLink('pstream')
-    const soaperLink = createLink('soaper')
     const ytLink = createLink('yt')
     const okLink = createLink('ok')
     const archiveLink = createLink('archive')
@@ -128,19 +125,19 @@
       wrapper.prepend(langLink)
     }
 
-    wrapper.prepend(vidsrcLink, primeSrcLink, pstreamLink, soaperLink, ytLink, okLink, archiveLink, episodesSpan, separator, reviewsLink, ratingslink, soundtrackLink)
+    // const br = document.createElement('br')
+    wrapper.prepend(vidsrcLink, primeSrcLink, ytLink, okLink, archiveLink, '  -  ',
+      episodesSpan, reviewsLink, ratingslink, soundtrackLink)
 
     document.addEventListener('keyup', (e) => {
-      if (e.shiftKey && e.key === 'S') soaperLink.click()
       if (e.shiftKey && e.key === 'V') vidsrcLink.click()
-      if (e.shiftKey && e.key === 'W') primeSrcLink.click()
-      if (e.shiftKey && e.key === 'P') pstreamLink.click()
+      if (e.shiftKey && e.key === 'P') primeSrcLink.click()
       if (e.shiftKey && e.key === 'Y') ytLink.click()
+      if (e.shiftKey && e.key === 'A') archiveLink.click()
       if (e.shiftKey && e.key === 'O') {
         navigator.clipboard.writeText(`${title} ${year}`)
         okLink.click()
       }
-      if (e.shiftKey && e.key === 'A') archiveLink.click()
     })
 
     update()
@@ -177,34 +174,42 @@
     document.querySelectorAll('h1+ul.ipc-inline-list > li').forEach( (el, i) => {
       el.classList.add('ipc-chip', 'ipc-chip--on-base-accent2')
       el.addEventListener('click', (e) => {
-        const job = e.target.innerText.toLowerCase()
-        const targetEl = document.getElementsByClassName(`filmo-section-${job}`)[0]
+        const job = e.target.innerText
+        const hgroups = Array.from(document.querySelectorAll('hgroup'))
+        const targetEl = hgroups.find( g => g. innerText === job)
         if (!targetEl) {
           console.log(targetEl)
           return
         }
         targetEl.scrollIntoView()
-        const targetUpcoming = document.querySelector(`#${job}-upcoming-projects`)
-        const targetPrevious = document.querySelector(`#${job}-previous-projects`)
-        if ( targetUpcoming && targetUpcoming.classList.contains('ipc-accordion__item--collapsed') ) targetUpcoming.classList.replace('ipc-accordion__item--collapsed', 'ipc-accordion__item--expanded')
-        if ( targetPrevious && targetPrevious.classList.contains('ipc-accordion__item--collapsed') ) targetPrevious.classList.replace('ipc-accordion__item--collapsed', 'ipc-accordion__item--expanded')
-
       })
     })
   }
 
   function hideElsButton() {
+    const hideEls = 'TV Series|Music Video|Short|Video Game|Podcast Series'
     const hideButton = document.createElement('button')
-    hideButton.innerText = 'Hide tv-series | shorts | music vids'
+    hideButton.innerText = `Hide ${hideEls} `
     hideButton.style.fontSize = '13px'
+    const hideButton2 = hideButton.cloneNode(true)
+    const hideButton3 = hideButton2.cloneNode(true)
+    const regEx = new RegExp(hideEls)
 
-    hideButton.addEventListener('click', () => {
+    function onHideClick() {
       document.querySelectorAll('div.ipc-metadata-list-summary-item__c').forEach(e => {
-        if (/TV Series|Music Video|Short/.test(e.innerText)) e.parentNode.style.display = 'none'
+        if (regEx.test(e.innerText)) e.parentNode.style.display = 'none'
       })
-    })
+    }
+
+    hideButton.addEventListener('click', onHideClick)
+    hideButton2.addEventListener('click', onHideClick)
+    hideButton3.addEventListener('click', onHideClick)
     const dirEl = document.querySelector('div.filmo-section-director')
-    dirEl.append(hideButton)
+    const actorEl = document.querySelector('div.filmo-section-actor')
+    const actressEl = document.querySelector('div.filmo-section-actress')
+    dirEl ? dirEl.append(hideButton) : null
+    actorEl ? actorEl.append(hideButton2) : null
+    actressEl ? actressEl.append(hideButton3) : null
   }
 
   const url = document.URL

@@ -118,7 +118,6 @@ elif args.v:
         print(f"fetching list from: {uri}\n")
         response = requests.get(uri)
         json_data = response.json()
-        print(json_data)
 
         for movie in json_data["result"]:
             if str(CURRENT_YEAR) in movie["title"]:

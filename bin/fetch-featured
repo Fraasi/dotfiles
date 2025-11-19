@@ -28,12 +28,13 @@ SECONDS_IN_A_DAY = 24 * 60 * 60
 WEEK_IN_SECONDS = SECONDS_IN_A_DAY * 7
 MONTH_IN_SECONDS = SECONDS_IN_A_DAY * 30
 IMDB_LINK = 'https://www.imdb.com/find?q='
+TMDB_LINK = 'https://www.themoviedb.org/search?query='
 ROT_URL = 'https://www.rottentomatoes.com/browse/movies_at_home/sort:newest'
 SOAP_URL = f'https://soaper.live/movielist/year/{CURRENT_YEAR}/sort/release'
 PRIMESRC_URL = 'https://primesrc.me/api/v1/latest_movies'
 COUNTDOWN_URL = 'https://moviescountdown.com/recently-released-dvd'
 COUNTDOWN_URL_UPCOMING = 'https://moviescountdown.com/upcoming-dvd/all'
-VIDSRC_PAGES = 2
+VIDSRC_PAGES = 1
 
 def format_time(seconds):
     """format seconds to 'N days ago'"""
@@ -72,7 +73,7 @@ if len(sys.argv) == 1 or args.NUM != 1:
         if abs(time) < (MONTH_IN_SECONDS * abs(int(args.NUM))):
             time = format_time(time)
             title = re.sub(r'\n.*', '', a.get_text().strip())
-            print(f'{title:<30} [{time}]  {IMDB_LINK}{urllib.parse.quote_plus(title)}')
+            print(f'{title:<30} [{time}]  {TMDB_LINK}{urllib.parse.quote_plus(title)}')
 
 elif args.r:
     soup = get_soup(ROT_URL)
@@ -86,7 +87,7 @@ elif args.r:
         date_str = date_obj.strftime('%d-%m-%Y')
         print((
             f'{a_score:<4}  {title:<20}  [{date_str:<5}]  '
-            f'{IMDB_LINK}{urllib.parse.quote_plus(title)}'
+            f'{TMDB_LINK}{urllib.parse.quote_plus(title)}'
             ))
 
 elif args.s:
@@ -108,7 +109,7 @@ elif args.s:
     sorted_by_date = sorted(movs, key=lambda x: datetime.strptime(x['date_str'], '%d-%m-%Y'), reverse=True)
     for mov in sorted_by_date:
         title, date_str = mov.values()
-        print(f'{title:<30}  [{date_str:<10}]  {IMDB_LINK}{urllib.parse.quote_plus(title)}')
+        print(f'{title:<30}  [{date_str:<10}]  {TMDB_LINK}{urllib.parse.quote_plus(title)}')
 
 elif args.v:
 
@@ -117,14 +118,15 @@ elif args.v:
         print(f"fetching list from: {uri}\n")
         response = requests.get(uri)
         json_data = response.json()
+        print(json_data)
 
         for movie in json_data["result"]:
             if str(CURRENT_YEAR) in movie["title"]:
                 print(
                         f"{CURRENT_YEAR}",
                         f"{movie['title']}\n ",
-                        green(f"{movie['embed_url']} -"),
-                        green(f"https://www.imdb.com/title/{movie['imdb_id']}")
+                        green(f"{movie['embed_url_tmdb']} -"),
+                        green(f"https://www.themoviedb.org/movie/{movie['tmdb_id']}")
                         )
 
 elif args.p:
@@ -140,6 +142,6 @@ elif args.p:
                     f"{mov['title']}\n ",
                     # f"{mov['servers']}\n ",
                     green(f"https://primesrc.me/embed/movie?server_order=Vidmoly,PrimeVid,Mixdrop&imdb={mov['imdb']}\n "),
-                    green(f"https://www.imdb.com/title/{mov['imdb']}")
+                    green(f"https://www.themoviedb.org/movie/{mov['tmdb']}")
                     )
 

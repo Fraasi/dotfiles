@@ -26,6 +26,15 @@ endif
 " }}}
 
 " remaps {{{
+" save file with Å & other easier access keys
+inoremap Å <ESC>:w<CR>
+nnoremap Å :write<CR>
+nnoremap _ :b#<CR>
+inoremap ö {
+inoremap ä }
+inoremap å [
+inoremap ' ]
+
 " map leader key
 let mapleader = ","
 " tgpt
@@ -36,6 +45,9 @@ nnoremap <leader>md :!mdcat % \| bat<CR>
 " nnoremap <F2> O<c-r>%:<c-r>=line('.')<CR><Esc>dd
 " map jk to esc & put cursor where it was
 inoremap jk <Esc>l
+" Differs from 'j' when lines wrap, and when used with an operator, because it's not linewise.
+nnoremap j gj
+nnoremap k gk
 " toggle netrw, alt + x
 nnoremap x :20 Lexplore<CR>
 " clear search highlight
@@ -43,9 +55,6 @@ nnoremap c :nohlsearch<CR>
 " clear prev search & set search to normal regex (very magic), :help magic
 nnoremap / :nohlsearch<return><esc>/\v
 nnoremap ? :nohlsearch<return><esc>?\v
-" save file with Å
-inoremap Å <ESC>:w<CR>
-nnoremap Å :write<CR>
 " edit vimrc
 nnoremap <leader>e :e $MYVIMRC<CR>
 " buffer hotkeys
@@ -54,14 +63,13 @@ nnoremap <leader>bwd :Bwd<CR>
 nnoremap <leader>bd :bdelete!<CR> " close buffer wihout saving
 nnoremap <leader>bn :bnext<CR>
 nnoremap <leader>bp :bprevious<CR>
-nnoremap Ö :b#<CR>
 " location list jumps
 nnoremap [l :lnext<CR>
 nnoremap ]l :lprevious<CR>
 " run current script
 nnoremap <leader>r :! clear && "%:p" <return>
 " run cursor blinking fix
-nnoremap <leader>b :! tput cvvis <return>
+nnoremap <leader>bf :! tput cvvis <return>
 " visual-block mode ctrl+v remap fix
 nnoremap <leader>v <c-v>
 " run prettier on
@@ -88,6 +96,9 @@ nnoremap <leader>gd :call Gitdiff()<CR>
 nnoremap <Leader>cd <Cmd>cd %:h<CR>:pwd<CR>
 " break line at cursor ctrl-j
 nnoremap <NL> i<CR><ESC>
+" move searches to middle of screen
+nnoremap n nzz
+nnoremap N Nzz
 "{{{ move & indent selected line(s) up/down
   " ^] is a single character that represents the ALT key, use C+v, Esc in Vim (C+q, Esc on Windows)
   " https://stackoverflow.com/questions/741814/move-entire-line-up-and-down-in-vim/2439848#2439848
@@ -155,7 +166,7 @@ set tabstop=2 shiftwidth=2 smarttab     " Number of spaces that a <Tab> in the f
 set autoindent                          " Copy indent from current line when starting a new line.
 set copyindent                          " Copy indent for new lines when auto-indenting.
 set shiftround                          " Round indent to multiple of shiftwidth when using < and >
-set list listchars=trail:+,extends:>,precedes:< " Display tabs and trailing spaces visually
+" set list listchars=trail:+,extends:>,precedes:< " Display tabs and trailing spaces visually
 set number relativenumber               " Show line numbers on the left
 set scrolloff=3                         " Show a few lines of context around the cursor, default 5
 set omnifunc=syntaxcomplete#Complete    " omni-completion
@@ -184,6 +195,8 @@ set undodir=/tmp//
 set ignorecase smartcase hlsearch       " Ignore case when searching
 set path+=**                            " Searches current directory recursively, Note that completion for :find, :sfind, and :tabfind commands do not currently work with 'path' items that contain a URL or use the double star with depth limiter (/usr/**2) or upward search (;) notations. (:h file-search)
 set wildignore+=node_modules/**         " Ignore in path
+" A list of words that change how |cmdline-completion| is done.
+set wildoptions=pum
 " set virtualedit+=onemore                " end of line cursor onemore
 let g:netrw_banner = 0                  " 0 = no banner, toggle with <shiht-i>
 let g:netrw_liststyle = 3               " tree style listing

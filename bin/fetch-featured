@@ -118,8 +118,9 @@ elif args.v:
         print(f"fetching list from: {uri}\n")
         response = requests.get(uri)
         json_data = response.json()
+        new_movies: list[str] = []
 
-        for movie in json_data["result"]:
+        for movie in reversed(json_data["result"]):
             if str(CURRENT_YEAR) in movie["title"]:
                 print(
                         f"{CURRENT_YEAR}",
@@ -129,9 +130,9 @@ elif args.v:
                         )
 
 elif args.p:
+    print(f"fetching list from: {PRIMESRC_URL}\n")
     response: requests.Response = requests.get(PRIMESRC_URL)
     json_data = response.json()
-    # print(json_data['results'][0])
     for mov in json_data['results']:
         # print(mov)
         if mov['release_date'] is not None \
@@ -139,7 +140,6 @@ elif args.p:
             print(
                     f"[{mov['release_date']}]",
                     f"{mov['title']}\n ",
-                    # f"{mov['servers']}\n ",
                     green(f"https://primesrc.me/embed/movie?server_order=Vidmoly,PrimeVid,Mixdrop&imdb={mov['imdb']}\n "),
                     green(f"https://www.themoviedb.org/movie/{mov['tmdb']}")
                     )

@@ -1,0 +1,47 @@
+/* ==UserStyle==
+@name		Next-episode dark mode
+@namespace	next-episode.net
+@version	1.0.0
+@description	Basic dark mode userstyle
+@author		kevgm, fraasi
+==/UserStyle== */
+@-moz-document domain("next-episode.net") {
+  * {
+    color: #c48113 !important;
+    background: #222 !important;
+    border-color: #a8a8a8 !important;
+    text-shadow: 2px 2px 5px #555 !important;
+  }
+
+  a,
+  a * {
+    color: #fff !important;
+    text-decoration: none !important;
+  }
+
+  a:visited,
+  a:visited * {
+    color: rgb(63, 115, 165) !important;
+  }
+
+  a:hover,
+  a:hover * {
+    color: #74cddb !important;
+  }
+
+  img[src*="//static.next-episode.net/img/header/logo_left_2019_nnn-min.png"] {
+    filter: invert(1) brightness(50%);
+    opacity: 0.5;
+  }
+
+  img[src*="//static.next-episode.net/img/header/logo_right_2019_nnn-min.png"] {
+    filter: invert(1) brightness(50%);
+    opacity: 0.5;
+  }
+
+/*   span#bannerclass), */
+  #inner_container > div:nth-child(6) > div,
+  div#middle_section0[style="width:342px"] {
+    display: none;
+  }
+}

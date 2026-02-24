@@ -1,3 +1,8 @@
+-- Register message handler
+mp.register_script_message('uosc-version', function(version)
+  print('uosc version', version)
+end)
+
 local function copy_timestamp()
   local function format_timestamp(t)
     local s_ms = t % 60
@@ -11,7 +16,7 @@ local function copy_timestamp()
 
   local timestamp = format_timestamp(mp.get_property_number("time-pos"))
 
-  mp.commandv('run', 'cmd', '/D', '/C', 'echo', timestamp, '|', 'clip')
+  mp.commandv('run', 'wl-copy', timestamp)
 
   mp.osd_message(string.format('%s - timestamp copied to clipboard', timestamp))
   print(string.format('%s - timestamp copied to clipboard', timestamp))
@@ -19,7 +24,7 @@ end
 
 local function copy_filename()
   local filename = mp.get_property("filename")
-  mp.commandv('run', 'cmd', '/D', '/C', 'echo', filename, '|', 'clip')
+  mp.commandv('run', 'wl-copy', filename)
 
   mp.osd_message(string.format('%s - filename copied to clipboard', filename))
   print(string.format('%s - filename copied to clipboard', filename))

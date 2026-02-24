@@ -1,20 +1,16 @@
 #!/usr/bin/env bash
 
-if command -v xdg-open &> /dev/null ; then
-  cmd="xdg-open"
-else
-  cmd="explorer.exe" # for wsl
-fi
+open="xdg-open"
 
 if [[ -n "$1" ]]; then
-  "$cmd" "https://github.com/$USER/$1"
+  "$open" "https://github.com/$USER/$1"
 else
   orgn=$( git remote get-url origin 2>/dev/null )
   if [[ $orgn =~ http ]]; then
-    "$cmd" "$orgn"
+    "$open" "$orgn"
   elif [[ -n $orgn ]]; then
     repo=$( cut -d':' -f2 <<< "$orgn" )
-    "$cmd" "https://github.com/$repo"
+    "$open" "https://github.com/$repo"
   else
     printf " Not in a git repository!\n Usage: %s [repository name]" "$(basename "$0")"
   fi

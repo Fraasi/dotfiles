@@ -17,7 +17,8 @@ group.add_argument('NUM',
                    nargs='?', default=1, type=int, choices=list(range(-4, 7)))
 group.add_argument('-r', help='fetch list from rotten tomatoes', action='store_true')
 group.add_argument('-s', help='fetch list from soaper', action='store_true')
-group.add_argument('-v', help='fetch list from vidscr', action='store_true')
+group.add_argument('-v', help='fetch list from vidscr [1-5]',
+                   type=int, choices=range(1, 6), nargs='?', const=1, default=False)
 group.add_argument('-p', help='fetch list from primescr', action='store_true')
 args = parser.parse_args()
 
@@ -34,7 +35,7 @@ SOAP_URL = f'https://soaper.live/movielist/year/{CURRENT_YEAR}/sort/release'
 PRIMESRC_URL = 'https://primesrc.me/api/v1/latest_movies'
 COUNTDOWN_URL = 'https://moviescountdown.com/recently-released-dvd'
 COUNTDOWN_URL_UPCOMING = 'https://moviescountdown.com/upcoming-dvd/all'
-VIDSRC_PAGES = 1
+# VIDSRC_PAGES = 1
 
 def format_time(seconds):
     """format seconds to 'N days ago'"""
@@ -73,7 +74,7 @@ if len(sys.argv) == 1 or args.NUM != 1:
         if abs(time) < (MONTH_IN_SECONDS * abs(int(args.NUM))):
             time = format_time(time)
             title = re.sub(r'\n.*', '', a.get_text().strip())
-            print(f'{title:<30} [{time}]  {TMDB_LINK}{urllib.parse.quote_plus(title)}')
+            print(f'{title:<30} [{time}]', green(f'{TMDB_LINK}{urllib.parse.quote_plus(title)}'))
 
 elif args.r:
     soup = get_soup(ROT_URL)
@@ -113,7 +114,7 @@ elif args.s:
 
 elif args.v:
 
-    for i in range(1, VIDSRC_PAGES + 1):
+    for i in range(1, args.v + 1):
         uri = f"https://vidsrc.me/movies/latest/page-{i}.json"
         print(f"fetching list from: {uri}\n")
         response = requests.get(uri)

@@ -14,6 +14,7 @@ Usage:
 }
 
 app_id=$WOLFRAM_APP_ID
+# echo $app_id
 mode="spoken"
 base_url="https://api.wolframalpha.com/v1"
 query="$*"
@@ -36,7 +37,7 @@ while getopts "hsrw" OPTNAME; do
       ;;
     w)
       shift
-      explorer.exe "https://www.wolframalpha.com/input?i=$*"
+      xdg-open "https://www.wolframalpha.com/input?i=$*"
       exit 0
       ;;
     *)

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 alias ..="cd .."
-alias df="df -h /d /c"
+alias battery="upower -i $(upower -e | grep BAT)"
+alias df="df -h /"
 alias e="echo"
 alias edge-tts-fi="edge-tts -v fi-FI-NooraNeural --rate +15%"
 alias edge-playback-fi="edge-playback -v fi-FI-NooraNeural --rate +15%"
@@ -21,8 +22,7 @@ alias n="notes"
 alias np="node -p"
 alias np++="/c/Program\ Files/Notepad++/notepad++.exe"
 alias mcphost="/home/fraasi/go/bin/mcphost -m ollama:llama3.2"
-alias pp="tgpt --preprompt 'answer shortly'"
-alias pd="tgpt --provider duckduckgo"
+alias pp="tgpt --provider=sky --preprompt 'answer shortly'"
 alias python='$(which python3)'
 # -b[rief], -d[ictionary]
 alias trans="trans -t fi -b -j -no-pager"

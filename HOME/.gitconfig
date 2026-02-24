@@ -4,10 +4,10 @@
   required = true
   clean = git-lfs clean -- %f
 [user]
-  name = fraasi
-  email = fraasi.gh@gmail.com
+	name = fraasi
+	email = fraasi.gh@gmail.com
 [credential]
-  helper = /c/Program\\ Files/Git/mingw64/bin/git-credential-manager-core.exe
+  helper = store
 [alias]
   aa = add --all
   ahead = "!git for-each-ref --format='%(refname:short) %(upstream:track) %(upstream:remotename)' refs/heads"

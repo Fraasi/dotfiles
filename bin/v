@@ -1,3 +1,8 @@
 #!/bin/sh
-export VIMRUNTIME=$HOME/Code/clones/vim/runtime
-exec $HOME/Code/clones/vim/src/vim "$@"
+
+if [ -d $HOME/Code/clones/vim/runtimAe ]; then
+  export VIMRUNTIME=$HOME/Code/clones/vim/runtime
+  exec $HOME/Code/clones/vim/src/vim "$@"
+else
+  exec vim "$@"
+fi

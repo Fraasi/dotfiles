@@ -154,6 +154,7 @@ augroup filetype_settings
 augroup END
 " }}}
 
+
 " Vim settings {{{
 " set colorcolumn=100                   " Columns to highlight
 " set breakindent                         " Leaves some margin to right side
@@ -164,6 +165,7 @@ set linebreak                           " break on words
 set expandtab                           " Use the appropriate number of spaces to insert a <Tab>.
 set tabstop=2 shiftwidth=2 smarttab     " Number of spaces that a <Tab> in the file counts for.
 set autoindent                          " Copy indent from current line when starting a new line.
+set backspace=indent,eol,start          " Intuitive backspace behavior.
 set copyindent                          " Copy indent for new lines when auto-indenting.
 set shiftround                          " Round indent to multiple of shiftwidth when using < and >
 " set list listchars=trail:+,extends:>,precedes:< " Display tabs and trailing spaces visually
@@ -194,6 +196,7 @@ set backupdir=/tmp//                    " // means that the directory informatio
 set undodir=/tmp//
 set ignorecase smartcase hlsearch       " Ignore case when searching
 set path+=**                            " Searches current directory recursively, Note that completion for :find, :sfind, and :tabfind commands do not currently work with 'path' items that contain a URL or use the double star with depth limiter (/usr/**2) or upward search (;) notations. (:h file-search)
+set wildmenu                   " Great command-line completion, use `<Tab>` to move around and `<CR>` to validate.
 set wildignore+=node_modules/**         " Ignore in path
 " A list of words that change how |cmdline-completion| is done.
 set wildoptions=pum
@@ -287,8 +290,9 @@ endtry
 if v:version > 900
   packadd! comment
   packadd! editorconfig
-  runtime! ftplugin/man.vim " :Man command in vim
   packadd! helptoc
+  runtime! macros/matchit.vim
+  runtime! ftplugin/man.vim " :Man command in vim
 endif
 " }}}
 
@@ -301,5 +305,17 @@ augroup RestoreCursor
         \      && index(['xxd', 'gitrebase'], &filetype) == -1
         \ |   execute "normal! g`\""
         \ | endif
+augroup END
+
+
+" https://gist.github.com/romainl/3e0cb99343c72d04e9bc10f6d76ebbef
+augroup AutomaticMarks
+    autocmd!
+    autocmd BufLeave *.css,*.scss normal! mC
+    autocmd BufLeave *.html       normal! mH
+    autocmd BufLeave *.js,*.ts    normal! mJ
+    autocmd BufLeave .env*        normal! mE
+    autocmd BufLeave *.md         normal! mM
+    " add your own!
 augroup END
 

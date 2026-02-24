@@ -56,7 +56,7 @@ function wget-images() {
     if [[ -z $1 ]]; then
         echo "Usage: wget-images <url>"
     else
-        wget -r -l1 -H -t1 -nd -N -np -nv -e robots=off -P /g/Downs/wget/ -A jpeg,jpg,bmp,gif,png,webp "$1"
+        wget -r -l1 -H -t1 -nd -N -np -nv -e robots=off -P ~/Downloads/wget/ -A jpeg,jpg,bmp,gif,png,webp "$1"
     fi
 }
 
@@ -137,11 +137,6 @@ function du-xh() {
     du -xh --max-depth="${2:-1}" "$1"
 }
 
-# https://github.com/stuartleeks/wsl-notify-send
-function notify-send() {
-    wsl-notify-send.exe --category "$WSL_DISTRO_NAME" "${@}"
-}
-
 function wacl() {
     command wac "$@" | less -R
 }
@@ -178,17 +173,25 @@ function set-title-prefix() {
 }
 
 function random-pic() {
-  local dir="/d/Pics"
-  while [[ -d "$dir" ]]; do
-    local files=("$dir"/*)
-    local num_files=${#files[@]}
-    local random_index=$((RANDOM % num_files))
-    local random_file=${files[$random_index]}
-    dir=$random_file
+  local DIR="$HOME/Pictures"
+  local current="$DIR"
+  local random_item=""
+
+  while true; do
+    random_item=$(find "$current" -mindepth 1 -maxdepth 1 | shuf -n 1)
+
+    if [ -f "$random_item" ]; then
+      break
+    elif [ -d "$random_item" ]; then
+      current="$random_item"
+    else
+      echo "Error: No files found in $current"
+      exit 1
+    fi
   done
 
-  printf "Random file selected: %s" "$dir"
-  feh --geometry 450x560+0+420 --auto-zoom --scale-down --start-at "$dir" &
+  printf "Random file selected: %s" "$random_item"
+  feh --geometry 420x555+0+430 --auto-zoom --scale-down --start-at "$random_item" &
 }
 
 function pps() {

@@ -51,7 +51,7 @@ function wttr() {
         return 0
         ;;
       r)
-        curl -s "v3.wttr.in/${CITY}.sxl?F"
+        curl -s "v2.wttr.in/${CITY}.sxl?F"
         return 0
         ;;
       g)

@@ -18,7 +18,7 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-# set PATH so it includes user's private bin if it exists
+# set PATH so it includes user's personal bin if it exists
 if [ -d "$HOME/bin" ]; then
     PATH="$HOME/bin:$PATH"
 fi
@@ -30,7 +30,10 @@ fi
 
 #git bash prompt env variables to show
 # needs completion
-# find right dir for debian
+# for debian no need to install, found in:
+# $ dpkg -L git | grep prompt
+# /etc/bash_completion.d/git-prompt
+# /usr/lib/git-core/git-sh-prompt
 # curl -o ~/.git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 # echo 'source ~/.git-prompt.sh' >> ~/.bashrc
 export GIT_PS1_SHOWCOLORHINTS=1
@@ -40,8 +43,7 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUPSTREAM="auto verbose"
 # https://git-scm.com/book/en/v2/Appendix-A:-Git-in-Other-Environments-Git-in-Bash
 # export PS1='\w$(__git_ps1 " (%s)")\$ '
-if [[ ! $(uname -r) =~ WSL ]]; then
-    # debian
+if [[ $(uname -r) =~ WSL ]]; then
     source ~/.git-prompt.sh
 fi
 
@@ -76,6 +78,6 @@ for c in "$HOME"/bash_completion.d/*.bash; do
         . "$c"
 done
 if test -f "$HOME/.cargo/env"; then
-    source "$HOME/.cargo/env"
+  . "$HOME/.cargo/env"
 fi
 

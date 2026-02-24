@@ -6,7 +6,7 @@ echo ''
 
 home_files=$(find ./HOME -type f)
 bin_files=$(find ./bin -type f)
-hook_files=$(find ./hooks -type f)
+hook_files=$(find ./git-hooks -type f)
 config_files=$(find ./config -type -f)
 
 backup_old_dotfiles() {
@@ -62,6 +62,19 @@ make_symlinks() {
     log_success "${FUNCNAME[@]}"
 }
 
+link_vimrc_dir() {
+	log_info "Symlinking dotfiles/.vim folder to ~"
+	if [[ -d ~/.vim ]]; then
+		read -p "~/.vim already exists, overwrite? " -n 1 -r
+		echo    # (optional) move to a new line
+		if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
+		fi
+	fi
+	ln -s /home/fraasi/dotfiles/.vim /home/fraasi/.vim
+	log_success "${FUNCNAME[@]}"
+}
+
 setup_gitconfig() {
     log_info 'Setup gitconfig, press enter to keep old ones\n'
 
@@ -79,7 +92,7 @@ setup_gitconfig() {
     log_success "${FUNCNAME[@]}"
 }
 
-choices='exit setup_gitconfig make_symlinks cleanup_broken_symlinks backup_old_dotfiles'
+choices='exit setup_gitconfig make_symlinks cleanup_broken_symlinks backup_old_dotfiles link_vimrc_dir'
 select choise in ${choices}; do
     case $REPLY in
     1)
@@ -92,5 +105,6 @@ select choise in ${choices}; do
     3) ("$choise") ;;
     4) ("$choise") ;;
     5) ("$choise") ;;
+    6) ("$choise") ;;
     esac
 done

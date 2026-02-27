@@ -1,13 +1,35 @@
 #!/usr/bin/env bash
 
 folder="$1"
-files=$(ls -l "$folder"* | wc -l)
+
+if [ ! -d "$folder" ]; then
+  echo "Error: $folder is not a directory."
+  exit 1
+fi
+
+sub_dir_count=0
+video_count=0
+video_files=()
+
+for entry in "$folder"/*; do
+  if [ -f "$entry" ]; then
+    if [[ $(ffprobe -v error -select_streams v -show_entries stream=codec_type -of csv=p=0 "$entry" 2>/dev/null ) == 'video' ]]; then
+      ((video_count++))
+      video_files+=("$entry")
+    fi
+  elif [ -d "$entry" ]; then
+    ((sub_dir_count++))
+  fi
+done
+
 secs=$(
-  for file in "$folder"*; do
-    ffprobe -v quiet -of csv=p=0 -show_entries format=duration "$file"
+  for vid in "${video_files[@]}"; do
+    ffprobe -v quiet -of csv=p=0 -show_entries format=duration "$vid"
   done | awk '{sum += $1}; END{print sum}'
 )
 
-du -hd 1 "$folder"
-printf "%s files in folder\ntotal length: %s" "$files" $(date -d@$secs -u +%H:%M:%S)
+du -hd 0 "$folder"
+printf "%s subfolders\n" "$sub_dir_count"
+printf "%s videos\n" "$video_count"
+printf "total video runtime: %s" $(date -d@$secs -u +%H:%M:%S)
 

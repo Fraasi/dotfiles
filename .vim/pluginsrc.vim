@@ -1,19 +1,17 @@
 " Theme {{{
   " To see a list of ready-to-use themes,
   " :colorscheme [space] [Ctrl+d]
-  " colorscheme torte
   try
     if has("termguicolors")
       set termguicolors
     endif
     packadd! onedark.vim
     let g:onedark_color_overrides = {
-        \ "background": {"gui": "#131313", "cterm": "233", "cterm16": "0" },
-        \ "purple": { "gui": "#C678DF", "cterm": "170", "cterm16": "5" }
+        \ "background": {"gui": "#181816", "cterm": "235", "cterm16": "0" },
         \}
     colorscheme onedark
   catch
-    colorscheme slate
+    colorscheme unokai
   endtry
 " }}}
 

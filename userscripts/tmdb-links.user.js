@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         tmdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.0.2
 // @description  add some streaming links to tmdb
 // @author       Fraasi
 // @match        https://www.themoviedb.org/*
@@ -41,7 +41,7 @@
     const tmdb_id = pathName.match(/\/(\d+)-/)[1]
     const titleEl = document.querySelector('section.header h2')
     const title = titleEl.querySelector('a').innerText
-    const year = titleEl.querySelector('.release_date').innerText.replaceAll(/\(|\)/g, '')
+    const year = titleEl.querySelector('.release_date')?.innerText.replaceAll(/\(|\)/g, '') || ''
     const isSeries = /tv/.test(pathName)
     const isEpisodePage = pathName.includes('season')
     let episodeCount = isEpisodePage ? document.querySelector('h3.episode_sort.space > span').innerText : 0

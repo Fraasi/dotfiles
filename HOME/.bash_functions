@@ -15,7 +15,8 @@ function print-colors() {
 # show my ip address
 function show-ip() {
     # curl -s ifconfig.me
-    dig +short myip.opendns.com @resolver1.opendns.com
+    # dig +short myip.opendns.com @resolver1.opendns.com
+    curl https://ipinfo.io/ip
 }
 
 # show filecount total size

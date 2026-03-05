@@ -21,11 +21,14 @@ set colored-completion-prefix on
 set completion-ignore-case On
 #set completion-prefix-display-length 3
 
+# https://unix.stackexchange.com/questions/3357/how-do-you-recall-the-last-n-th-passed-argument-of-the-previous-command-you-u
+Space: magic-space
+
 # complete commands from history with up/down arrows. For example, enter cd, press up and it gets autocompleted
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 
-# M-C-f and M-C-v dump functions and variables.
+# M-C-f and M-C-v dump functions and variables. M = alt
 "\e\C-f": dump-functions
 "\e\C-v": dump-variables
 

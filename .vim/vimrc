@@ -30,10 +30,10 @@ endif
 inoremap Å <ESC>:w<CR>
 nnoremap Å :write<CR>
 nnoremap _ :b#<CR>
-inoremap ö {
-inoremap ä }
-inoremap å [
-inoremap ' ]
+" inoremap ö {
+" inoremap ä }
+" inoremap å [
+" inoremap ' ]
 
 " map leader key
 let mapleader = ","
@@ -200,6 +200,7 @@ set wildmenu                   " Great command-line completion, use `<Tab>` to m
 set wildignore+=node_modules/**         " Ignore in path
 " A list of words that change how |cmdline-completion| is done.
 set wildoptions=pum
+set pumheight=8
 " set virtualedit+=onemore                " end of line cursor onemore
 let g:netrw_banner = 0                  " 0 = no banner, toggle with <shiht-i>
 let g:netrw_liststyle = 3               " tree style listing

@@ -126,7 +126,7 @@ elif args.v:
                 print(
                         f"{CURRENT_YEAR}",
                         f"{movie['title']}\n ",
-                        green(f"{movie['embed_url_tmdb']} -"),
+                        green(f"{movie['embed_url_tmdb']}\n "),
                         green(f"https://www.themoviedb.org/movie/{movie['tmdb_id']}")
                         )
 
@@ -136,7 +136,7 @@ elif args.p:
     json_data = response.json()
     for mov in json_data['results']:
         # print(mov)
-        if mov['release_date'] is not None \
+        if mov['release_date'] is not None and mov['tmdb'] is not None \
                 and datetime.strptime(mov['release_date'], '%Y-%m-%d').year == CURRENT_YEAR:
             print(
                     f"[{mov['release_date']}]",

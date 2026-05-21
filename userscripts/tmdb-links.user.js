@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         tmdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.0.2
+// @version      1.0.4
 // @description  add some streaming links to tmdb
 // @author       Fraasi
 // @match        https://www.themoviedb.org/*
@@ -38,7 +38,10 @@
 
   function showLinks() {
     const pathName = window.location.pathname
-    const tmdb_id = pathName.match(/\/(\d+)-/)[1]
+        console.log(pathName)
+
+    const tmdb_id = pathName.match(/\/(\d+)-?/)[1]
+    console.log(tmdb_id)
     const titleEl = document.querySelector('section.header h2')
     const title = titleEl.querySelector('a').innerText
     const year = titleEl.querySelector('.release_date')?.innerText.replaceAll(/\(|\)/g, '') || ''
@@ -51,11 +54,12 @@
 
       const season = isEpisodePage ? pathName.split('/').pop() : ''
       const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
-      vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${tmdb_id}/${vidsrcEpisode}`)
+      vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${isSeries ? 'tv/' : ''}${tmdb_id}/${vidsrcEpisode}`)
       const movieOrTv = isSeries ? 'tv' : 'movie'
       const primeEpisode = season ? `&season=${season}&episode=${selectedEpisode}` : ''
-      primeSrcLink.setAttribute('href', `https://primesrc.me/embed/${movieOrTv}?tmdb=${tmdb_id}&fallback=false&server_order=Vidmoly,PrimeVid,Mixdrop${primeEpisode}`)
-
+      primeSrcLink.setAttribute('href', `https://primesrc.me/embed/${movieOrTv}?tmdb=${tmdb_id}&fallback=false&server_order=Streamtape,Voe,Vidmoly,Mixdrop${primeEpisode}`)
+      const videasyEpisode = season ? `/${season}/${selectedEpisode}?episodeSelector=true` : ''
+      videasyLink.setAttribute('href', `https://player.videasy.net/${movieOrTv}/${tmdb_id}${videasyEpisode}`)
       const ytOver20min = '&sp=EgIYAg%253D%253D'
       ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
       okLink.setAttribute('href', 'https://ok.ru/video/showcase')
@@ -65,14 +69,14 @@
         let options = ''
         for (let i = 0; i < episodeCount; i++) {
           options += `<option value="${i + 1}" ${(i + 1) === selectedEpisode ? 'selected' : ''}>${i + 1}</option>`
-  }
+        }
         epHTML = `
-  <label for="episodes">${episodeCount} episodes</label>
-  <select name="episodes" id="select-episode">
-    ${options}
-  </select>`
+          <label for="episodes">${episodeCount} episodes</label>
+          <select name="episodes" id="select-episode" style="color: white; background: black;">
+            ${options}
+          </select>`
 
-  episodesSpan.innerHTML = epHTML
+        episodesSpan.innerHTML = epHTML
         document.getElementById("select-episode").onchange = function (evt) {
           selectedEpisode = Number(evt.target.value)
           update()
@@ -84,6 +88,7 @@
 
     const vidsrcLink = createLink('vidsrc')
     const primeSrcLink = createLink('primeSrc')
+    const videasyLink = createLink('videasy')
     const ytLink = createLink('yt')
     const okLink = createLink('ok')
     const archiveLink = createLink('archive')
@@ -100,13 +105,14 @@
       document.body.prepend(nextEpLink)
     }
 
-    const wrapper = document.querySelector('div#shortcut_bar_scroller')
+    const wrapper = document.querySelector('#shortcut_bar_scroller')
     wrapper.style.background = 'rgb(18, 18, 18)'
-    wrapper.after(vidsrcLink, primeSrcLink, ytLink, okLink, archiveLink, '  -  ', episodesSpan)
+    wrapper.after(vidsrcLink, primeSrcLink, videasyLink, ytLink, okLink, archiveLink, '  -  ', episodesSpan)
 
     document.addEventListener('keyup', (e) => {
       if (e.shiftKey && e.key === 'V') vidsrcLink.click()
       if (e.shiftKey && e.key === 'P') primeSrcLink.click()
+      if (e.shiftKey && e.key === 'E') videasyLink.click()
       if (e.shiftKey && e.key === 'Y') ytLink.click()
       if (e.shiftKey && e.key === 'A') archiveLink.click()
       if (e.shiftKey && e.key === 'O') {

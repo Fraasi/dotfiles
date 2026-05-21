@@ -15,15 +15,14 @@ alias ld="ls -lhd */"   # List in long format, only directories
 alias lf="ls -lhA --color=always | grep --color=always -v /"  # List in long format, only files
 alias lh="ls -d .*" # Show hidden files/directories only
 alias li="ls -1AX "
-alias ll="ls -lXhA"
+alias ll="ls -lXhAG"
 alias ls="ls -F --color=auto"
 alias mv="mv -iv"
 alias n="notes"
 alias np="node -p"
-alias np++="/c/Program\ Files/Notepad++/notepad++.exe"
-alias mcphost="/home/fraasi/go/bin/mcphost -m ollama:llama3.2"
 alias pp="tgpt --provider=sky --preprompt 'answer shortly'"
 alias python='$(which python3)'
+alias temp="paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) | column -s $'\t' -t | sed 's/\(.\)..$/.\1°C/'"
 # -b[rief], -d[ictionary]
 alias trans="trans -t fi -b -j -no-pager"
 # trans -t fi or :fi target lang, -v[iew] use pager, -j[oin-sentence]  Treat all arguments as one single sentence, -no-ansi fixes pager

@@ -1,4 +1,4 @@
-"t for changes to take effect, run ':so %'
+" for changes to take effect, run ':so %'
 
 " If you create your own .vimrc, it is recommended to add these lines somewhere near the top. Then Vim works like before you had a .vimrc.
 unlet! skip_defaults_vim
@@ -10,7 +10,7 @@ source $VIMRUNTIME/defaults.vim
 " set cursor, fixes terminal bug {{{
 if &term =~ '^xterm'
   " insert mode
-  let &t_SI .= "\<Esc>[0 q"
+  let &t_SI .= "\<Esc>[2 q"
   " normal, visual mode
   let &t_EI .= "\<Esc>[1 q"
   " 0  -> blinking block.
@@ -27,7 +27,7 @@ endif
 
 " remaps {{{
 " save file with Å & other easier access keys
-inoremap Å <ESC>:w<CR>
+inoremap Å <ESC>:write<CR>
 nnoremap Å :write<CR>
 nnoremap _ :b#<CR>
 " inoremap ö {
@@ -35,8 +35,10 @@ nnoremap _ :b#<CR>
 " inoremap å [
 " inoremap ' ]
 
-" map leader key
+" leader key
 let mapleader = ","
+" Yank work like D
+nnoremap Y y$"
 " tgpt
 nnoremap <leader>pp :!vim-tgpt 
 " markdown preview
@@ -56,7 +58,7 @@ nnoremap c :nohlsearch<CR>
 nnoremap / :nohlsearch<return><esc>/\v
 nnoremap ? :nohlsearch<return><esc>?\v
 " edit vimrc
-nnoremap <leader>e :e $MYVIMRC<CR>
+nnoremap <leader>rc :e $MYVIMRC<CR>
 " buffer hotkeys
 command Bwd write | bdelete
 nnoremap <leader>bwd :Bwd<CR>
@@ -82,7 +84,19 @@ vnoremap <leader>" :s/\%V\(.*\)\%V/"\1"/<CR>
 nnoremap <leader>fd :20 Lexplore %:p:h<CR>
 " open current directory in new tab
 nnoremap <Leader>fn :tabedit %:h<CR>
+" print cwd & :e | ctrl-d to get list of files
+nnoremap <C-p> :let g:popup = popup_create([expand(getcwd())], {
+              \   'line': winheight('%'),
+              \   'pos': 'botleft',
+              \   'col': 2,
+              \   'highlight': 'Title',
+              \   'padding': [2,2,2,2],
+              \   'time': 5000,
+              \})<CR>
+              \:call feedkeys(":e ")<CR>
 
+" nnoremap <C-p> execute 'normal! i' . getcwd() . "\n" . 'e '
+" nnoremap <C-p> :echom getcwd()<CR>:call feedkeys(":e ")<CR>
 " check coc completions first
 " ctrl + space to show completions
 " https://vim.fandom.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
@@ -154,11 +168,13 @@ augroup filetype_settings
 augroup END
 " }}}
 
-
 " Vim settings {{{
 " set colorcolumn=100                   " Columns to highlight
 " set breakindent                         " Leaves some margin to right side
-set hidden
+set hidden confirm
+set hlsearch ignorecase smartcase
+set number relativenumber
+set foldenable foldmethod=indent foldcolumn=1 foldlevelstart=10
 set shortmess+=c                        " Don't pass messages to |ins-completion-menu|.
 set shortmess-=S                        " enable a count of [x/y] showing in the bottom right corner every time you do a / or ? search.
 set linebreak                           " break on words
@@ -169,10 +185,9 @@ set backspace=indent,eol,start          " Intuitive backspace behavior.
 set copyindent                          " Copy indent for new lines when auto-indenting.
 set shiftround                          " Round indent to multiple of shiftwidth when using < and >
 " set list listchars=trail:+,extends:>,precedes:< " Display tabs and trailing spaces visually
-set number relativenumber               " Show line numbers on the left
 set scrolloff=3                         " Show a few lines of context around the cursor, default 5
 set omnifunc=syntaxcomplete#Complete    " omni-completion
-set completeopt=menuone,noinsert,popup,noselect  " Insert mode completion:
+set completeopt=menuone,noinsert,popup,noselect,fuzzy  " Insert mode completion:
 set showmatch                           " Show matching brackets when text indicator is over them
 set cursorline                          " Highlight the current line
 " change the direction of new splits
@@ -190,16 +205,16 @@ if has('mouse')
   set mouse=a                           " Enable mouse usage (all modes)
 endif
 set cmdheight=2                         " More space for displaying messages
-set foldenable foldmethod=indent foldcolumn=1 foldlevelstart=10    " Enable folding
 set directory=/tmp//                    " Location of swap files
 set backupdir=/tmp//                    " // means that the directory information will be saved in the filename
 set undodir=/tmp//
-set ignorecase smartcase hlsearch       " Ignore case when searching
 set path+=**                            " Searches current directory recursively, Note that completion for :find, :sfind, and :tabfind commands do not currently work with 'path' items that contain a URL or use the double star with depth limiter (/usr/**2) or upward search (;) notations. (:h file-search)
-set wildmenu                   " Great command-line completion, use `<Tab>` to move around and `<CR>` to validate.
-set wildignore+=node_modules/**         " Ignore in path
-" A list of words that change how |cmdline-completion| is done.
+set wildmenu                            "command-line completion, <Tab> to move around and <CR> to validate.
 set wildoptions=pum
+set wildignore+=node_modules/**         " Ignore in path
+set wildignorecase                      " ignore case in file paths search :e **/*/
+set shellcmdflag=-ic                    " load -bashrc when executing commands
+" A list of words that change how |cmdline-completion| is done.
 set pumheight=8
 " set virtualedit+=onemore                " end of line cursor onemore
 let g:netrw_banner = 0                  " 0 = no banner, toggle with <shiht-i>

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        GitHub created at
-// @version     0.0.1
+// @version     0.0.2
 // @description Alert popup to view repo created at - time and size
 // @license     MIT
 // @author      Fraasi
@@ -44,7 +44,7 @@
         }).catch(e => alert(`${e.message}.\nSee console for more info.`));
     };
 
-    const wrapper = document.querySelector('div.d-flex.flex-wrap.flex-items-center.wb-break-word.f3.text-normal');
+    const wrapper = document.querySelector('div#repo-title-component');
     wrapper.append(span);
   }
 

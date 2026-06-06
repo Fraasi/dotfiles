@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         tmdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.0.4
+// @version      1.0.5
 // @description  add some streaming links to tmdb
 // @author       Fraasi
 // @match        https://www.themoviedb.org/*
@@ -54,7 +54,7 @@
 
       const season = isEpisodePage ? pathName.split('/').pop() : ''
       const vidsrcEpisode = season ? season + '-' + selectedEpisode : ''
-      vidsrcLink.setAttribute('href', `https://vidsrc.me/embed/${isSeries ? 'tv/' : ''}${tmdb_id}/${vidsrcEpisode}`)
+      vidsrcLink.setAttribute('href', `https://vidsrcme.su/embed/${isSeries ? 'tv/' : ''}${tmdb_id}/${vidsrcEpisode}`)
       const movieOrTv = isSeries ? 'tv' : 'movie'
       const primeEpisode = season ? `&season=${season}&episode=${selectedEpisode}` : ''
       primeSrcLink.setAttribute('href', `https://primesrc.me/embed/${movieOrTv}?tmdb=${tmdb_id}&fallback=false&server_order=Streamtape,Voe,Vidmoly,Mixdrop${primeEpisode}`)

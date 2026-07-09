@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         tmdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.0.5
+// @version      1.0.6
 // @description  add some streaming links to tmdb
 // @author       Fraasi
 // @match        https://www.themoviedb.org/*
@@ -62,6 +62,7 @@
       videasyLink.setAttribute('href', `https://player.videasy.net/${movieOrTv}/${tmdb_id}${videasyEpisode}`)
       const ytOver20min = '&sp=EgIYAg%253D%253D'
       ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
+      bilibiliLink.setAttribute('href', `https://www.bilibili.tv/en/search-result?q=${encodeURI(title + ' ' + year)}`)
       okLink.setAttribute('href', 'https://ok.ru/video/showcase')
       archiveLink.setAttribute('href', `https://archive.org/search?query=title%3A%28${encodeURI(title)}%29+AND+mediatype%3A%28movies%29`)
       let epHTML = ''
@@ -90,6 +91,7 @@
     const primeSrcLink = createLink('primeSrc')
     const videasyLink = createLink('videasy')
     const ytLink = createLink('yt')
+    const bilibiliLink = createLink('bilibili')
     const okLink = createLink('ok')
     const archiveLink = createLink('archive')
     const episodesSpan = createLink('', 'span')
@@ -105,9 +107,12 @@
       document.body.prepend(nextEpLink)
     }
 
-    const wrapper = document.querySelector('#shortcut_bar_scroller')
+    //const wrapper = document.querySelector('#shortcut_bar_scroller')
+    let wrapper
+    if (isSeries) wrapper = document.querySelector('div.header')
+    else wrapper = document.querySelector('#shortcut_bar_scroller')
     wrapper.style.background = 'rgb(18, 18, 18)'
-    wrapper.after(vidsrcLink, primeSrcLink, videasyLink, ytLink, okLink, archiveLink, '  -  ', episodesSpan)
+    wrapper.before(vidsrcLink, primeSrcLink, videasyLink, ytLink, bilibiliLink, okLink, archiveLink, '  -  ', episodesSpan)
 
     document.addEventListener('keyup', (e) => {
       if (e.shiftKey && e.key === 'V') vidsrcLink.click()
@@ -115,6 +120,7 @@
       if (e.shiftKey && e.key === 'E') videasyLink.click()
       if (e.shiftKey && e.key === 'Y') ytLink.click()
       if (e.shiftKey && e.key === 'A') archiveLink.click()
+      if (e.shiftKey && e.key === 'B') bilibiliLink.click()
       if (e.shiftKey && e.key === 'O') {
         navigator.clipboard.writeText(`${title} ${year}`)
         okLink.click()
@@ -155,4 +161,5 @@
   if (pathName.includes('/person/')) hideElsButton()
 
 })();
+
 

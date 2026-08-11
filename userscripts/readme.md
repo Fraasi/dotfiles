@@ -16,3 +16,6 @@ Update Interval:` is set to `always` in the settings
 
 * Need live-reload or build step? Maybe use [webpack-userscript](https://github.com/momocow/webpack-userscript?tab=readme-ov-file#webpack-userscript)
 
+## Permission
+Tampermonkey doesn't run scripts without this.
+Manage extensions > tampermonkey > details > toggle 'allow user scripts'

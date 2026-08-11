@@ -28,6 +28,7 @@ alias trans="trans -t fi -b -j -no-pager"
 # trans -t fi or :fi target lang, -v[iew] use pager, -j[oin-sentence]  Treat all arguments as one single sentence, -no-ansi fixes pager
 alias transl="trans -t fi -v -j -no-ansi"
 alias transd="\\trans -d -v -j -no-ansi"
+alias xclip="xclip -selection clipboard"
 
 # run func on cd
 chdir() {

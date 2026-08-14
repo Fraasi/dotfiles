@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/env bash
 # shellcheck disable=SC3044,SC3002
 #
 # get all commit messages after last tag

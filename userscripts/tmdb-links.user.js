@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         tmdb-links
 // @namespace    http://tampermonkey.net/
-// @version      1.0.6
+// @version      1.0.7
 // @description  add some streaming links to tmdb
 // @author       Fraasi
 // @match        https://www.themoviedb.org/*
@@ -38,8 +38,7 @@
 
   function showLinks() {
     const pathName = window.location.pathname
-        console.log(pathName)
-
+    console.log(pathName)
     const tmdb_id = pathName.match(/\/(\d+)-?/)[1]
     console.log(tmdb_id)
     const titleEl = document.querySelector('section.header h2')
@@ -58,8 +57,7 @@
       const movieOrTv = isSeries ? 'tv' : 'movie'
       const primeEpisode = season ? `&season=${season}&episode=${selectedEpisode}` : ''
       primeSrcLink.setAttribute('href', `https://primesrc.me/embed/${movieOrTv}?tmdb=${tmdb_id}&fallback=false&server_order=Streamtape,Voe,Vidmoly,Mixdrop${primeEpisode}`)
-      const videasyEpisode = season ? `/${season}/${selectedEpisode}?episodeSelector=true` : ''
-      videasyLink.setAttribute('href', `https://player.videasy.net/${movieOrTv}/${tmdb_id}${videasyEpisode}`)
+      primeWireLink.setAttribute('href', 'https://primewire.pw/home')
       const ytOver20min = '&sp=EgIYAg%253D%253D'
       ytLink.setAttribute('href', `https://www.youtube.com/results?search_query=${encodeURI(title + ' ' + year)}` + ytOver20min)
       bilibiliLink.setAttribute('href', `https://www.bilibili.tv/en/search-result?q=${encodeURI(title + ' ' + year)}`)
@@ -89,7 +87,7 @@
 
     const vidsrcLink = createLink('vidsrc')
     const primeSrcLink = createLink('primeSrc')
-    const videasyLink = createLink('videasy')
+    const primeWireLink = createLink('primeWire')
     const ytLink = createLink('yt')
     const bilibiliLink = createLink('bilibili')
     const okLink = createLink('ok')
@@ -112,18 +110,18 @@
     if (isSeries) wrapper = document.querySelector('div.header')
     else wrapper = document.querySelector('#shortcut_bar_scroller')
     wrapper.style.background = 'rgb(18, 18, 18)'
-    wrapper.before(vidsrcLink, primeSrcLink, videasyLink, ytLink, bilibiliLink, okLink, archiveLink, '  -  ', episodesSpan)
+    wrapper.before(vidsrcLink, primeSrcLink, primeWireLink, ytLink, bilibiliLink, okLink, archiveLink, '  -  ', episodesSpan)
 
     document.addEventListener('keyup', (e) => {
       if (e.shiftKey && e.key === 'V') vidsrcLink.click()
       if (e.shiftKey && e.key === 'P') primeSrcLink.click()
-      if (e.shiftKey && e.key === 'E') videasyLink.click()
       if (e.shiftKey && e.key === 'Y') ytLink.click()
       if (e.shiftKey && e.key === 'A') archiveLink.click()
       if (e.shiftKey && e.key === 'B') bilibiliLink.click()
-      if (e.shiftKey && e.key === 'O') {
+      if (e.shiftKey && e.key === 'O' || e.key === 'W') {
         navigator.clipboard.writeText(`${title} ${year}`)
-        okLink.click()
+         if (e.key === 'O') okLink.click()
+         if (e.key === 'W') primeWireLink.click()
       }
     })
 
@@ -161,5 +159,4 @@
   if (pathName.includes('/person/')) hideElsButton()
 
 })();
-
 

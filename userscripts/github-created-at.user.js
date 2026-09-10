@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name        GitHub created at
-// @version     0.0.2
+// @version     0.1.0
 // @description Alert popup to view repo created at - time and size
 // @license     MIT
 // @author      Fraasi
 // @namespace   https://github.com/Fraasi
 // @match       https://github.com/*
-// @run-at      document-start
+// @run-at      document-idle
 // @grant       none
 // @icon        https://github.githubassets.com/pinned-octocat.svg
 // ==/UserScript==
@@ -15,44 +15,67 @@
 (function () {
   'use strict';
 
-  function formatBytes(a, b) {
-    if (0 == a) return "0 Bytes";
-    const c = 1024;
-    const d = b || 2;
-    const e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-    const f = Math.floor(Math.log(a) / Math.log(c));
-    return parseFloat((a / Math.pow(c, f)).toFixed(d)) + " " + e[f];
+  const BADGE_CLASS = 'createdAt';
+  const SELECTOR = `.${BADGE_CLASS}`;
+
+  function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+    const units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(decimals))} ${units[i]}`;
   }
 
-  function init() {
-    if (document.querySelector('.createdAt')) return;
+  function buildBadge() {
     const span = document.createElement('span');
-    span.className = 'Label Label--secondary v-align-middle mr-1 createdAt';
+    span.className = `Label Label--secondary v-align-middle mr-1 ${BADGE_CLASS}`;
     span.innerText = 'Created at';
     span.style.cursor = 'pointer';
-    span.onclick = function () {
-      if (window.location.pathname.split('/').length < 3) {
-        alert('Not in a repository page.');
-        return;
-      }
-      const cleanRepoName = window.location.pathname.split('/').splice(0, 3).join('/');
-      fetch(`https://api.github.com/repos${cleanRepoName}`)
-        .then(data => data.json())
-        .then(json => {
-          console.log('Github repo alert json', json);
-          alert(`${cleanRepoName}\n\nCreated: ${new Date(json.created_at).toLocaleString('EN-GB')}\n\nSize: ${formatBytes(json.size * 1024)}`)
-        }).catch(e => alert(`${e.message}.\nSee console for more info.`));
-    };
-
-    const wrapper = document.querySelector('div#repo-title-component');
-    wrapper.append(span);
+    span.title = 'Show repo creation date and size';
+    span.addEventListener('click', onBadgeClick);
+    return span;
   }
 
-  document.addEventListener('soft-nav:success', e => {
-    init()
-  })
-  document.addEventListener('DOMContentLoaded', e => {
-    init()
-  })
+  async function onBadgeClick() {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    if (parts.length < 2) {
+      alert('Not in a repository page.');
+      return;
+    }
+    const repoPath = parts.join('/');
+
+    try {
+      const json = await fetch(`https://api.github.com/repos/${repoPath}`).then(r => r.json());
+      if (json.message) {
+        alert(`API error: ${json.message}`);
+        return;
+      }
+      alert(
+        `${repoPath}\n\n` +
+        `Created: ${new Date(json.created_at).toLocaleString('en-GB')}\n\n` +
+        `Size: ${formatBytes(json.size * 1024)}`
+      );
+    } catch (e) {
+      alert(`${e.message}.\nSee console for more info.`);
+    }
+  }
+
+  function ensureBadge() {
+    const wrapper = document.querySelector('div#repo-title-component > div');
+    if (!wrapper) return;
+
+    const existing = document.querySelector(SELECTOR);
+    if (existing && wrapper.contains(existing)) return; // already attached
+
+    if (existing) existing.remove();
+    wrapper.append(buildBadge());
+  }
+
+  // GitHub re-renders the repo header via React, which wipes the badge.
+  // Watch for DOM changes and re-attach whenever needed.
+  const observer = new MutationObserver(() => ensureBadge());
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+
+  ensureBadge(); // in case the header already exists
 
 })();
+

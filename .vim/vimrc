@@ -186,7 +186,8 @@ set copyindent                          " Copy indent for new lines when auto-in
 set shiftround                          " Round indent to multiple of shiftwidth when using < and >
 " set list listchars=trail:+,extends:>,precedes:< " Display tabs and trailing spaces visually
 set scrolloff=3                         " Show a few lines of context around the cursor, default 5
-set omnifunc=syntaxcomplete#Complete    " omni-completion
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete    " omni-completion, see :h ins-completion
 set completeopt=menuone,noinsert,popup,noselect,fuzzy  " Insert mode completion:
 set showmatch                           " Show matching brackets when text indicator is over them
 set cursorline                          " Highlight the current line

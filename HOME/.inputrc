@@ -36,8 +36,13 @@ Space: magic-space
 "\C-xq": "\C-a\$(\C-e)"
 # Wrap a command in $( .... | fzf )
 "\C-xF": "\C-e | fzf )\C-a(\C-a$\C-b\C-a"
+# '' with cursor between
+"\C-xx": "''\C-b"
+# If there are multiple matches for completion, Tab cycles through them
+TAB:menu-complete
+"\e[Z": menu-complete-backward # shift-tab
 
-# "\C-m": accept-line, so C-m is enter
+# "\C-m": accept-line, = enter
 "\C-xu": "uptime\C-m"
 
 # Note that these commands take a numerical argument, so to skip e.g. to the fifth next occurrence of the letter o, type M-5 C-] o, or ESC 5 C-] o.

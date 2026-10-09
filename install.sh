@@ -7,7 +7,8 @@ echo ''
 home_files=$(find ./HOME -type f)
 bin_files=$(find ./bin -type f)
 hook_files=$(find ./git-hooks -type f)
-config_files=$(find ./config -type -f)
+config_files=$(find ./config -type f)
+config_dirs=$(find ./config -type d)
 
 backup_old_dotfiles() {
     local olddir=~/backup/dotfiles
@@ -38,7 +39,7 @@ make_symlinks() {
     # make sure ~/bin & ~/hooks exists
     mkdir ~/bin ~/hooks >/dev/null 2>&1
 
-    for file in $bin_files $home_files $hook_files $config_files; do
+    for file in $bin_files $home_files $hook_files; do
         local filename=$(basename "$file")
         local link_exists=$(find ~/ ~/bin/ ~/hooks -maxdepth 1 -type l -name "$filename")
         if [[ -z $link_exists ]]; then # no link, make it
@@ -53,11 +54,19 @@ make_symlinks() {
             *hooks*)
                 ln -siv "$real_path" ~/hooks/"$filename"
                 ;;
-	    *config*)
-		ln -siv "$real_path" ~/config/"$filename"
-		;;
             esac
         fi
+    done
+
+    mkdir -p ~/.config/{keyd,mpv{,/scripts,/script-opts}}
+    for file in $config_files; do
+      local real_path=$(realpath "$file")
+      # remove leading './' from path
+      relative_path="${file#./config}"
+      # expand ~ to full path
+      dest_expanded="$HOME/.config/$relative_path"
+
+      ln -siv "$real_path" "$dest_expanded"
     done
     log_success "${FUNCNAME[@]}"
 }
@@ -92,7 +101,34 @@ setup_gitconfig() {
     log_success "${FUNCNAME[@]}"
 }
 
-choices='exit setup_gitconfig make_symlinks cleanup_broken_symlinks backup_old_dotfiles link_vimrc_dir'
+symlink_mpv_files() {
+
+  log_info "Moving files to ~/.config/mpv/..."
+  if [[ ! $PWD =~ 'dotfiles' ]]; then
+    log_info "make sure you run this from ~/dotfiles... exiting"
+    return
+  fi
+  log_info "creating folders..."
+  mkdir -p ~/.config/mpv/script{s,-opts}
+
+  {
+    cd "$HOME/dotfiles/config/mpv" || return
+
+    find . -type f | while read -r file; do
+    local real_path
+    real_path=$(realpath "$file")
+    # remove leading './' from path
+    relative_path="${file#./}"
+    # expand ~ to full path
+    dest_expanded="$HOME/.config/mpv/$relative_path"
+
+    ln -sivT "$real_path" "$dest_expanded" 
+    done
+  }
+  log_success "${FUNCNAME[*]}"
+}
+
+choices='exit setup_gitconfig make_symlinks cleanup_broken_symlinks backup_old_dotfiles link_vimrc_dir symlink_mpv_files'
 select choise in ${choices}; do
     case $REPLY in
     1)
@@ -106,5 +142,6 @@ select choise in ${choices}; do
     4) ("$choise") ;;
     5) ("$choise") ;;
     6) ("$choise") ;;
+    7) ("$choise") ;;
     esac
 done

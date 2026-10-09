@@ -81,3 +81,4 @@ if test -f "$HOME/.cargo/env"; then
   . "$HOME/.cargo/env"
 fi
 
+. "/home/fraasi/.deno/env"

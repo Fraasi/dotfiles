@@ -15,7 +15,7 @@ alias ld="ls -lhd */"   # List in long format, only directories
 alias lf="ls -lhA --color=always | grep --color=always -v /"  # List in long format, only files
 alias lh="ls -d .*" # Show hidden files/directories only
 alias li="ls -1AX "
-alias ll="ls -lXhAG"
+alias ll="ls -lXhA"
 alias ls="ls -F --color=auto"
 alias mv="mv -iv"
 alias n="notes"

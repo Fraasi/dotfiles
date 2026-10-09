@@ -61,16 +61,6 @@ if [ -f ~/.bash_functions ]; then
     source ~/.bash_functions
 fi
 
-# source goto, debian
-if [[ -f ~/.local/bin/goto.sh ]]; then
-    source ~/.local/bin/goto.sh
-elif [[ $(uname -r) =~ WSL ]]; then
-    source /usr/local/bin/goto.sh
-else
-    printf 'goto.sh not found in local bin https://github.com/iridakos/goto'
-fi
-
-
 # don't put duplicate lines in the history
 # don't save commands which start with a space
 export HISTCONTROL=ignoredups:erasedups:ignorespace
@@ -110,3 +100,10 @@ export NVM_DIR="$HOME/.nvm"
 source /usr/share/bash-completion/completions/notes
 complete -o filenames -o nospace -F _notes n
 
+
+# Source goto
+[[ -s "/usr/local/share/goto.sh" ]] && source /usr/local/share/goto.sh
+
+. "/home/fraasi/.deno/env"
+source /home/fraasi/.local/share/bash-completion/completions/deno.bash
+# eval "$(uv generate-shell-completion bash)" # uv not found on bash start...

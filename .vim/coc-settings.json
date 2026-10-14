@@ -12,5 +12,10 @@
   "pyright.inlayHints.variableTypes": true,
   "pyright.inlayHints.parameterTypes": false,
   "pyright.inlayHints.functionReturnTypes": false,
-  "languageserver": {}
+  "languageserver": {},
+  "json.schemaDownload.trustedDomains": {
+    "https://www.schemastore.org": true,
+    "https://raw.githubusercontent.com": true,
+    "https://adaptivecards.io": true
+  }
 }

@@ -109,6 +109,7 @@
     let wrapper
     if (isSeries) wrapper = document.querySelector('div.header')
     else wrapper = document.querySelector('#shortcut_bar_scroller')
+    if (!wrapper) wrapper = document.querySelector('.shortcut_bar_outer')
     wrapper.style.background = 'rgb(18, 18, 18)'
     wrapper.before(vidsrcLink, primeSrcLink, primeWireLink, ytLink, bilibiliLink, okLink, archiveLink, '  -  ', episodesSpan)
 

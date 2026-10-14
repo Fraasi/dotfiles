@@ -102,7 +102,7 @@ complete -o filenames -o nospace -F _notes n
 
 
 # Source goto
-[[ -s "/usr/local/share/goto.sh" ]] && source /usr/local/share/goto.sh
+[[ -s "$HOME/.local/share/goto.sh" ]] && source ~/.local/share/goto.sh
 
 . "/home/fraasi/.deno/env"
 source /home/fraasi/.local/share/bash-completion/completions/deno.bash

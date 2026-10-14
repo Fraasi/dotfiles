@@ -19,3 +19,9 @@ Linkify, make hashlinks to all headings containing id, to easily bookmark to tha
 ```js
 javascript:(d => { d.querySelectorAll('h1[id], h2[id], h3[id]').forEach(el => { const l = d.createElement('a'); l.innerText = '🔗';  l.setAttribute('href', `#${el.id}`); el.prepend(l); });})(document);
 ```
+
+Link to text, select text, run & you got url that link to that part
+```js
+javascript:(function(){const selectedText=getSelection().toString();const newUrl=new URL(location);newUrl.hash=`:~:text=${encodeURIComponent(selectedText)}`;window.open(newUrl, '_self');})();
+```
+
